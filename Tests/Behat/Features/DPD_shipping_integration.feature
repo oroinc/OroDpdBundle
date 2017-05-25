@@ -32,7 +32,7 @@ Feature: DPD shipping integration
       | Type                 | DPD                  |
       | Name                 | DPD                  |
       | Label                | DPD                  |
-      | Live Mode            | false                |
+      | Test Mode            | true                 |
       | Cloud User Id        | 2783                 |
       | Cloud User Token     | 39653536665162576759 |
       | Shipping Services    | DPD Classic          |

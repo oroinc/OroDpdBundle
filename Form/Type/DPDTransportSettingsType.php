@@ -84,10 +84,10 @@ class DPDTransportSettingsType extends AbstractType
             ]
         );
         $builder->add(
-            'liveMode',
+            'dpdTestMode',
             CheckboxType::class,
             [
-                'label' => 'oro.dpd.transport.live_mode.label',
+                'label' => 'oro.dpd.transport.test_mode.label',
                 'required' => false,
             ]
         );
