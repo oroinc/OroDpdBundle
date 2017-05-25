@@ -5,7 +5,7 @@ oro:
         transport:
             label: 'DPD API'
             labels.label: 'Label'
-            live_mode.label: 'Live Mode'
+            test_mode.label: 'Test Mode'
             cloud_user_id.label: 'Cloud User Id'
             cloud_user_token.label: 'Cloud User Token'
             shipping_service:

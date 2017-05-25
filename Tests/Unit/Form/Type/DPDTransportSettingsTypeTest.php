@@ -205,7 +205,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
                     'labels' => [
                         'values' => ['default' => 'first label'],
                     ],
-                    'liveMode' => false,
+                    'dpdTestMode' => true,
                     'cloudUserId' => 'user',
                     'cloudUserToken' => 'password',
                     'unitOfWeight' => 'kg',
@@ -218,7 +218,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
                 ],
                 'isValid' => true,
                 'expectedData' => (new DPDTransport())
-                    ->setLiveMode(false)
+                    ->setDPDTestMode(true)
                     ->setCloudUserId('user')
                     ->setCloudUserToken('password')
                     ->setUnitOfWeight((new WeightUnit())->setCode('kg'))

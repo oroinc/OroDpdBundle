@@ -16,7 +16,7 @@ System -> Configuration -> Commerce -> Shipping -> Shipping Origin
 
 DPD bundle provides a new integration type with specific parameters and can be created in 'Integration' page:
 Parameters overview:
-* Live Mode - If set, the API will use the production environment configuration.
+* Test Mode - If set, the API will use the testing environment configuration (production environment otherwise).
 * Cloud User Id - Identification of the DPD customer. Assigned by DPD.
 * Cloud User Token - Customer password of the DPD customer. Assigned by DPD.
 * Shipping Service - Shipping service type, currently only _classic_ type is supported.

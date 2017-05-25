@@ -42,7 +42,7 @@ class OroDPDBundle implements Migration
     protected function updateOroIntegrationTransportTable(Schema $schema)
     {
         $table = $schema->getTable('oro_integration_transport');
-        $table->addColumn('dpd_live_mode', 'boolean', ['notnull' => false]);
+        $table->addColumn('dpd_test_mode', 'boolean', ['notnull' => false]);
         $table->addColumn('dpd_cloud_user_id', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('dpd_cloud_user_token', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('dpd_label_size', 'string', ['notnull' => false, 'length' => 10]);

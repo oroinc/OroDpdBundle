@@ -60,11 +60,11 @@ class DPDTransport extends AbstractRestTransport
      */
     protected function getClientBaseUrl(ParameterBag $parameterBag)
     {
-        if ($parameterBag->get('live_mode', false)) {
-            return static::BASE_URL_LIVE;
+        if ($parameterBag->get('test_mode', false)) {
+            return static::BASE_URL_STAGE;
         }
 
-        return static::BASE_URL_STAGE;
+        return static::BASE_URL_LIVE;
     }
 
     /**
@@ -213,10 +213,10 @@ class DPDTransport extends AbstractRestTransport
      */
     protected function getPartnerCredentialsHeaders(ParameterBag $parameterBag)
     {
-        if ($parameterBag->get('live_mode', false)) {
-            $partnerName = static::PARTNER_NAME_LIVE;
-            $partnerToken = static::PARTNER_TOKEN_LIVE;
-        } else {
+        $partnerName = static::PARTNER_NAME_LIVE;
+        $partnerToken = static::PARTNER_TOKEN_LIVE;
+
+        if ($parameterBag->get('test_mode', false)) {
             $partnerName = static::PARTNER_NAME_STAGE;
             $partnerToken = static::PARTNER_TOKEN_STAGE;
         }

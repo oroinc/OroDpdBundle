@@ -30,9 +30,9 @@ class DPDTransport extends Transport
     /**
      * @var bool
      *
-     * @ORM\Column(name="dpd_live_mode", type="boolean", nullable=false)
+     * @ORM\Column(name="dpd_test_mode", type="boolean", nullable=false)
      */
-    protected $liveMode;
+    protected $dpdTestMode;
 
     /**
      * @var string
@@ -157,19 +157,19 @@ class DPDTransport extends Transport
     /**
      * @return bool
      */
-    public function getLiveMode()
+    public function getDPDTestMode()
     {
-        return $this->liveMode;
+        return $this->dpdTestMode;
     }
 
     /**
-     * @param bool $liveMode
+     * @param bool $testMode
      *
      * @return DPDTransport
      */
-    public function setLiveMode($liveMode)
+    public function setDPDTestMode($testMode)
     {
-        $this->liveMode = $liveMode;
+        $this->dpdTestMode = $testMode;
 
         return $this;
     }
@@ -483,7 +483,7 @@ class DPDTransport extends Transport
         if (null === $this->settings) {
             $this->settings = new ParameterBag(
                 [
-                    'live_mode' => $this->getLiveMode(),
+                    'test_mode' => $this->getDPDTestMode(),
                     'cloud_user_id' => $this->getCloudUserId(),
                     'cloud_user_token' => $this->getCloudUserToken(),
                     'invalidate_cache_at' => $this->getInvalidateCacheAt(),

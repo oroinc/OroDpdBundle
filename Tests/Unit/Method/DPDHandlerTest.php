@@ -83,7 +83,7 @@ class DPDHandlerTest extends \PHPUnit_Framework_TestCase
         $this->transport = $this->getEntity(
             DPDTransport::class,
             [
-                'liveMode' => false,
+                'dpdTestMode' => false,
                 'cloudUserId' => 'some cloud user id',
                 'cloudUserToken' => 'some cloud user token',
                 'unitOfWeight' => ((new WeightUnit())->setCode('kg')),

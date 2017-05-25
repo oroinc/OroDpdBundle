@@ -162,13 +162,14 @@ class DPDHandler implements DPDHandlerInterface
         $diffDays = (int) $diff->format('%R%a');
         if ($diffDays === 0) {
             $cutOffDate = clone $this->today;
-            list($cutOffHour, $cutOffMin) =
-                explode(
-                    ':',
-                    $this->shippingService->isExpressService() ?
-                        $zipCodeRulesResponse->getExpressCutOff() :
-                        $zipCodeRulesResponse->getClassicCutOff()
-                );
+            $off = $zipCodeRulesResponse->getClassicCutOff();
+            if ($this->shippingService->isExpressService()) {
+                $off = $zipCodeRulesResponse->getExpressCutOff();
+            }
+            if (!$off) {
+                return 0;
+            }
+            list($cutOffHour, $cutOffMin) = explode(':', $off);
             $cutOffDate->setTime((int) $cutOffHour, $cutOffMin);
             if ($shipDate > $cutOffDate) {
                 return 1;

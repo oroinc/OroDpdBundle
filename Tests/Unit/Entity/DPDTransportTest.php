@@ -20,7 +20,7 @@ class DPDTransportTest extends \PHPUnit_Framework_TestCase
     public function testAccessors()
     {
         static::assertPropertyAccessors(new DPDTransport(), [
-            ['liveMode', false],
+            ['dpdTestMode', false],
             ['cloudUserId', 'some string'],
             ['cloudUserToken', 'some string'],
             ['unitOfWeight', new WeightUnit()],
@@ -44,7 +44,7 @@ class DPDTransportTest extends \PHPUnit_Framework_TestCase
         $entity = $this->getEntity(
             'Oro\Bundle\DPDBundle\Entity\DPDTransport',
             [
-                'liveMode' => false,
+                'dpdTestMode' => false,
                 'cloudUserId' => 'some cloud user id',
                 'cloudUserToken' => 'some cloud user token',
                 'unitOfWeight' => ((new WeightUnit())->setCode('kg')),
@@ -61,7 +61,7 @@ class DPDTransportTest extends \PHPUnit_Framework_TestCase
         /** @var ParameterBag $result */
         $result = $entity->getSettingsBag();
 
-        static::assertFalse($result->get('live_mode'));
+        static::assertFalse($result->get('test_mode'));
         static::assertEquals('some cloud user id', $result->get('cloud_user_id'));
         static::assertEquals('some cloud user token', $result->get('cloud_user_token'));
         static::assertEquals(((new WeightUnit())->setCode('kg')), $result->get('unit_of_weight'));
