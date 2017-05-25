@@ -1,0 +1,26 @@
+{
+    "name": "oro/dpd",
+    "description": "Oro DPD Integration",
+    "homepage": "https://github.com/orocommerce/OroDPDBundle.git",
+    "license": "OSL-3.0",
+    "keywords": ["Oro", "DPD", "Integration"],
+    "authors": [
+        {
+            "name": "Oro, Inc",
+            "homepage": "http://www.orocommerce.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Oro\\Bundle\\DPDBundle\\": ""},
+        "exclude-from-classmap": ["/Tests/"]
+    },
+    "require": {
+        "php": ">=7.0",
+        "oro/commerce": "1.x-dev"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    }
+}
