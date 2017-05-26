@@ -1,5 +1,5 @@
 {
-    "name": "oro/dpd",
+    "name": "oro/commerce-dpd",
     "description": "Oro DPD Integration",
     "homepage": "https://github.com/orocommerce/OroDPDBundle.git",
     "license": "OSL-3.0",
