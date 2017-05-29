@@ -4,6 +4,7 @@ namespace Oro\Bundle\DPDBundle\Method\Factory;
 
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
+use Oro\Bundle\IntegrationBundle\Provider\IntegrationIconProviderInterface;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ShippingBundle\Method\Factory\IntegrationShippingMethodFactoryInterface;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
@@ -33,21 +34,29 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
     private $handlerFactory;
 
     /**
-     * @param LocalizationHelper                            $localizationHelper
+     * @var IntegrationIconProviderInterface
+     */
+    private $integrationIconProvider;
+
+    /**
+     * @param LocalizationHelper                      $localizationHelper
      * @param IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator
-     * @param DPDShippingMethodTypeFactoryInterface         $methodTypeFactory
-     * @param DPDHandlerFactoryInterface                    $handlerFactory
+     * @param DPDShippingMethodTypeFactoryInterface   $methodTypeFactory
+     * @param DPDHandlerFactoryInterface              $handlerFactory
+     * @param IntegrationIconProviderInterface        $integrationIconProvider
      */
     public function __construct(
         LocalizationHelper $localizationHelper,
         IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator,
         DPDShippingMethodTypeFactoryInterface $methodTypeFactory,
-        DPDHandlerFactoryInterface $handlerFactory
+        DPDHandlerFactoryInterface $handlerFactory,
+        IntegrationIconProviderInterface $integrationIconProvider
     ) {
         $this->localizationHelper = $localizationHelper;
         $this->methodIdentifierGenerator = $methodIdentifierGenerator;
         $this->methodTypeFactory = $methodTypeFactory;
         $this->handlerFactory = $handlerFactory;
+        $this->integrationIconProvider = $integrationIconProvider;
     }
 
     /**
@@ -59,6 +68,7 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
             $this->getIdentifier($channel),
             $this->getLabel($channel),
             $channel->isEnabled(),
+            $this->getIcon($channel),
             $this->createTypes($channel),
             $this->createHandlers($channel)
         );
@@ -122,5 +132,15 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
         return array_map(function (ShippingService $shippingService) use ($channel) {
             return $this->handlerFactory->create($channel, $shippingService);
         }, $applicableShippingServices);
+    }
+
+    /**
+     * @param Channel $channel
+     *
+     * @return string|null
+     */
+    private function getIcon(Channel $channel)
+    {
+        return $this->integrationIconProvider->getIcon($channel);
     }
 }

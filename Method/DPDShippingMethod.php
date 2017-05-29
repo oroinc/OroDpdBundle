@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Method;
 
-use Oro\Bundle\DPDBundle\Form\Type\DPDShippingMethodOptionsType;
 use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Method\PricesAwareShippingMethodInterface;
+use Oro\Bundle\ShippingBundle\Method\ShippingMethodIconAwareInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingTrackingAwareInterface;
@@ -14,7 +14,8 @@ class DPDShippingMethod implements
     ShippingMethodInterface,
     ShippingTrackingAwareInterface,
     PricesAwareShippingMethodInterface,
-    DPDHandledShippingMethodAwareInterface
+    DPDHandledShippingMethodAwareInterface,
+    ShippingMethodIconAwareInterface
 {
     const IDENTIFIER = 'dpd';
     const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?query=';
@@ -38,6 +39,11 @@ class DPDShippingMethod implements
     private $isEnabled;
 
     /**
+     * @var string
+     */
+    private $icon;
+
+    /**
      * @var ShippingMethodTypeInterface[]
      */
     private $types;
@@ -53,6 +59,7 @@ class DPDShippingMethod implements
      * @param string               $identifier
      * @param string               $label
      * @param bool                 $isEnabled
+     * @param string               $icon
      * @param array                $types
      * @param array                $handlers
      */
@@ -60,12 +67,14 @@ class DPDShippingMethod implements
         $identifier,
         $label,
         $isEnabled,
+        $icon,
         array $types,
         array $handlers
     ) {
         $this->identifier = $identifier;
         $this->label = $label;
         $this->isEnabled = $isEnabled;
+        $this->icon = $icon;
         $this->types = $types;
         $this->handlers = $handlers;
     }
@@ -100,6 +109,14 @@ class DPDShippingMethod implements
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIcon()
+    {
+        return $this->icon;
     }
 
     /**
