@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\DPDBundle\Migrations\Schema;
+namespace Oro\Bundle\DPDBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
