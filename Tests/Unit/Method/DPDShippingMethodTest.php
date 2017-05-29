@@ -35,6 +35,11 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
     const TYPE_IDENTIFIER = '59';
 
     /**
+     * @internal
+     */
+    const ICON = 'dpd.png';
+
+    /**
      * @var DPDRequestFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dpdRequestFactory;
@@ -67,6 +72,7 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
                 self::IDENTIFIER,
                 self::LABEL,
                 true,
+                self::ICON,
                 [$type],
                 [$handler]
             );
@@ -85,6 +91,11 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
     public function testGetLabel()
     {
         static::assertEquals(self::LABEL, $this->dpdShippingMethod->getLabel());
+    }
+
+    public function testGetIcon()
+    {
+        static::assertEquals(self::ICON, $this->dpdShippingMethod->getIcon());
     }
 
     public function testGetTypes()

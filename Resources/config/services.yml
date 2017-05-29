@@ -58,6 +58,7 @@ services:
             - '@oro_dpd.method.identifier_generator.method'
             - '@oro_dpd.method.factory.type'
             - '@oro_dpd.method.factory.dpd_handler'
+            - '@oro_integration.provider.integration_icon'
 
     oro_dpd.method.factory.type:
         class: 'Oro\Bundle\DPDBundle\Method\Factory\DPDShippingMethodTypeFactory'

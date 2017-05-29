@@ -7,6 +7,7 @@ use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
 use Oro\Bundle\DPDBundle\Method\Factory\DPDHandlerFactoryInterface;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
+use Oro\Bundle\IntegrationBundle\Provider\IntegrationIconProviderInterface;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
@@ -40,23 +41,31 @@ class DPDShippingMethodFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $factory;
 
+    /**
+     * @var IntegrationIconProviderInterface||\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $integrationIconProvider;
+
     protected function setUp()
     {
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->methodIdentifierGenerator = $this->createMock(IntegrationIdentifierGeneratorInterface::class);
         $this->methodTypeFactory = $this->createMock(DPDShippingMethodTypeFactoryInterface::class);
         $this->handlerFactory = $this->createMock(DPDHandlerFactoryInterface::class);
+        $this->integrationIconProvider = $this->createMock(IntegrationIconProviderInterface::class);
 
         $this->factory = new DPDShippingMethodFactory(
             $this->localizationHelper,
             $this->methodIdentifierGenerator,
             $this->methodTypeFactory,
-            $this->handlerFactory
+            $this->handlerFactory,
+            $this->integrationIconProvider
         );
     }
 
     public function testCreate()
     {
+        $iconUri = 'bundles/icon-uri.png';
         $identifier = 'dpd_1';
         $labelsCollection = $this->createMock(Collection::class);
 
@@ -125,10 +134,17 @@ class DPDShippingMethodFactoryTest extends \PHPUnit_Framework_TestCase
             ->with($labelsCollection)
             ->willReturn('en');
 
+        $this->integrationIconProvider
+            ->expects(static::once())
+            ->method('getIcon')
+            ->with($channel)
+            ->willReturn($iconUri);
+
         $this->assertEquals(new DPDShippingMethod(
             $identifier,
             'en',
             true,
+            $iconUri,
             [$type1, $type2],
             [$handler1, $handler2]
         ), $this->factory->create($channel));
