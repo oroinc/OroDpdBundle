@@ -73,7 +73,7 @@ Feature: DPD shipping integration
 #    Then should see "Configuration saved" flash message
     And I go to System/ Payment Rules
     And click "Create Payment Rule"
-    And fill "Payment Rule Form" with:
+    And fill "DPD Payment Rule Form" with:
       | Enable     | true           |
       | Name       | Payment Terms  |
       | Sort Order | 1              |

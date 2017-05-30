@@ -38,7 +38,7 @@ oro_behat_extension:
         mapping:
           Enable: "oro_shipping_methods_configs_rule[methodConfigs][0][typeConfigs][0][enabled]"
 
-    Payment Rule Form:
+    DPD Payment Rule Form:
       selector: "form[id^='oro_payment_methods_configs_rule-uid']"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
       options:
