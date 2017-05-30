@@ -21,12 +21,6 @@ oro_behat_extension:
         type: 'xpath'
         locator: '//div[@id[starts-with(.,"uniform-oro_shipping_methods_configs_rule_method")]]'
 
-    Payment Method Config Type Field:
-      class: Oro\Bundle\PaymentBundle\Tests\Behat\Element\PaymentMethodConfigType
-      selector:
-        type: 'xpath'
-        locator: '//div[@id[starts-with(.,"uniform-oro_payment_methods_configs_rule_method")]]'
-
     DPD Shipment Rule Form:
       selector: "form[id^='oro_shipping_methods_configs_rule-uid']"
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
