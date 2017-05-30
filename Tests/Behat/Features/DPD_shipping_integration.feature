@@ -57,7 +57,7 @@ Feature: DPD shipping integration
       | Enable       | true |
       | Handling fee | 10   |
     When save and close form
-    Then should see "Shippment rule has been saved" flash message
+    Then should see "Shipping rule has been saved" flash message
 #    Uncomment when test for "Request Shipping labels" will be written
 #    And I go to System/ Configuration
 #    And I click "Shipping Origin" on configuration sidebar
