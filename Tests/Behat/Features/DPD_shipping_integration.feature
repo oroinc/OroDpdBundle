@@ -47,12 +47,12 @@ Feature: DPD shipping integration
     Then I should see "Integration saved" flash message
     And I go to System/ Shipping Rules
     And click "Create Shipping Rule"
-    And fill "DPD Shipment Rule Form" with:
-      | Enable     | true  |
-      | Name       | DPD   |
-      | Sort Order | 1     |
-      | Currency   | $     |
-      | Method     | [DPD] |
+    And fill "Shipping Rule" with:
+      | Enable     | true |
+      | Name       | DPD  |
+      | Sort Order | 1    |
+      | Currency   | $    |
+      | Method     | DPD  |
     And fill "DPD Classic Form" with:
       | Enable       | true |
       | Handling fee | 10   |
