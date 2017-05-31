@@ -37,6 +37,7 @@ oro_behat_extension:
       options:
         mapping:
           Enable: "oro_shipping_methods_configs_rule[methodConfigs][0][typeConfigs][0][enabled]"
+          Handling fee: "oro_shipping_methods_configs_rule[methodConfigs][0][typeConfigs][0][options][handling_fee]"
 
     DPD Payment Rule Form:
       selector: "form[id^='oro_payment_methods_configs_rule-uid']"
