@@ -1,6 +1,6 @@
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
 @fixture-OroPaymentTermBundle:PaymentTermIntegration.yml
-@fixture-Checkout.yml
+@fixture-OroDPDBundle:Checkout.yml
 @fixture-OroWarehouseBundle:Checkout.yml
 Feature: DPD shipping integration
 #  DPD shipping implementation in Oro commerce features
