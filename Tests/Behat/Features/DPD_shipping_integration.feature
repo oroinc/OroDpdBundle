@@ -60,7 +60,7 @@ Feature: DPD shipping integration
     Then should see "Shipping rule has been saved" flash message
 #    Uncomment when test for "Request Shipping labels" will be written
 #    And I go to System/ Configuration
-#    And I click "Shipping Origin" on configuration sidebar
+#    And I follow "Commerce/Shipping/Shipping Origin" on configuration sidebar
 #    And fill form with:
 #      | Use default      | false                       |
 #      | Country          | Portugal                    |
