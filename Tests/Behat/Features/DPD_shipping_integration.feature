@@ -1,8 +1,13 @@
 @regression
 @fixture-OroFlatRateShippingBundle:FlatRateIntegration.yml
+@fixture-OroFlatRateShippingBundle:FlatRate2Integration.yml
+@fixture-OroMultiWebsiteBundle:MultiWebsitesFixture.yml
+@fixture-OroMultiWebsiteShippingBundle:ShippingRuleForFlatRate2MultiWebsite.yml
 @fixture-OroPaymentTermBundle:PaymentTermIntegration.yml
+@fixture-OroPaymentTermBundle:PaymentTerm30Integration.yml
 @fixture-OroDPDBundle:Checkout.yml
 @fixture-OroWarehouseBundle:Checkout.yml
+
 Feature: DPD shipping integration
 #  DPD shipping implementation in Oro commerce features
 #  Order view (admin)
@@ -49,11 +54,12 @@ Feature: DPD shipping integration
     And I go to System/ Shipping Rules
     And click "Create Shipping Rule"
     And fill "Shipping Rule" with:
-      | Enable     | true |
-      | Name       | DPD  |
-      | Sort Order | 1    |
-      | Currency   | $    |
-      | Method     | DPD  |
+      | Enable     | true    |
+      | Name       | DPD     |
+      | Sort Order | 1       |
+      | Currency   | $       |
+      | Method     | DPD     |
+      | Websites   | Default |
     And fill "DPD Classic Form" with:
       | Enable       | true |
       | Handling fee | 10   |
@@ -82,6 +88,17 @@ Feature: DPD shipping integration
       | Method     | [Payment Term] |
     When save and close form
     Then should see "Payment rule has been saved" flash message
+    And I go to System/ Payment Rules
+    And click "Create Payment Rule"
+    And fill "DPD Payment Rule Form" with:
+      | Enable     | true              |
+      | Name       | Payment Terms2    |
+      | Sort Order | 1                 |
+      | Currency   | $                 |
+      | Method     | [Payment Term 30] |
+      | Websites   | Second            |
+    When save and close form
+    Then should see "Payment rule has been saved" flash message
     And click logout in user menu
 
   Scenario: Check out with DPD integration
@@ -94,7 +111,9 @@ Feature: DPD shipping integration
     And I select "VOTUM GmbH Ohlauer Str. 43, 10999 Berlin, Germany" on the "Billing Information" checkout step and press Continue
     And I select "VOTUM GmbH Ohlauer Str. 43, 10999 Berlin, Germany" on the "Shipping Information" checkout step and press Continue
     When I should see "DPD Classic: $20.00"
+    When I should not see "Flat Rate 2: $2.00"
     When on the "Shipping Method" checkout step I press Continue
+    When I should not see "Payment Term 30"
     When on the "Payment" checkout step I press Continue
     And click "Submit Order"
     Then I see the "Thank You" page with "Thank You For Your Purchase!" title
