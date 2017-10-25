@@ -14,6 +14,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     use EntityTrait;
 
     /**
+     * @internal
+     */
+    const PROCESSING_TIME_ERROR_VALUE = 3;
+
+    /**
      * @var ZipCodeRulesCache
      */
     protected $cache;
@@ -34,9 +39,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     public function testContainsZipCodeRules()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
-        $key = $this->cache->createKey($this->getEntity(DPDTransport::class, [
-            'invalidateCacheAt' => $invalidateCacheAt,
-        ]), new ZipCodeRulesRequest(), 'method_id');
+
+        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+
+        $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
+
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
         $this->cacheProvider->expects(static::once())
@@ -50,9 +57,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     public function testContainsZipCodeRulesFalse()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
-        $key = $this->cache->createKey($this->getEntity(DPDTransport::class, [
-            'invalidateCacheAt' => $invalidateCacheAt,
-        ]), new ZipCodeRulesRequest(), 'method_id');
+
+        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+
+        $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
+
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
         $this->cacheProvider->expects(static::once())
@@ -66,11 +75,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     public function testFetchPrice()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
-        $key = $this->cache->createKey(
-            $this->getEntity(DPDTransport::class, ['invalidateCacheAt' => $invalidateCacheAt]),
-            new ZipCodeRulesRequest(),
-            'method_id'
-        );
+
+        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+
+        $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
+
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
         $this->cacheProvider->expects(static::once())
@@ -78,23 +87,7 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
             ->with($stringKey)
             ->willReturn(true);
 
-        $json = '{
-                   "Version": 100,
-                   "Ack": true,
-                   "Language": "en_EN",
-                   "TimeStamp": "2017-01-06T14:22:32.6175888+01:00",
-                   "ZipCodeRules": {
-                      "Country": "a country",
-                      "ZipCode": "zip code",
-                      "NoPickupDays": "01.01.2017,18.04.2017,25.12.2017",
-                      "ExpressCutOff": "12:00",
-                      "ClassicCutOff": "08:00",
-                      "PickupDepot": "0197",
-                      "State": "a state"
-                   }
-                }';
-        $jsonArr = json_decode($json, true);
-        $zipCodeRulesResponse = new ZipCodeRulesResponse($jsonArr);
+        $zipCodeRulesResponse = $this->getZipCodeRulesResponseMock();
 
         $this->cacheProvider->expects(static::once())
             ->method('fetch')
@@ -107,11 +100,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     public function testFetchPriceFalse()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
-        $key = $this->cache->createKey(
-            $this->getEntity(DPDTransport::class, ['invalidateCacheAt' => $invalidateCacheAt]),
-            new ZipCodeRulesRequest(),
-            'method_id'
-        );
+
+        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+
+        $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
+
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
         $this->cacheProvider->expects(static::once())
@@ -128,38 +121,27 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider saveZipCodeRulesDataProvider
      *
-     * @param string $invalidateCacheAt
+     * @param string $invalidateCacheAtString
      * @param string $expectedLifetime
      */
-    public function testSaveZipCodeRules($invalidateCacheAt, $expectedLifetime)
+    public function testSaveZipCodeRules($invalidateCacheAtString, $expectedLifetime)
     {
-        $invalidateCacheAt = new \DateTime($invalidateCacheAt);
-        $key = $this->cache->createKey($this->getEntity(DPDTransport::class, [
-            'invalidateCacheAt' => $invalidateCacheAt,
-        ]), new ZipCodeRulesRequest(), 'method_id');
+        $invalidateCacheAt = new \DateTime($invalidateCacheAtString);
+
+        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+
+        $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
+
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $json = '{
-                   "Version": 100,
-                   "Ack": true,
-                   "Language": "en_EN",
-                   "TimeStamp": "2017-01-06T14:22:32.6175888+01:00",
-                   "ZipCodeRules": {
-                      "Country": "a country",
-                      "ZipCode": "zip code",
-                      "NoPickupDays": "01.01.2017,18.04.2017,25.12.2017",
-                      "ExpressCutOff": "12:00",
-                      "ClassicCutOff": "08:00",
-                      "PickupDepot": "0197",
-                      "State": "a state"
-                   }
-                }';
-        $jsonArr = json_decode($json, true);
-        $zipCodeRulesResponse = new ZipCodeRulesResponse($jsonArr);
+        $zipCodeRulesResponse = $this->getZipCodeRulesResponseMock();
 
         $this->cacheProvider->expects(static::once())
             ->method('save')
-            ->with($stringKey, $zipCodeRulesResponse, $expectedLifetime);
+            ->with($stringKey, $zipCodeRulesResponse)
+            ->will($this->returnCallback(function ($actualKey, $price, $actualLifetime) use ($expectedLifetime) {
+                static::assertLessThan(self::PROCESSING_TIME_ERROR_VALUE, abs($expectedLifetime - $actualLifetime));
+            }));
 
         static::assertEquals($this->cache, $this->cache->saveZipCodeRules($key, $zipCodeRulesResponse));
     }
@@ -171,8 +153,8 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'earlier than lifetime' => [
-                'invalidateCacheAt' => '+1second',
-                'expectedLifetime' => 1,
+                'invalidateCacheAt' => '+3second',
+                'expectedLifetime' => 3,
             ],
             'in past' => [
                 'invalidateCacheAt' => '-1second',
@@ -183,5 +165,25 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
                 'expectedLifetime' => ZipCodeRulesCache::LIFETIME + 10,
             ],
         ];
+    }
+
+    /**
+     * @param \DateTime $invalidateCacheAt
+     *
+     * @return DPDTransport|object
+     */
+    private function getDPDSettingsMock(\DateTime $invalidateCacheAt): DPDTransport
+    {
+        return $this->getEntity(DPDTransport::class, [
+            'invalidateCacheAt' => $invalidateCacheAt,
+        ]);
+    }
+
+    /**
+     * @return ZipCodeRulesResponse|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getZipCodeRulesResponseMock()
+    {
+        return $this->createMock(ZipCodeRulesResponse::class);
     }
 }
