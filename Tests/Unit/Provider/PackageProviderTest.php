@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Oro\Bundle\DPDBundle\Model\Package;
@@ -26,11 +25,6 @@ class PackageProviderTest extends \PHPUnit_Framework_TestCase
     use EntityTrait;
 
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $registry;
-
-    /**
      * @var MeasureUnitConversion|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $measureUnitConversion;
@@ -47,10 +41,6 @@ class PackageProviderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /* @var ManagerRegistry | \PHPUnit_Framework_MockObject_MockObject $doctrine */
-        $this->registry = $this->getMockBuilder(ManagerRegistry::class)
-            ->disableOriginalConstructor()->getMock();
-
         $this->measureUnitConversion = $this->getMockBuilder(MeasureUnitConversion::class)
             ->disableOriginalConstructor()->getMock();
         $this->measureUnitConversion->expects(static::any())->method('convert')->willReturnCallback(
@@ -64,8 +54,7 @@ class PackageProviderTest extends \PHPUnit_Framework_TestCase
         $this->localizationHelper = $this->getMockBuilder(LocalizationHelper::class)
             ->disableOriginalConstructor()->getMock();
 
-        $this->packageProvider =
-            new PackageProvider($this->registry, $this->measureUnitConversion, $this->localizationHelper);
+        $this->packageProvider = new PackageProvider($this->measureUnitConversion, $this->localizationHelper);
     }
 
     /**
@@ -102,8 +91,6 @@ class PackageProviderTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->getMockBuilder(ObjectManager::class)->disableOriginalConstructor()->getMock();
         $manager->expects(self::any())->method('getRepository')->willReturn($repository);
-
-        $this->registry->expects(self::any())->method('getManagerForClass')->willReturn($manager);
 
         $packages = $this->packageProvider->createPackages($context->getLineItems());
 
