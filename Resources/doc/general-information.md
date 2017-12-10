@@ -8,11 +8,8 @@ The DPD shipping provides functionality to:
 * API based shipping address validation.
 * API based PDF label retrieval for orders.
 
-Configuration data of _Shipping Origin_ is used in DPD bundle as the parcel pick-up address. This address will be used to calculate the locale specific available pick-up days. It should be configured in its 'Configuration' page:
+Configuration data of _Shipping Origin_ is used in DPD bundle as the parcel pick-up address. This address will be used to calculate the locale specific available pick-up days. It should be configured in its 'Configuration' page: **System > Configuration > Commerce > Shipping > Shipping Origin**
 
-```code
-System -> Configuration -> Commerce -> Shipping -> Shipping Origin
-```
 
 DPD bundle provides a new integration type with specific parameters and can be created in 'Integration' page:
 Parameters overview:
@@ -26,15 +23,15 @@ Parameters overview:
 * Label Size - Options for the different label size types.
 * Label Position - Options for the different label printing positions.
 
-```code
-System -> Integrations -> Manage Integrations
-```
+
+**System > Integrations > Manage Integrations**
+
 
 It is possible to create different integrations with the 'DPD' type.
-After an integration is saved, a new shipping method will become available to use in _Shipping Rules_. 
+After an integration is saved, a new shipping method will become available to use in Shipping Rules. 
 
-```code
-System -> Shipping Rules
-```
+
+**System > Shipping Rules**
+
 
 During checkout process on front-end, the 'Shipping Method' step will show a new DPD method with price if a shipping rule is triggered.
