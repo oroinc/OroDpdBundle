@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
+
 use Oro\Bundle\DPDBundle\Form\Type\RatesCsvType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 
@@ -31,7 +33,9 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($submittedData, $expectedData, $defaultData = null)
     {
-        $form = $this->factory->create($this->formType, $defaultData);
+        $form = $this->factory->createBuilder($this->formType, $defaultData)
+            ->setRequestHandler(new HttpFoundationRequestHandler())
+            ->getForm();
 
         static::assertEquals($defaultData, $form->getData());
 
