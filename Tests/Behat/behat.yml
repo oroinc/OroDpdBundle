@@ -7,7 +7,6 @@ oro_behat_extension:
         - OroFormBundle::FormContext
 #        - OroConfigBundle::FeatureContext
         - OroCheckoutBundle::FeatureContext
-        - OroWarehouseBundle::FeatureContext
         - OroShippingBundle::SingleCurrencyContext
         - OroCustomerBundle::CustomerUserContext
         - OroApplicationBundle::CommerceMainContext
