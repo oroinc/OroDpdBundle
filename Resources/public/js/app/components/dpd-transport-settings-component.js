@@ -1,5 +1,3 @@
-/*jslint nomen:true*/
-/*global define*/
 define(function(require) {
     'use strict';
 
@@ -40,10 +38,10 @@ define(function(require) {
             var ratePolicyValue = $(this.ratePolicyElem).val();
             var self = this;
 
-            if (ratePolicyValue === '0') { //DPDTransport::FLAT_RATE_POLICY
+            if (ratePolicyValue === '0') { // DPDTransport::FLAT_RATE_POLICY
                 $(this.flatRatePriceValueElem).closest(self.options.container).show();
                 $(this.ratesCsvElem).closest(self.options.container).hide();
-            } else if (ratePolicyValue === '1') { //DPDTransport::TABLE_RATE_POLICY
+            } else if (ratePolicyValue === '1') { // DPDTransport::TABLE_RATE_POLICY
                 $(this.flatRatePriceValueElem).closest(self.options.container).hide();
                 $(this.ratesCsvElem).closest(self.options.container).show();
             }
