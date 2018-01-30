@@ -1,4 +1,4 @@
-#General information.
+# General information.
 
 The DPD shipping provides functionality to:
 * Implement the _DPD classic_ shipping method type.
