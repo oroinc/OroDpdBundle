@@ -3,7 +3,7 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2Type;
+use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\CurrencyBundle\Rounding\RoundingServiceInterface;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
@@ -132,7 +132,10 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
             new PreloadedExtension(
                 [
                     'entity' => $entityType,
-                    'genemu_jqueryselect2_translatable_entity' => new Select2Type('translatable_entity'),
+                    'oro_select2_translatable_entity' => new Select2Type(
+                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
+                        'oro_select2_translatable_entity'
+                    ),
                     WeightUnitSelectType::NAME => $unitOfWeightEntity,
                     LocalizedPropertyType::class => new LocalizedPropertyType(),
                     LocalizationCollectionType::class => new LocalizationCollectionTypeStub(),
