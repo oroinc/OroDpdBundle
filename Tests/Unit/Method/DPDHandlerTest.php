@@ -5,13 +5,17 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCacheKey;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
 use Oro\Bundle\DPDBundle\Method\DPDHandler;
 use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
+use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
+use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
@@ -19,10 +23,6 @@ use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport;
-use Oro\Bundle\DPDBundle\Model\Package;
-use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
 
 class DPDHandlerTest extends \PHPUnit_Framework_TestCase
 {

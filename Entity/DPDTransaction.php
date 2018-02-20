@@ -3,10 +3,10 @@
 namespace Oro\Bundle\DPDBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
 use Oro\Bundle\OrderBundle\Entity\Order;
-use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Table(name="oro_dpd_shipping_transaction")

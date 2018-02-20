@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\DPDBundle\Method\Identifier;
 
-use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
+use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
 interface DPDMethodTypeIdentifierGeneratorInterface
 {

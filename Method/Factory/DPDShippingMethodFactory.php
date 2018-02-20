@@ -2,14 +2,14 @@
 
 namespace Oro\Bundle\DPDBundle\Method\Factory;
 
+use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
+use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 use Oro\Bundle\IntegrationBundle\Provider\IntegrationIconProviderInterface;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ShippingBundle\Method\Factory\IntegrationShippingMethodFactoryInterface;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
 
 class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterface
 {

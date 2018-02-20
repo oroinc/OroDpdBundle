@@ -3,10 +3,13 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\CurrencyBundle\Rounding\RoundingServiceInterface;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
+use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
+use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Form\Type\LocalizationCollectionType;
@@ -16,9 +19,6 @@ use Oro\Bundle\LocaleBundle\Tests\Unit\Form\Type\Stub\LocalizationCollectionType
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Bundle\ShippingBundle\Form\Type\WeightUnitSelectType;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport;
-use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;

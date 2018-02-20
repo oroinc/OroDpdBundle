@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
-use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
-use Oro\Bundle\IntegrationBundle\Entity\Channel;
-use Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientFactoryInterface;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportEntity;
 use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
+use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\DPDBundle\Provider\DPDTransport;
+use Oro\Bundle\IntegrationBundle\Entity\Channel;
+use Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientFactoryInterface;
 use Oro\Bundle\IntegrationBundle\Provider\Rest\Exception\RestException;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Psr\Log\LoggerInterface;

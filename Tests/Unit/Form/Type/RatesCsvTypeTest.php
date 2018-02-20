@@ -2,10 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 
-use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
-
 use Oro\Bundle\DPDBundle\Form\Type\RatesCsvType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
 
 class RatesCsvTypeTest extends FormIntegrationTestCase
 {
