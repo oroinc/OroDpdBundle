@@ -4,11 +4,11 @@ namespace Oro\Bundle\DPDBundle\Tests\Functional\Entity\Repository;
 
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
+use Oro\Bundle\DPDBundle\Entity\Rate;
+use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
 use Oro\Bundle\DPDBundle\Tests\Functional\DataFixtures\LoadRates;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
-use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
-use Oro\Bundle\DPDBundle\Entity\Rate;
 
 class RateRepositoryTest extends WebTestCase
 {

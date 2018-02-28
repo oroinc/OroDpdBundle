@@ -4,10 +4,10 @@ namespace Oro\Bundle\DPDBundle\Factory;
 
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\DPDBundle\Model\Package;
-use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\DPDBundle\Model\OrderData;
+use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
+use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 
 class DPDRequestFactory

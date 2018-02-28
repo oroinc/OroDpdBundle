@@ -2,20 +2,20 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 
+use Oro\Bundle\CurrencyBundle\Entity\Price;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
+use Oro\Bundle\DPDBundle\Form\Type\DPDShippingMethodOptionsType;
+use Oro\Bundle\DPDBundle\Method\DPDShippingMethodType;
+use Oro\Bundle\DPDBundle\Model\Package;
+use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\DPDBundle\Provider\RateProvider;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
 use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
+use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
-use Oro\Bundle\CurrencyBundle\Entity\Price;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport;
-use Oro\Bundle\DPDBundle\Form\Type\DPDShippingMethodOptionsType;
-use Oro\Bundle\DPDBundle\Model\Package;
-use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethodType;
 
 class DPDShippingMethodTypeTest extends \PHPUnit_Framework_TestCase
 {

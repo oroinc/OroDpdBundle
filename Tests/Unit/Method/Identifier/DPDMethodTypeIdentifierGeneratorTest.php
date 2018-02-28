@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Units\Method\Identifier;
 
-use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGenerator;
+use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
 class DPDMethodTypeIdentifierGeneratorTest extends \PHPUnit_Framework_TestCase
 {

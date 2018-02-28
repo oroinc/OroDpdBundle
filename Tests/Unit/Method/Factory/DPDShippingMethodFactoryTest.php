@@ -3,17 +3,17 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method\Factory;
 
 use Doctrine\Common\Collections\Collection;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
+use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
 use Oro\Bundle\DPDBundle\Method\Factory\DPDHandlerFactoryInterface;
+use Oro\Bundle\DPDBundle\Method\Factory\DPDShippingMethodFactory;
+use Oro\Bundle\DPDBundle\Method\Factory\DPDShippingMethodTypeFactoryInterface;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 use Oro\Bundle\IntegrationBundle\Provider\IntegrationIconProviderInterface;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
-use Oro\Bundle\DPDBundle\Method\Factory\DPDShippingMethodFactory;
-use Oro\Bundle\DPDBundle\Method\Factory\DPDShippingMethodTypeFactoryInterface;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 
 class DPDShippingMethodFactoryTest extends \PHPUnit_Framework_TestCase

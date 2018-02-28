@@ -3,6 +3,7 @@
 namespace Oro\Bundle\DPDBundle\Method\Factory;
 
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
 use Oro\Bundle\DPDBundle\Method\DPDHandler;
@@ -10,7 +11,6 @@ use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGeneratorInter
 use Oro\Bundle\DPDBundle\Provider\DPDTransport;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
 
 class DPDHandlerFactory implements DPDHandlerFactoryInterface

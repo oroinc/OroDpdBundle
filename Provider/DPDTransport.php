@@ -2,17 +2,17 @@
 
 namespace Oro\Bundle\DPDBundle\Provider;
 
-use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportSettings;
+use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
+use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\IntegrationBundle\Provider\Rest\Exception\RestException;
 use Oro\Bundle\IntegrationBundle\Provider\Rest\Transport\AbstractRestTransport;
-use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportSettings;
 
 class DPDTransport extends AbstractRestTransport
 {

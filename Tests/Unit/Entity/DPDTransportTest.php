@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Entity;
 
-use Oro\Bundle\DPDBundle\Entity\Rate;
-use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
-use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
+use Oro\Bundle\DPDBundle\Entity\Rate;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
+use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
