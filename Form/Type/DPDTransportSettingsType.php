@@ -80,7 +80,7 @@ class DPDTransportSettingsType extends AbstractType
             [
                 'label' => 'oro.dpd.transport.labels.label',
                 'required' => true,
-                'options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank()]],
             ]
         );
         $builder->add(
