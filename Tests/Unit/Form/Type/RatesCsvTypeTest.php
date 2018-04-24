@@ -32,7 +32,7 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($submittedData, $expectedData, $defaultData = null)
     {
-        $form = $this->factory->createBuilder($this->formType, $defaultData)
+        $form = $this->factory->createBuilder(RatesCsvType::class, $defaultData)
             ->setRequestHandler(new HttpFoundationRequestHandler())
             ->getForm();
 

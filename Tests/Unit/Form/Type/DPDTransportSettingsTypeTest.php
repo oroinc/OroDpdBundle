@@ -9,7 +9,6 @@ use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
-use Oro\Bundle\FormBundle\Form\Type\Select2Type;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
 use Oro\Bundle\LocaleBundle\Form\Type\LocalizationCollectionType;
@@ -22,6 +21,7 @@ use Oro\Bundle\ShippingBundle\Form\Type\WeightUnitSelectType;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -131,12 +131,9 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         return [
             new PreloadedExtension(
                 [
-                    'entity' => $entityType,
-                    'oro_select2_translatable_entity' => new Select2Type(
-                        'Oro\Bundle\TranslationBundle\Form\Type\TranslatableEntityType',
-                        'oro_select2_translatable_entity'
-                    ),
-                    WeightUnitSelectType::NAME => $unitOfWeightEntity,
+                    DPDTransportSettingsType::class => $this->formType,
+                    EntityType::class => $entityType,
+                    WeightUnitSelectType::class => $unitOfWeightEntity,
                     LocalizedPropertyType::class => new LocalizedPropertyType(),
                     LocalizationCollectionType::class => new LocalizationCollectionTypeStub(),
                     LocalizedFallbackValueCollectionType::class => $localizedFallbackValue,
@@ -170,7 +167,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
                 ->willReturn($submittedData['cloudUserToken']);
         }
 
-        $form = $this->factory->create($this->formType, $defaultData, []);
+        $form = $this->factory->create(DPDTransportSettingsType::class, $defaultData, []);
 
         static::assertEquals($defaultData, $form->getData());
 
