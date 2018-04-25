@@ -9,6 +9,7 @@ use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
 use Oro\Bundle\LocaleBundle\Form\Type\LocalizedFallbackValueCollectionType;
 use Oro\Bundle\ShippingBundle\Form\Type\WeightUnitSelectType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -109,7 +110,7 @@ class DPDTransportSettingsType extends AbstractType
         );
         $builder->add(
             'applicableShippingServices',
-            'entity',
+            EntityType::class,
             [
                 'label' => 'oro.dpd.transport.shipping_service.plural_label',
                 'required' => true,
@@ -119,7 +120,7 @@ class DPDTransportSettingsType extends AbstractType
         );
         $builder->add(
             'unitOfWeight',
-            WeightUnitSelectType::NAME,
+            WeightUnitSelectType::class,
             [
                 'placeholder' => 'oro.shipping.form.placeholder.weight_unit.label',
                 'required' => true,

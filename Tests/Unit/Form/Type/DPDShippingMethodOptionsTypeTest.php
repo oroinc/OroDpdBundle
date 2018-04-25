@@ -5,6 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\CurrencyBundle\Rounding\RoundingServiceInterface;
 use Oro\Bundle\DPDBundle\Form\Type\DPDShippingMethodOptionsType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
+use Oro\Component\Testing\Unit\PreloadedExtension;
 
 class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
 {
@@ -13,8 +14,6 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         /** @var RoundingServiceInterface|\PHPUnit_Framework_MockObject_MockObject $roundingService */
         $roundingService = $this->getMockForAbstractClass(RoundingServiceInterface::class);
         $roundingService->expects(static::any())
@@ -25,6 +24,22 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
             ->willReturn(RoundingServiceInterface::ROUND_HALF_UP);
 
         $this->formType = new DPDShippingMethodOptionsType($roundingService);
+        parent::setUp();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getExtensions()
+    {
+        return [
+            new PreloadedExtension(
+                [
+                    DPDShippingMethodOptionsType::class => $this->formType
+                ],
+                []
+            ),
+        ];
     }
 
     public function testGetBlockPrefix()
@@ -41,7 +56,7 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($submittedData, $expectedData, $defaultData = null)
     {
-        $form = $this->factory->create($this->formType, $defaultData);
+        $form = $this->factory->create(DPDShippingMethodOptionsType::class, $defaultData);
 
         static::assertEquals($defaultData, $form->getData());
 
