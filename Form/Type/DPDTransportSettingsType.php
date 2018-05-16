@@ -131,8 +131,6 @@ class DPDTransportSettingsType extends AbstractType
             ChoiceType::class,
             [
                 'required' => true,
-                // TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                'choices_as_values' => true,
                 'choices' => [
                     'oro.dpd.transport.rate_policy.flat_rate.label' => DPDTransport::FLAT_RATE_POLICY,
                     'oro.dpd.transport.rate_policy.table_rate.label' => DPDTransport::TABLE_RATE_POLICY,
@@ -167,8 +165,6 @@ class DPDTransportSettingsType extends AbstractType
             ChoiceType::class,
             [
                 'required' => true,
-                // TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                'choices_as_values' => true,
                 'choices' => [
                     'oro.dpd.transport.label_size.pdf_a4.label' => DPDTransport::PDF_A4_LABEL_SIZE,
                     'oro.dpd.transport.label_size.pdf_a6.label' => DPDTransport::PDF_A6_LABEL_SIZE,
@@ -181,8 +177,6 @@ class DPDTransportSettingsType extends AbstractType
             ChoiceType::class,
             [
                 'required' => true,
-                // TODO: remove 'choices_as_values' option below in scope of BAP-15236
-                'choices_as_values' => true,
                 'choices' => [
                     'oro.dpd.transport.label_start_position.upperleft.label' =>
                         DPDTransport::UPPERLEFT_LABEL_START_POSITION,
