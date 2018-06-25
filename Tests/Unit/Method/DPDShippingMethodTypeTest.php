@@ -17,7 +17,7 @@ use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class DPDShippingMethodTypeTest extends \PHPUnit_Framework_TestCase
+class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -37,27 +37,27 @@ class DPDShippingMethodTypeTest extends \PHPUnit_Framework_TestCase
     protected $methodId = 'shipping_method';
 
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transport;
 
     /**
-     * @var DPDTransportProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransportProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transportProvider;
 
     /**
-     * @var PackageProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $packageProvider;
 
     /**
-     * @var RateProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var RateProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $rateProvider;
 
     /**
-     * @var ShippingService|\PHPUnit_Framework_MockObject_MockObject
+     * @var ShippingService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $shippingService;
 
@@ -127,7 +127,7 @@ class DPDShippingMethodTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculatePrice($ratePrice, $methodHandlingFee, $typeHandlingFee, $expectedPrice)
     {
-        /** @var ShippingContextInterface|\PHPUnit_Framework_MockObject_MockObject $context * */
+        /** @var ShippingContextInterface|\PHPUnit\Framework\MockObject\MockObject $context * */
         $context = $this->createMock(ShippingContextInterface::class);
         $lineItems = $this->createMock(ShippingLineItemCollectionInterface::class);
         $context->expects(self::once())->method('getLineItems')->willReturn($lineItems);

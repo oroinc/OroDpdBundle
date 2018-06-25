@@ -6,10 +6,10 @@ use Oro\Bundle\CacheBundle\Action\DataStorage\InvalidateCacheDataStorage;
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Handler\InvalidateCacheActionHandler;
 
-class InvalidateCacheActionHandlerTest extends \PHPUnit_Framework_TestCase
+class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ZipCodeRulesCache|\PHPUnit_Framework_MockObject_MockObject
+     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
      */
     private $upsPriceCache;
 

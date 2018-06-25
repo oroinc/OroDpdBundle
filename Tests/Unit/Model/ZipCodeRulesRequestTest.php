@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Model;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class ZipCodeRulesRequestTest extends \PHPUnit_Framework_TestCase
+class ZipCodeRulesRequestTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

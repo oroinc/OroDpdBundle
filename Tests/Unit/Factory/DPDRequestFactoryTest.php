@@ -11,17 +11,17 @@ use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class DPDRequestFactoryTest extends \PHPUnit_Framework_TestCase
+class DPDRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transport;
 
     /**
-     * @var ShippingService|\PHPUnit_Framework_MockObject_MockObject
+     * @var ShippingService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $shippingService;
 

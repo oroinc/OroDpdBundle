@@ -13,35 +13,35 @@ use Oro\Bundle\DPDBundle\Provider\RateProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 
-class DPDShippingMethodTypeFactoryTest extends \PHPUnit_Framework_TestCase
+class DPDShippingMethodTypeFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $typeIdentifierGenerator;
 
     /**
-     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $methodIdentifierGenerator;
 
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     private $transport;
 
     /**
-     * @var PackageProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $packageProvider;
 
     /**
-     * @var RateProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var RateProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $rateProvider;
 
     /**
-     * @var DPDShippingMethodTypeFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDShippingMethodTypeFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     private $factory;
 
@@ -67,16 +67,16 @@ class DPDShippingMethodTypeFactoryTest extends \PHPUnit_Framework_TestCase
         $identifier = 'dpd_1_59';
         $methodId = 'dpd_1';
 
-        /** @var DPDSettings|\PHPUnit_Framework_MockObject_MockObject $settings */
+        /** @var DPDSettings|\PHPUnit\Framework\MockObject\MockObject $settings */
         $settings = $this->createMock(DPDSettings::class);
 
-        /** @var Channel|\PHPUnit_Framework_MockObject_MockObject $channel */
+        /** @var Channel|\PHPUnit\Framework\MockObject\MockObject $channel */
         $channel = $this->createMock(Channel::class);
         $channel->expects($this->any())
             ->method('getTransport')
             ->willReturn($settings);
 
-        /** @var ShippingService|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject $service */
         $service = $this->createMock(ShippingService::class);
 
         $service->expects($this->once())

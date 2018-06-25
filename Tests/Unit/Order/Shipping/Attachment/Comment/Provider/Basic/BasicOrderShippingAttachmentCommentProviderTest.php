@@ -6,10 +6,10 @@ use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\Basic\BasicOrderShippingAttachmentCommentProvider;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit_Framework_TestCase
+class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $translator;
 

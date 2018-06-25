@@ -24,7 +24,7 @@ use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollec
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class DPDHandlerTest extends \PHPUnit_Framework_TestCase
+class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -39,27 +39,27 @@ class DPDHandlerTest extends \PHPUnit_Framework_TestCase
     const LABEL = 'service_code_label';
 
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transport;
 
     /**
-     * @var DPDTransportProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransportProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transportProvider;
 
     /**
-     * @var PackageProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $packageProvider;
 
     /**
-     * @var ShippingService|\PHPUnit_Framework_MockObject_MockObject
+     * @var ShippingService|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $shippingService;
 
     /**
-     * @var DPDRequestFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $dpdRequestFactory;
 
@@ -69,12 +69,12 @@ class DPDHandlerTest extends \PHPUnit_Framework_TestCase
     protected $dpdHandler;
 
     /**
-     * @var ZipCodeRulesCache|\PHPUnit_Framework_MockObject_MockObject
+     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $cache;
 
     /**
-     * @var OrderShippingLineItemConverterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $shippingLineItemConverter;
 
@@ -175,7 +175,7 @@ class DPDHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchZipCodeRulesCache()
     {
-        /** @var ZipCodeRulesRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var ZipCodeRulesRequest|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(ZipCodeRulesRequest::class);
         $this->dpdRequestFactory->expects(self::any())->method('createZipCodeRulesRequest')->willReturn($request);
 
@@ -229,11 +229,11 @@ class DPDHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('isExpressService')
             ->willReturn($isExpressService);
 
-        /** @var ZipCodeRulesRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+        /** @var ZipCodeRulesRequest|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(ZipCodeRulesRequest::class);
         $this->dpdRequestFactory->expects(self::any())->method('createZipCodeRulesRequest')->willReturn($request);
 
-        /** @var ZipCodeRulesResponse|\PHPUnit_Framework_MockObject_MockObject $response */
+        /** @var ZipCodeRulesResponse|\PHPUnit\Framework\MockObject\MockObject $response */
         $response = $this->getMockBuilder(ZipCodeRulesResponse::class)
             ->disableOriginalConstructor()
             ->setMethods(['getClassicCutOff', 'getExpressCutOff', 'isNoPickupDay'])

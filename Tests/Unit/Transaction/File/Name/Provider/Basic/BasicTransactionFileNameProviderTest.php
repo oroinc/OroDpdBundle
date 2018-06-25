@@ -7,10 +7,10 @@ use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\Basic\BasicTransactionFi
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class BasicTransactionFileNameProviderTest extends \PHPUnit_Framework_TestCase
+class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var TranslatorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $translator;
 

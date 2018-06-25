@@ -8,7 +8,7 @@ use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
 use Oro\Component\ConfigExpression\ContextAccessor;
 use Symfony\Component\PropertyAccess\PropertyPath;
 
-class ShippedWithDPDTest extends \PHPUnit_Framework_TestCase
+class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ShippedWithDPD */
     protected $condition;

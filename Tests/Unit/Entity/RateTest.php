@@ -10,7 +10,7 @@ use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class RateTest extends \PHPUnit_Framework_TestCase
+class RateTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
     use EntityTrait;

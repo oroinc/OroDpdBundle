@@ -22,42 +22,42 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\File as ComponentFile;
 
-class OrderShippingDPDHandlerTest extends \PHPUnit_Framework_TestCase
+class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|ObjectManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|ObjectManager
      */
     protected $manager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Registry
+     * @var \PHPUnit\Framework\MockObject\MockObject|Registry
      */
     protected $managerRegistry;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FileManager
+     * @var \PHPUnit\Framework\MockObject\MockObject|FileManager
      */
     protected $fileManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DPDShippingMethodProvider
+     * @var \PHPUnit\Framework\MockObject\MockObject|DPDShippingMethodProvider
      */
     protected $shippingMethodProvider;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DPDShippingMethod
+     * @var \PHPUnit\Framework\MockObject\MockObject|DPDShippingMethod
      */
     protected $shippingMethod;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DPDHandlerInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|DPDHandlerInterface
      */
     protected $dpdHandler;
 
     /**
-     * @var TransactionFileNameProviderInterface|\PHPUnit_Framework_MockObject_MockObject|
+     * @var TransactionFileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject|
      */
     protected $transactionFileNameProvider;
 
@@ -67,7 +67,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit_Framework_TestCase
     protected $handler;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|DeferredScheduler
+     * @var \PHPUnit\Framework\MockObject\MockObject|DeferredScheduler
      */
     protected $deferredScheduler;
 
@@ -151,13 +151,13 @@ class OrderShippingDPDHandlerTest extends \PHPUnit_Framework_TestCase
             ->with($response->getLabelPDF())
             ->willReturn($file);
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|FormInterface $shipDateForm */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $shipDateForm */
         $shipDateForm = $this->createMock(FormInterface::class);
         $shipDateForm->expects(static::once())
             ->method('getData')
             ->willReturn(new \DateTime());
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|FormInterface $form */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects(static::at(0))
             ->method('get')
@@ -238,13 +238,13 @@ class OrderShippingDPDHandlerTest extends \PHPUnit_Framework_TestCase
         $this->fileManager->expects($this->never())
             ->method('writeToTemporaryFile');
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|FormInterface $shipDateForm */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $shipDateForm */
         $shipDateForm = $this->createMock(FormInterface::class);
         $shipDateForm->expects(static::once())
             ->method('getData')
             ->willReturn(new \DateTime());
 
-        /** @var \PHPUnit_Framework_MockObject_MockObject|FormInterface $form */
+        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
         $form = $this->createMock(FormInterface::class);
         $form->expects(static::at(0))
             ->method('get')

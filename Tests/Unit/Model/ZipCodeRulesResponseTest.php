@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Model;
 use InvalidArgumentException;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 
-class ZipCodeRulesResponseTest extends \PHPUnit_Framework_TestCase
+class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ZipCodeRulesResponse */
     protected $model;

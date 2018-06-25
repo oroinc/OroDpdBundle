@@ -16,33 +16,33 @@ use Oro\Bundle\IntegrationBundle\Provider\IntegrationIconProviderInterface;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 
-class DPDShippingMethodFactoryTest extends \PHPUnit_Framework_TestCase
+class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var LocalizationHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     private $localizationHelper;
 
     /**
-     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $methodIdentifierGenerator;
 
     /**
-     * @var DPDShippingMethodTypeFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDShippingMethodTypeFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $methodTypeFactory;
 
-    /** @var DPDHandlerFactoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DPDHandlerFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $handlerFactory;
 
     /**
-     * @var DPDShippingMethodFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDShippingMethodFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     private $factory;
 
     /**
-     * @var IntegrationIconProviderInterface||\PHPUnit_Framework_MockObject_MockObject
+     * @var IntegrationIconProviderInterface||\PHPUnit\Framework\MockObject\MockObject
      */
     private $integrationIconProvider;
 
@@ -69,14 +69,14 @@ class DPDShippingMethodFactoryTest extends \PHPUnit_Framework_TestCase
         $identifier = 'dpd_1';
         $labelsCollection = $this->createMock(Collection::class);
 
-        /** @var DPDSettings|\PHPUnit_Framework_MockObject_MockObject $settings */
+        /** @var DPDSettings|\PHPUnit\Framework\MockObject\MockObject $settings */
         $settings = $this->createMock(DPDSettings::class);
 
         $settings->expects($this->once())
             ->method('getLabels')
             ->willReturn($labelsCollection);
 
-        /** @var Channel|\PHPUnit_Framework_MockObject_MockObject $channel */
+        /** @var Channel|\PHPUnit\Framework\MockObject\MockObject $channel */
         $channel = $this->createMock(Channel::class);
         $channel->expects($this->any())
             ->method('getTransport')

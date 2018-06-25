@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Model;
 use InvalidArgumentException;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 
-class SetOrderResponseTest extends \PHPUnit_Framework_TestCase
+class SetOrderResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider evaluateDataProvider

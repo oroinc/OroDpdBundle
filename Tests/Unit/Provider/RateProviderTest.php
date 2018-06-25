@@ -12,10 +12,10 @@ use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 
-class RateProviderTest extends \PHPUnit_Framework_TestCase
+class RateProviderTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transport;
 
@@ -25,12 +25,12 @@ class RateProviderTest extends \PHPUnit_Framework_TestCase
     protected $rateProvider;
 
     /**
-     * @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     * @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $registry;
 
     /**
-     * @var MeasureUnitConversion|\PHPUnit_Framework_MockObject_MockObject
+     * @var MeasureUnitConversion|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $measureUnitConversion;
 

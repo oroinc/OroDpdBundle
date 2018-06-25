@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Entity;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class ShippingServiceTest extends \PHPUnit_Framework_TestCase
+class ShippingServiceTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

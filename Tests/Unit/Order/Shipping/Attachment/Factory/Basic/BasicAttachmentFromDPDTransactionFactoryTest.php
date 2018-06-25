@@ -9,10 +9,10 @@ use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\OrderShippin
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Factory\Basic\BasicAttachmentFromDPDTransactionFactory;
 use Oro\Bundle\OrderBundle\Entity\Order;
 
-class BasicAttachmentFromDPDTransactionFactoryTest extends \PHPUnit_Framework_TestCase
+class BasicAttachmentFromDPDTransactionFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var OrderShippingAttachmentCommentProviderInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var OrderShippingAttachmentCommentProviderInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $attachmentCommentProvider;
 
