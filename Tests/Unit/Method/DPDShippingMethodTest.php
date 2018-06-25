@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
+class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -40,7 +40,7 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
     const ICON = 'dpd.png';
 
     /**
-     * @var DPDRequestFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $dpdRequestFactory;
 
@@ -51,7 +51,7 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /* @var DPDRequestFactory | \PHPUnit_Framework_MockObject_MockObject $priceRequestFactory */
+        /* @var DPDRequestFactory | \PHPUnit\Framework\MockObject\MockObject $priceRequestFactory */
         $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
 
         $type = $this->createMock(ShippingMethodTypeInterface::class);
@@ -129,7 +129,7 @@ class DPDShippingMethodTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculatePrices()
     {
-        /** @var ShippingContextInterface|\PHPUnit_Framework_MockObject_MockObject $context * */
+        /** @var ShippingContextInterface|\PHPUnit\Framework\MockObject\MockObject $context * */
         $context = $this->createMock(ShippingContextInterface::class);
 
         $methodOptions = ['handling_fee' => null];

@@ -8,7 +8,7 @@ use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class ZipCodeRulesCacheKeyTest extends \PHPUnit_Framework_TestCase
+class ZipCodeRulesCacheKeyTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
     use EntityTestCaseTrait;

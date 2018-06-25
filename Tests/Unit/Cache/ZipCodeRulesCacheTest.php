@@ -9,7 +9,7 @@ use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
+class ZipCodeRulesCacheTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
@@ -24,7 +24,7 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     protected $cache;
 
     /**
-     * @var CacheProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $cacheProvider;
 
@@ -180,7 +180,7 @@ class ZipCodeRulesCacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return ZipCodeRulesResponse|\PHPUnit_Framework_MockObject_MockObject
+     * @return ZipCodeRulesResponse|\PHPUnit\Framework\MockObject\MockObject
      */
     private function getZipCodeRulesResponseMock()
     {

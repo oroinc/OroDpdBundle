@@ -15,40 +15,40 @@ use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
 
-class DPDHandlerFactoryTest extends \PHPUnit_Framework_TestCase
+class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $typeIdentifierGenerator;
 
     /**
-     * @var DPDTransport|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
      */
     private $transport;
 
     /**
-     * @var PackageProvider|\PHPUnit_Framework_MockObject_MockObject
+     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
      */
     private $packageProvider;
 
     /**
-     * @var DPDRequestFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     private $dpdRequestFactory;
 
     /**
-     * @var ZipCodeRulesCache|\PHPUnit_Framework_MockObject_MockObject
+     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
      */
     private $zipCodeRulesCache;
 
     /**
-     * @var OrderShippingLineItemConverterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $shippingLineItemConverter;
 
     /**
-     * @var DPDShippingMethodTypeFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var DPDShippingMethodTypeFactory|\PHPUnit\Framework\MockObject\MockObject
      */
     private $factory;
 
@@ -76,16 +76,16 @@ class DPDHandlerFactoryTest extends \PHPUnit_Framework_TestCase
         $identifier = 'dpd_1_59';
         $methodId = 'dpd_1';
 
-        /** @var DPDSettings|\PHPUnit_Framework_MockObject_MockObject $settings */
+        /** @var DPDSettings|\PHPUnit\Framework\MockObject\MockObject $settings */
         $settings = $this->createMock(DPDSettings::class);
 
-        /** @var Channel|\PHPUnit_Framework_MockObject_MockObject $channel */
+        /** @var Channel|\PHPUnit\Framework\MockObject\MockObject $channel */
         $channel = $this->createMock(Channel::class);
         $channel->expects($this->any())
             ->method('getTransport')
             ->willReturn($settings);
 
-        /** @var ShippingService|\PHPUnit_Framework_MockObject_MockObject $service */
+        /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject $service */
         $service = $this->createMock(ShippingService::class);
 
         $this->typeIdentifierGenerator->expects($this->once())

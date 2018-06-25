@@ -8,7 +8,7 @@ use Oro\Bundle\DPDBundle\Model\OrderData;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class OrderDataTest extends \PHPUnit_Framework_TestCase
+class OrderDataTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

@@ -34,11 +34,11 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     const DATA_CLASS = 'Oro\Bundle\DPDBundle\Entity\DPDTransport';
 
     /**
-     * @var TransportInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var TransportInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $transport;
 
-    /** @var DoctrineHelper|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     protected $doctrineHelper;
 
     /**
@@ -47,7 +47,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     protected $formType;
 
     /**
-     * @var SymmetricCrypterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symmetricCrypter;
 
@@ -66,7 +66,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
             ->getMockBuilder(SymmetricCrypterInterface::class)
             ->getMock();
 
-        /** @var RoundingServiceInterface|\PHPUnit_Framework_MockObject_MockObject $roundingService */
+        /** @var RoundingServiceInterface|\PHPUnit\Framework\MockObject\MockObject $roundingService */
         $roundingService = $this->getMockForAbstractClass(RoundingServiceInterface::class);
         $roundingService->expects(static::any())
             ->method('getPrecision')
@@ -122,7 +122,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
             ],
             WeightUnitSelectType::NAME
         );
-        /** @var ManagerRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
+        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
         $registry = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
@@ -233,7 +233,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /** @var OptionsResolver|\PHPUnit_Framework_MockObject_MockObject $resolver */
+        /** @var OptionsResolver|\PHPUnit\Framework\MockObject\MockObject $resolver */
         $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
         $resolver->expects(static::once())
             ->method('setDefaults')

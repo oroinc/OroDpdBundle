@@ -12,7 +12,7 @@ use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class DPDTransportTest extends \PHPUnit_Framework_TestCase
+class DPDTransportTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
     use EntityTrait;

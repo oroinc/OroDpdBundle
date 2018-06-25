@@ -12,20 +12,20 @@ use Oro\Bundle\IntegrationBundle\Provider\Rest\Exception\RestException;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Psr\Log\LoggerInterface;
 
-class DPDTransportTest extends \PHPUnit_Framework_TestCase
+class DPDTransportTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var RestClientFactoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var RestClientFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $clientFactory;
 
     /**
-     * @var SymmetricCrypterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $symmetricCrypter;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     protected $client;
 
@@ -35,7 +35,7 @@ class DPDTransportTest extends \PHPUnit_Framework_TestCase
     protected $transport;
 
     /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $logger;
 

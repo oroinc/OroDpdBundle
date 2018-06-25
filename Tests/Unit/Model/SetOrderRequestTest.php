@@ -6,7 +6,7 @@ use Oro\Bundle\DPDBundle\Model\OrderData;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
-class SetOrderRequestTest extends \PHPUnit_Framework_TestCase
+class SetOrderRequestTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTestCaseTrait;
 

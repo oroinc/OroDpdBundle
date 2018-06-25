@@ -20,17 +20,17 @@ use Oro\Bundle\ShippingBundle\Model\Weight;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 use Oro\Component\Testing\Unit\EntityTrait;
 
-class PackageProviderTest extends \PHPUnit_Framework_TestCase
+class PackageProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
     /**
-     * @var MeasureUnitConversion|\PHPUnit_Framework_MockObject_MockObject
+     * @var MeasureUnitConversion|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $measureUnitConversion;
 
     /**
-     * @var LocalizationHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $localizationHelper;
 
