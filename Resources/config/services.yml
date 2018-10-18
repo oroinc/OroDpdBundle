@@ -13,7 +13,7 @@ services:
           class: 'Oro\Bundle\DPDBundle\Provider\DPDTransport'
           arguments:
               - '@logger'
-              - '@oro_security.encoder.mcrypt'
+              - '@oro_security.encoder.default'
           calls:
               - [setRestClientFactory, ['@oro_integration.transport.rest.client_factory']]
           tags:
