@@ -6,7 +6,6 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Oro\Bundle\AttachmentBundle\Entity\Attachment;
-use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Manager\FileManager;
 use Oro\Bundle\CronBundle\Entity\Manager\DeferredScheduler;
 use Oro\Bundle\DPDBundle\Entity\DPDTransaction;

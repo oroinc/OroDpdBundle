@@ -4,7 +4,6 @@ namespace Oro\Bundle\DPDBundle\Provider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportEntity;
-use Oro\Bundle\DPDBundle\Entity\Rate;
 use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
