@@ -40,6 +40,7 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
 
         $form->submit($submittedData);
         static::assertTrue($form->isValid());
+        static::assertTrue($form->isSynchronized());
         static::assertEquals($expectedData, $form->getData());
     }
 
