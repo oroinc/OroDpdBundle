@@ -42,6 +42,8 @@ services:
 
     oro_dpd.method.identifier_generator.method:
         parent: oro_integration.generator.prefixed_identifier_generator
+        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
+        public: true
         arguments:
             - '%oro_dpd.integration.channel.type%'
 
@@ -93,6 +95,8 @@ services:
 
     oro_dpd.handler.order_shipping_dpd:
         class: 'Oro\Bundle\DPDBundle\Handler\OrderShippingDPDHandler'
+        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
+        public: true
         arguments:
             - '@doctrine'
             - '@oro_attachment.file_manager'
@@ -116,6 +120,8 @@ services:
 
     oro_dpd.handler.action.invalidate_cache:
         class: 'Oro\Bundle\DPDBundle\Handler\InvalidateCacheActionHandler'
+        # This service marked as public for compatibility with Symfony 4. All dependencies must be refactored after BAP-17037
+        public: true
         arguments:
             - "@oro_dpd.zip_code_rules_cache"
 
