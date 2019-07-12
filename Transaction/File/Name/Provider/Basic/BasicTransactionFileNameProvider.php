@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\Basic;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\TransactionFileNameProviderInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicTransactionFileNameProvider implements TransactionFileNameProviderInterface
 {
