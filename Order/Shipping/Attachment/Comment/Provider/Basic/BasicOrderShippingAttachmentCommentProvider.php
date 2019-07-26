@@ -4,7 +4,7 @@ namespace Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\Basic;
 
 use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\OrderShippingAttachmentCommentProviderInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicOrderShippingAttachmentCommentProvider implements OrderShippingAttachmentCommentProviderInterface
 {

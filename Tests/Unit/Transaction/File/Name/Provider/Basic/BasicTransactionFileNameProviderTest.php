@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Transaction\File\Name\Provider\Basic;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\Basic\BasicTransactionFileNameProvider;
 use Oro\Bundle\OrderBundle\Entity\Order;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 {

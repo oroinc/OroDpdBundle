@@ -4,7 +4,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Order\Shipping\Attachment\Comment\Prov
 
 use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\Basic\BasicOrderShippingAttachmentCommentProvider;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit\Framework\TestCase
 {
