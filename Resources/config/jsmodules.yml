@@ -1,0 +1,3 @@
+dynamic-imports:
+    orodpd:
+        - orodpd/js/app/components/dpd-transport-settings-component
