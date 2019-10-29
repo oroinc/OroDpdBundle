@@ -1,13 +1,12 @@
 define(function(require) {
     'use strict';
 
-    var DPDTransportSettingsComponent;
-    var $ = require('jquery');
-    var _ = require('underscore');
-    var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
-    var BaseComponent = require('oroui/js/app/components/base/component');
+    const $ = require('jquery');
+    const _ = require('underscore');
+    const LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+    const BaseComponent = require('oroui/js/app/components/base/component');
 
-    DPDTransportSettingsComponent = BaseComponent.extend({
+    const DPDTransportSettingsComponent = BaseComponent.extend({
         /**
          * @property {Object}
          */
@@ -21,8 +20,8 @@ define(function(require) {
         /**
          * @inheritDoc
          */
-        constructor: function DPDTransportSettingsComponent() {
-            DPDTransportSettingsComponent.__super__.constructor.apply(this, arguments);
+        constructor: function DPDTransportSettingsComponent(options) {
+            DPDTransportSettingsComponent.__super__.constructor.call(this, options);
         },
 
         /**
@@ -42,8 +41,8 @@ define(function(require) {
         },
 
         onRatePolicyChange: function() {
-            var ratePolicyValue = $(this.ratePolicyElem).val();
-            var self = this;
+            const ratePolicyValue = $(this.ratePolicyElem).val();
+            const self = this;
 
             if (ratePolicyValue === '0') { // DPDTransport::FLAT_RATE_POLICY
                 $(this.flatRatePriceValueElem).closest(self.options.container).show();
