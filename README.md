@@ -7,3 +7,9 @@ The bundle also adds the [operation](https://github.com/oroinc/platform/tree/mas
 ## Table of Contents
 
  - [General information](./Resources/doc/general-information.md)
+
+Resources
+---------
+
+  * [OroCommerce, OroCRM and OroPlatform Documentation](https://doc.oroinc.com)
+  * [Contributing](https://doc.oroinc.com/community/contribute/)
