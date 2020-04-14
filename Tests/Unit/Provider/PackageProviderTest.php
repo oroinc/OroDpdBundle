@@ -39,7 +39,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $packageProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->measureUnitConversion = $this->getMockBuilder(MeasureUnitConversion::class)
             ->disableOriginalConstructor()->getMock();

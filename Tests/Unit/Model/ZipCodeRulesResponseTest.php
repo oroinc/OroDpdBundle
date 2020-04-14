@@ -10,7 +10,7 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
     /** @var ZipCodeRulesResponse */
     protected $model;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $values = [
             'Ack' => true,
@@ -29,7 +29,7 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
         $this->model->parse($values);
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         unset($this->model);
     }

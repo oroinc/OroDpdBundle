@@ -13,7 +13,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
     /** @var ShippedWithDPD */
     protected $condition;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /**
          * @var DPDShippingMethodProvider

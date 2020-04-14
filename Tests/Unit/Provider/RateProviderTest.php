@@ -34,7 +34,7 @@ class RateProviderTest extends \PHPUnit\Framework\TestCase
      */
     protected $measureUnitConversion;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->createMock(DPDTransport::class);
 

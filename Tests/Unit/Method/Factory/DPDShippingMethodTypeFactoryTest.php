@@ -45,7 +45,7 @@ class DPDShippingMethodTypeFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->typeIdentifierGenerator = $this->createMock(DPDMethodTypeIdentifierGeneratorInterface::class);
         $this->methodIdentifierGenerator = $this->createMock(IntegrationIdentifierGeneratorInterface::class);

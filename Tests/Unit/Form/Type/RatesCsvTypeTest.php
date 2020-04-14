@@ -11,7 +11,7 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
     /** @var RatesCsvType */
     protected $formType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

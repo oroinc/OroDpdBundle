@@ -21,7 +21,7 @@ class BasicAttachmentFromDPDTransactionFactoryTest extends \PHPUnit\Framework\Te
      */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->attachmentCommentProvider = $this->createMock(OrderShippingAttachmentCommentProviderInterface::class);
         $this->factory = new BasicAttachmentFromDPDTransactionFactory($this->attachmentCommentProvider);

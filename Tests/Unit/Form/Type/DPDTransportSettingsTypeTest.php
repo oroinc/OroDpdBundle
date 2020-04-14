@@ -51,7 +51,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
      */
     protected $symmetricCrypter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->createMock(TransportInterface::class);
         $this->transport->expects(static::any())
