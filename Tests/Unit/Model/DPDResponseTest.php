@@ -102,12 +102,12 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider evaluateThrowingDataProvider
-     * @expectedException InvalidArgumentException
      *
      * @param array $values
      */
     public function testEvaluateThrowing(array $values)
     {
+        $this->expectException(InvalidArgumentException::class);
         $response = new DPDResponse();
         $this->assertFalse($response->isSuccessful());
         $response->parse($values);
