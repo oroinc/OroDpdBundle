@@ -70,7 +70,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
      */
     protected $deferredScheduler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->manager = $this->createMock(ObjectManager::class);
 

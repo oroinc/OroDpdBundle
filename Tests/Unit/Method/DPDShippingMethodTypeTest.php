@@ -66,7 +66,7 @@ class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
      */
     protected $dpdShippingMethodType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->getEntity(
             DPDTransport::class,

@@ -18,7 +18,7 @@ class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     private $handler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->upsPriceCache = $this->createMock(ZipCodeRulesCache::class);
 

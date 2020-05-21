@@ -12,7 +12,7 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
     /** @var DPDShippingMethodOptionsType */
     protected $formType;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var RoundingServiceInterface|\PHPUnit\Framework\MockObject\MockObject $roundingService */
         $roundingService = $this->getMockForAbstractClass(RoundingServiceInterface::class);

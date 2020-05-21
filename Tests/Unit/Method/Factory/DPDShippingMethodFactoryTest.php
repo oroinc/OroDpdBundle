@@ -46,7 +46,7 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $integrationIconProvider;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);
         $this->methodIdentifierGenerator = $this->createMock(IntegrationIdentifierGeneratorInterface::class);

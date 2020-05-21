@@ -28,7 +28,7 @@ class DPDRequestFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var DPDRequestFactory */
     protected $dpdRequestFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->getEntity(
             DPDTransport::class,

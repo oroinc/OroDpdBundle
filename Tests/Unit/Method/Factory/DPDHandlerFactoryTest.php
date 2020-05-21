@@ -52,7 +52,7 @@ class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
      */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->typeIdentifierGenerator = $this->createMock(DPDMethodTypeIdentifierGeneratorInterface::class);
         $this->transport = $this->createMock(DPDTransport::class);

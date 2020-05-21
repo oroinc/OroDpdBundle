@@ -78,7 +78,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
      */
     protected $shippingLineItemConverter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->getEntity(
             DPDTransport::class,

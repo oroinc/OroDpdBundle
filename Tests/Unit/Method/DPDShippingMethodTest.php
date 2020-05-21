@@ -49,7 +49,7 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
      */
     protected $dpdShippingMethod;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /* @var DPDRequestFactory | \PHPUnit\Framework\MockObject\MockObject $priceRequestFactory */
         $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);

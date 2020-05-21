@@ -10,12 +10,12 @@ class OroDPDExtensionTest extends ExtensionTestCase
     /** @var OroDPDExtension */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new OroDPDExtension();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         unset($this->extension);
     }

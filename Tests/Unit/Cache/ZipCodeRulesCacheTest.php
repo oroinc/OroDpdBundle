@@ -28,7 +28,7 @@ class ZipCodeRulesCacheTest extends \PHPUnit\Framework\TestCase
      */
     protected $cacheProvider;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->cacheProvider = $this->getMockBuilder(CacheProvider::class)
             ->setMethods(['fetch', 'contains', 'save', 'deleteAll'])->getMockForAbstractClass();

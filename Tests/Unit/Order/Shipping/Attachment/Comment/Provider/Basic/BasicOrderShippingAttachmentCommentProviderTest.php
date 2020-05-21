@@ -13,7 +13,7 @@ class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit\Framework
      */
     private $translator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->translator = $this->createMock(TranslatorInterface::class);
     }

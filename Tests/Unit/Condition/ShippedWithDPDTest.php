@@ -13,7 +13,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
     /** @var ShippedWithDPD */
     protected $condition;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /**
          * @var DPDShippingMethodProvider
@@ -89,12 +89,11 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException \Oro\Component\ConfigExpression\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Options must have 1 element, but 0 given.
-     */
     public function testInitializeFailsWhenEmptyOptions()
     {
+        $this->expectException(\Oro\Component\ConfigExpression\Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Options must have 1 element, but 0 given.');
+
         $this->condition->initialize([]);
     }
 
