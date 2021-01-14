@@ -3,7 +3,7 @@
 namespace Oro\Bundle\DPDBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 
 abstract class AbstractShippingServiceFixture extends AbstractFixture

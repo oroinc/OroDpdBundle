@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Rate;
 use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;

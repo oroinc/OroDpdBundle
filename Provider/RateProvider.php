@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Provider;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportEntity;
 use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;

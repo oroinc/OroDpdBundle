@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
