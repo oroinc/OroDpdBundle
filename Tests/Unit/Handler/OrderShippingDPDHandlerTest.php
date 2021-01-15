@@ -3,8 +3,8 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Handler;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\AttachmentBundle\Entity\Attachment;
 use Oro\Bundle\AttachmentBundle\Manager\FileManager;
 use Oro\Bundle\CronBundle\Entity\Manager\DeferredScheduler;

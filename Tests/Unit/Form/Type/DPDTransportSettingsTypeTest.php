@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CurrencyBundle\Rounding\RoundingServiceInterface;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
@@ -123,7 +123,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
             WeightUnitSelectType::NAME
         );
         /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
-        $registry = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')
+        $registry = $this->getMockBuilder('Doctrine\Persistence\ManagerRegistry')
             ->disableOriginalConstructor()
             ->getMock();
         $localizedFallbackValue = new LocalizedFallbackValueCollectionType($registry);

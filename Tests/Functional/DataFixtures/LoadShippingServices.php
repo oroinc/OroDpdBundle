@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Functional\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Oro\Bundle\DPDBundle\Migrations\Data\ORM\AbstractShippingServiceFixture;
 use Symfony\Component\Yaml\Yaml;
 
