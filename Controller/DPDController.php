@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Controller;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/dpd")
  */
-class DPDController extends Controller
+class DPDController extends AbstractController
 {
     const CSV_DELIMITER = ',';
 
