@@ -127,7 +127,6 @@ class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCalculatePrice($ratePrice, $methodHandlingFee, $typeHandlingFee, $expectedPrice)
     {
-        /** @var ShippingContextInterface|\PHPUnit\Framework\MockObject\MockObject $context * */
         $context = $this->createMock(ShippingContextInterface::class);
         $lineItems = $this->createMock(ShippingLineItemCollectionInterface::class);
         $context->expects(self::once())->method('getLineItems')->willReturn($lineItems);

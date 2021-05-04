@@ -129,7 +129,6 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 
     public function testCalculatePrices()
     {
-        /** @var ShippingContextInterface|\PHPUnit\Framework\MockObject\MockObject $context * */
         $context = $this->createMock(ShippingContextInterface::class);
 
         $methodOptions = ['handling_fee' => null];
