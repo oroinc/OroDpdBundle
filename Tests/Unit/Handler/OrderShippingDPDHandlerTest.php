@@ -25,65 +25,41 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ObjectManager
-     */
-    protected $manager;
+    /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $manager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|Registry
-     */
-    protected $managerRegistry;
+    /** @var Registry|\PHPUnit\Framework\MockObject\MockObject */
+    private $managerRegistry;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|FileManager
-     */
-    protected $fileManager;
+    /** @var FileManager|\PHPUnit\Framework\MockObject\MockObject */
+    private $fileManager;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DPDShippingMethodProvider
-     */
-    protected $shippingMethodProvider;
+    /** @var DPDShippingMethodProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $shippingMethodProvider;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DPDShippingMethod
-     */
-    protected $shippingMethod;
+    /** @var DPDShippingMethod|\PHPUnit\Framework\MockObject\MockObject */
+    private $shippingMethod;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DPDHandlerInterface
-     */
-    protected $dpdHandler;
+    /** @var DPDHandlerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $dpdHandler;
 
-    /**
-     * @var TransactionFileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject|
-     */
-    protected $transactionFileNameProvider;
+    /** @var TransactionFileNameProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $transactionFileNameProvider;
 
-    /**
-     * @var OrderShippingDPDHandler
-     */
-    protected $handler;
+    /** @var DeferredScheduler|\PHPUnit\Framework\MockObject\MockObject */
+    private $deferredScheduler;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|DeferredScheduler
-     */
-    protected $deferredScheduler;
+    /** @var OrderShippingDPDHandler */
+    private $handler;
 
     protected function setUp(): void
     {
         $this->manager = $this->createMock(ObjectManager::class);
-
         $this->managerRegistry = $this->createMock(Registry::class);
-
         $this->fileManager = $this->createMock(FileManager::class);
-
         $this->dpdHandler = $this->createMock(DPDHandlerInterface::class);
-
         $this->shippingMethod = $this->createMock(DPDShippingMethod::class);
-
         $this->shippingMethodProvider = $this->createMock(DPDShippingMethodProvider::class);
-
         $this->transactionFileNameProvider = $this->createMock(TransactionFileNameProviderInterface::class);
 
         $this->handler = new OrderShippingDPDHandler(
@@ -116,22 +92,19 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $response = new SetOrderResponse();
         $response->parse($responseData);
 
-        $this->shippingMethod
-            ->expects(self::once())
+        $this->shippingMethod->expects(self::once())
             ->method('getDPDHandler')
             ->willReturn($this->dpdHandler);
 
-        $this->shippingMethodProvider
-            ->expects(self::once())
+        $this->shippingMethodProvider->expects(self::once())
             ->method('getShippingMethod')
             ->willReturn($this->shippingMethod);
 
-        $this->dpdHandler
-            ->expects(self::once())
+        $this->dpdHandler->expects(self::once())
             ->method('shipOrder')
             ->willReturn($response);
 
-        $this->managerRegistry->expects(static::once())
+        $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
             ->with(DPDTransaction::class)
             ->willReturn($this->manager);
@@ -150,22 +123,20 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($response->getLabelPDF())
             ->willReturn($file);
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $shipDateForm */
         $shipDateForm = $this->createMock(FormInterface::class);
-        $shipDateForm->expects(static::once())
+        $shipDateForm->expects(self::once())
             ->method('getData')
             ->willReturn(new \DateTime());
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
         $form = $this->createMock(FormInterface::class);
-        $form->expects(static::at(0))
+        $form->expects(self::once())
             ->method('get')
             ->with('shipDate')
             ->willReturn($shipDateForm);
 
         $filename = 'Shipping - order.pdf';
 
-        $this->transactionFileNameProvider->expects(static::once())
+        $this->transactionFileNameProvider->expects(self::once())
             ->method('getTransactionFileName')
             ->with($order, $response)
             ->willReturn($filename);
@@ -208,44 +179,34 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $response = new SetOrderResponse();
         $response->parse($responseData);
 
-        $this->shippingMethod
-            ->expects(self::once())
+        $this->shippingMethod->expects(self::once())
             ->method('getDPDHandler')
             ->willReturn($this->dpdHandler);
 
-        $this->shippingMethodProvider
-            ->expects(self::once())
+        $this->shippingMethodProvider->expects(self::once())
             ->method('getShippingMethod')
             ->willReturn($this->shippingMethod);
 
-        $this->dpdHandler
-            ->expects(self::once())
+        $this->dpdHandler->expects(self::once())
             ->method('shipOrder')
             ->willReturn($response);
 
-        $this->managerRegistry->expects(static::never())
+        $this->managerRegistry->expects(self::never())
             ->method('getManagerForClass');
 
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1]);
 
         $this->fileManager->expects($this->never())
             ->method('writeToTemporaryFile');
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $shipDateForm */
         $shipDateForm = $this->createMock(FormInterface::class);
-        $shipDateForm->expects(static::once())
+        $shipDateForm->expects(self::once())
             ->method('getData')
             ->willReturn(new \DateTime());
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject|FormInterface $form */
         $form = $this->createMock(FormInterface::class);
-        $form->expects(static::at(0))
+        $form->expects(self::once())
             ->method('get')
             ->with('shipDate')
             ->willReturn($shipDateForm);
@@ -276,18 +237,15 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
 
         $pickupDate = new \DateTime();
 
-        $this->shippingMethod
-            ->expects(self::once())
+        $this->shippingMethod->expects(self::once())
             ->method('getDPDHandler')
             ->willReturn($this->dpdHandler);
 
-        $this->shippingMethodProvider
-            ->expects(self::once())
+        $this->shippingMethodProvider->expects(self::once())
             ->method('getShippingMethod')
             ->willReturn($this->shippingMethod);
 
-        $this->dpdHandler
-            ->expects(self::once())
+        $this->dpdHandler->expects(self::once())
             ->method('getNextPickupDay')
             ->willReturn($pickupDate);
 
@@ -315,7 +273,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->managerRegistry->expects(static::once())
+        $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
             ->with(OrderShippingTracking::class)
             ->willReturn($this->manager);
@@ -348,22 +306,18 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $attachment = new Attachment();
 
         $attachmentRepository = $this->createMock(ObjectRepository::class);
-        $attachmentRepository
-            ->expects(self::once())
+        $attachmentRepository->expects(self::once())
             ->method('findOneBy')
             ->willReturn($attachment);
 
-        $this->managerRegistry
-            ->expects(static::once())
+        $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
             ->with(Attachment::class)
             ->willReturn($this->manager);
-        $this->manager
-            ->expects(self::once())
+        $this->manager->expects(self::once())
             ->method('getRepository')
             ->willReturn($attachmentRepository);
-        $this->manager
-            ->expects(self::once())
+        $this->manager->expects(self::once())
             ->method('remove')
             ->with($attachment);
 
@@ -391,22 +345,18 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         );
 
         $attachmentRepository = $this->createMock(ObjectRepository::class);
-        $attachmentRepository
-            ->expects(self::once())
+        $attachmentRepository->expects(self::once())
             ->method('findOneBy')
             ->willReturn(null);
 
-        $this->managerRegistry
-            ->expects(static::once())
+        $this->managerRegistry->expects(self::once())
             ->method('getManagerForClass')
             ->with(Attachment::class)
             ->willReturn($this->manager);
-        $this->manager
-            ->expects(self::once())
+        $this->manager->expects(self::once())
             ->method('getRepository')
             ->willReturn($attachmentRepository);
-        $this->manager
-            ->expects(self::never())
+        $this->manager->expects(self::never())
             ->method('remove');
 
         $this->handler->unlinkLabelFromOrder($order, $dpdTransaction);
@@ -431,7 +381,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->managerRegistry->expects(static::any())
+        $this->managerRegistry->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->manager);
 
