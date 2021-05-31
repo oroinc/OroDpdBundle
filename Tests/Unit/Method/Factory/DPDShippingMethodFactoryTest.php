@@ -18,32 +18,22 @@ use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 
 class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $localizationHelper;
 
-    /**
-     * @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var IntegrationIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $methodIdentifierGenerator;
 
-    /**
-     * @var DPDShippingMethodTypeFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDShippingMethodTypeFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $methodTypeFactory;
 
     /** @var DPDHandlerFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $handlerFactory;
 
-    /**
-     * @var DPDShippingMethodFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDShippingMethodFactory|\PHPUnit\Framework\MockObject\MockObject */
     private $factory;
 
-    /**
-     * @var IntegrationIconProviderInterface||\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var IntegrationIconProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $integrationIconProvider;
 
     protected function setUp(): void
@@ -82,7 +72,7 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
             ->method('getTransport')
             ->willReturn($settings);
 
-        $channel->expects(static::once())
+        $channel->expects(self::once())
             ->method('isEnabled')
             ->willReturn(true);
 
@@ -91,29 +81,17 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
 
         $service1 = $this->createMock(ShippingService::class);
         $service2 = $this->createMock(ShippingService::class);
-
-        $this->methodTypeFactory->expects($this->at(0))
+        $this->methodTypeFactory->expects($this->exactly(2))
             ->method('create')
-            ->with($channel, $service1)
-            ->willReturn($type1);
-
-        $this->methodTypeFactory->expects($this->at(1))
-            ->method('create')
-            ->with($channel, $service2)
-            ->willReturn($type2);
+            ->withConsecutive([$channel, $service1], [$channel, $service2])
+            ->willReturnOnConsecutiveCalls($type1, $type2);
 
         $handler1 = $this->createMock(DPDHandlerInterface::class);
         $handler2 = $this->createMock(DPDHandlerInterface::class);
-
-        $this->handlerFactory->expects($this->at(0))
+        $this->handlerFactory->expects($this->exactly(2))
             ->method('create')
-            ->with($channel, $service1)
-            ->willReturn($handler1);
-
-        $this->handlerFactory->expects($this->at(1))
-            ->method('create')
-            ->with($channel, $service2)
-            ->willReturn($handler2);
+            ->withConsecutive([$channel, $service1], [$channel, $service2])
+            ->willReturnOnConsecutiveCalls($handler1, $handler2);
 
         $serviceCollection = $this->createMock(Collection::class);
         $serviceCollection->expects($this->exactly(2))
@@ -134,8 +112,7 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
             ->with($labelsCollection)
             ->willReturn('en');
 
-        $this->integrationIconProvider
-            ->expects(static::once())
+        $this->integrationIconProvider->expects(self::once())
             ->method('getIcon')
             ->with($channel)
             ->willReturn($iconUri);
