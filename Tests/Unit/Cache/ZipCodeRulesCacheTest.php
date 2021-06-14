@@ -7,31 +7,20 @@ use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class ZipCodeRulesCacheTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    private const PROCESSING_TIME_ERROR_VALUE = 3;
 
-    /**
-     * @internal
-     */
-    const PROCESSING_TIME_ERROR_VALUE = 3;
+    /** @var ZipCodeRulesCache */
+    private $cache;
 
-    /**
-     * @var ZipCodeRulesCache
-     */
-    protected $cache;
-
-    /**
-     * @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $cacheProvider;
+    /** @var CacheProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $cacheProvider;
 
     protected function setUp(): void
     {
-        $this->cacheProvider = $this->getMockBuilder(CacheProvider::class)
-            ->setMethods(['fetch', 'contains', 'save', 'deleteAll'])->getMockForAbstractClass();
+        $this->cacheProvider = $this->createMock(CacheProvider::class);
 
         $this->cache = new ZipCodeRulesCache($this->cacheProvider);
     }
@@ -40,116 +29,110 @@ class ZipCodeRulesCacheTest extends \PHPUnit\Framework\TestCase
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
 
-        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+        $dpdSettings = $this->getDPDSettings($invalidateCacheAt);
 
         $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
 
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('contains')
             ->with($stringKey)
             ->willReturn(true);
 
-        static::assertTrue($this->cache->containsZipCodeRules($key));
+        self::assertTrue($this->cache->containsZipCodeRules($key));
     }
 
     public function testContainsZipCodeRulesFalse()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
 
-        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+        $dpdSettings = $this->getDPDSettings($invalidateCacheAt);
 
         $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
 
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('contains')
             ->with($stringKey)
             ->willReturn(false);
 
-        static::assertFalse($this->cache->containsZipCodeRules($key));
+        self::assertFalse($this->cache->containsZipCodeRules($key));
     }
 
     public function testFetchPrice()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
 
-        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+        $dpdSettings = $this->getDPDSettings($invalidateCacheAt);
 
         $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
 
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('contains')
             ->with($stringKey)
             ->willReturn(true);
 
-        $zipCodeRulesResponse = $this->getZipCodeRulesResponseMock();
+        $zipCodeRulesResponse = $this->createMock(ZipCodeRulesResponse::class);
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('fetch')
             ->with($stringKey)
             ->willReturn($zipCodeRulesResponse);
 
-        static::assertSame($zipCodeRulesResponse, $this->cache->fetchZipCodeRules($key));
+        self::assertSame($zipCodeRulesResponse, $this->cache->fetchZipCodeRules($key));
     }
 
     public function testFetchPriceFalse()
     {
         $invalidateCacheAt = new \DateTime('+30 minutes');
 
-        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+        $dpdSettings = $this->getDPDSettings($invalidateCacheAt);
 
         $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
 
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('contains')
             ->with($stringKey)
             ->willReturn(false);
 
-        $this->cacheProvider->expects(static::never())
+        $this->cacheProvider->expects(self::never())
             ->method('fetch');
 
-        static::assertFalse($this->cache->fetchZipCodeRules($key));
+        self::assertFalse($this->cache->fetchZipCodeRules($key));
     }
 
     /**
      * @dataProvider saveZipCodeRulesDataProvider
-     *
-     * @param string $invalidateCacheAtString
-     * @param string $expectedLifetime
      */
-    public function testSaveZipCodeRules($invalidateCacheAtString, $expectedLifetime)
+    public function testSaveZipCodeRules(string $invalidateCacheAtString, int $expectedLifetime)
     {
         $invalidateCacheAt = new \DateTime($invalidateCacheAtString);
 
-        $dpdSettings = $this->getDPDSettingsMock($invalidateCacheAt);
+        $dpdSettings = $this->getDPDSettings($invalidateCacheAt);
 
         $key = $this->cache->createKey($dpdSettings, new ZipCodeRulesRequest());
 
         $stringKey = $key->generateKey().'_'.$invalidateCacheAt->getTimestamp();
 
-        $zipCodeRulesResponse = $this->getZipCodeRulesResponseMock();
+        $zipCodeRulesResponse = $this->createMock(ZipCodeRulesResponse::class);
 
-        $this->cacheProvider->expects(static::once())
+        $this->cacheProvider->expects(self::once())
             ->method('save')
             ->with($stringKey, $zipCodeRulesResponse)
-            ->will($this->returnCallback(function ($actualKey, $price, $actualLifetime) use ($expectedLifetime) {
-                static::assertLessThan(self::PROCESSING_TIME_ERROR_VALUE, abs($expectedLifetime - $actualLifetime));
-            }));
+            ->willReturnCallback(function ($actualKey, $price, $actualLifetime) use ($expectedLifetime) {
+                self::assertLessThan(self::PROCESSING_TIME_ERROR_VALUE, abs($expectedLifetime - $actualLifetime));
+            });
 
-        static::assertEquals($this->cache, $this->cache->saveZipCodeRules($key, $zipCodeRulesResponse));
+        self::assertEquals($this->cache, $this->cache->saveZipCodeRules($key, $zipCodeRulesResponse));
     }
 
-    /**
-     * @return array
-     */
-    public function saveZipCodeRulesDataProvider()
+    public function saveZipCodeRulesDataProvider(): array
     {
         return [
             'earlier than lifetime' => [
@@ -167,23 +150,11 @@ class ZipCodeRulesCacheTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param \DateTime $invalidateCacheAt
-     *
-     * @return DPDTransport|object
-     */
-    private function getDPDSettingsMock(\DateTime $invalidateCacheAt): DPDTransport
+    private function getDPDSettings(\DateTime $invalidateCacheAt): DPDTransport
     {
-        return $this->getEntity(DPDTransport::class, [
-            'invalidateCacheAt' => $invalidateCacheAt,
-        ]);
-    }
+        $transport = new DPDTransport();
+        $transport->setInvalidateCacheAt($invalidateCacheAt);
 
-    /**
-     * @return ZipCodeRulesResponse|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private function getZipCodeRulesResponseMock()
-    {
-        return $this->createMock(ZipCodeRulesResponse::class);
+        return $transport;
     }
 }
