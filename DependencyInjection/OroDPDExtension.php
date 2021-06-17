@@ -7,6 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * This is the class that loads and manages DPDBundle service configuration
+ */
 class OroDPDExtension extends Extension
 {
     /**
@@ -21,5 +24,6 @@ class OroDPDExtension extends Extension
         $loader->load('event_listeners.yml');
         $loader->load('order_attachment.yml');
         $loader->load('transaction.yml');
+        $loader->load('controllers.yml');
     }
 }
