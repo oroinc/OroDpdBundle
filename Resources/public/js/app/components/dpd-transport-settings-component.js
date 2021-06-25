@@ -36,7 +36,7 @@ define(function(require) {
             this.flatRatePriceValueElem = $(this.$elem).find(this.options.flatRatePriceValueSelector);
             this.ratesCsvElem = $(this.$elem).find(this.options.ratesCsvSelector);
 
-            $(this.ratePolicyElem).on('change', _.bind(this.onRatePolicyChange, this));
+            $(this.ratePolicyElem).on('change', this.onRatePolicyChange.bind(this));
             $(this.ratePolicyElem).trigger('change');
         },
 
