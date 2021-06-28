@@ -28,55 +28,32 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @internal
-     */
-    const IDENTIFIER = '02';
+    private const IDENTIFIER = '02';
+    private const LABEL = 'service_code_label';
 
-    /**
-     * @internal
-     */
-    const LABEL = 'service_code_label';
+    /** @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject */
+    private $transport;
 
-    /**
-     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transport;
+    /** @var DPDTransportProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $transportProvider;
 
-    /**
-     * @var DPDTransportProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transportProvider;
+    /** @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject */
+    private $packageProvider;
 
-    /**
-     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $packageProvider;
+    /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject */
+    private $shippingService;
 
-    /**
-     * @var ShippingService|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $shippingService;
+    /** @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject */
+    private $dpdRequestFactory;
 
-    /**
-     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $dpdRequestFactory;
+    /** @var DPDHandlerInterface */
+    private $dpdHandler;
 
-    /**
-     * @var DPDHandlerInterface
-     */
-    protected $dpdHandler;
+    /** @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject */
+    private $cache;
 
-    /**
-     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $cache;
-
-    /**
-     * @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $shippingLineItemConverter;
+    /** @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $shippingLineItemConverter;
 
     protected function setUp(): void
     {
@@ -97,15 +74,10 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->transportProvider = $this->createMock(DPDTransportProvider::class);
-
         $this->shippingService = $this->createMock(ShippingService::class);
-
         $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
-
         $this->packageProvider = $this->createMock(PackageProvider::class);
-
         $this->cache = $this->createMock(ZipCodeRulesCache::class);
-
         $this->shippingLineItemConverter = $this->createMock(OrderShippingLineItemConverterInterface::class);
 
         $this->dpdHandler = new DPDHandler(
@@ -123,11 +95,8 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider testShipOrderProvider
-     *
-     * @param array $packageList
-     * @param $expectedResponse
      */
-    public function testShipOrder(array $packageList, $expectedResponse)
+    public function testShipOrder(array $packageList, ?SetOrderResponse $expectedResponse)
     {
         /** @var Order $order */
         $order = $this->getEntity(
@@ -140,22 +109,30 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         );
 
         $lineItems = $this->createMock(ShippingLineItemCollectionInterface::class);
-        $this->shippingLineItemConverter->expects(self::once())->method('convertLineItems')->willReturn($lineItems);
+        $this->shippingLineItemConverter->expects(self::once())
+            ->method('convertLineItems')
+            ->willReturn($lineItems);
 
-        $this->packageProvider->expects(self::once())->method('createPackages')->willReturn($packageList);
+        $this->packageProvider->expects(self::once())
+            ->method('createPackages')
+            ->willReturn($packageList);
 
         $request = $this->createMock(SetOrderRequest::class);
-        $this->dpdRequestFactory->expects(self::atMost(1))->method('createSetOrderRequest')->willReturn($request);
+        $this->dpdRequestFactory->expects(self::atMost(1))
+            ->method('createSetOrderRequest')
+            ->willReturn($request);
 
         $response = $this->createMock(SetOrderResponse::class);
-        $this->transportProvider->expects(self::atMost(1))->method('getSetOrderResponse')->willReturn($response);
+        $this->transportProvider->expects(self::atMost(1))
+            ->method('getSetOrderResponse')
+            ->willReturn($response);
 
         $response = $this->dpdHandler->shipOrder($order, new \DateTime());
 
-        static::assertEquals($expectedResponse, $response);
+        self::assertEquals($expectedResponse, $response);
     }
 
-    public function testShipOrderProvider()
+    public function testShipOrderProvider(): array
     {
         return [
             'OnePackage' => [
@@ -175,14 +152,14 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testFetchZipCodeRulesCache()
     {
-        /** @var ZipCodeRulesRequest|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(ZipCodeRulesRequest::class);
-        $this->dpdRequestFactory->expects(self::any())->method('createZipCodeRulesRequest')->willReturn($request);
+        $this->dpdRequestFactory->expects(self::any())
+            ->method('createZipCodeRulesRequest')
+            ->willReturn($request);
 
         $response = new ZipCodeRulesResponse();
 
-        $this->transportProvider
-            ->expects(self::any())
+        $this->transportProvider->expects(self::any())
             ->method('getZipCodeRulesResponse')
             ->willReturn($response);
 
@@ -190,17 +167,17 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->setTransport($this->transport)
             ->setZipCodeRulesRequest($request);
 
-        $this->cache->expects(static::once())
+        $this->cache->expects(self::once())
             ->method('createKey')
             ->with($this->transport, $request)
             ->willReturn($cacheKey);
 
-        $this->cache->expects(static::once())
+        $this->cache->expects(self::once())
             ->method('containsZipCodeRules')
             ->with($cacheKey)
             ->willReturn(false);
 
-        $this->cache->expects(static::once())
+        $this->cache->expects(self::once())
             ->method('saveZipCodeRules')
             ->with($cacheKey, $response);
 
@@ -208,66 +185,53 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $shipDate
-     * @param $isExpressService
-     * @param $classicCutOff
-     * @param $expressCutOff
-     * @param $noPickupDays
-     * @param $expectedResult
      * @dataProvider testGetNextPickupDayProvider
      */
     public function testGetNextPickupDay(
-        $shipDate,
-        $isExpressService,
-        $classicCutOff,
-        $expressCutOff,
-        $noPickupDays,
-        $expectedResult
+        \DateTime $shipDate,
+        bool $isExpressService,
+        ?string $classicCutOff,
+        ?string $expressCutOff,
+        array $noPickupDays,
+        \DateTime $expectedResult
     ) {
-        $this->shippingService
-            ->expects(self::any())
+        $this->shippingService->expects(self::any())
             ->method('isExpressService')
             ->willReturn($isExpressService);
 
-        /** @var ZipCodeRulesRequest|\PHPUnit\Framework\MockObject\MockObject $request */
         $request = $this->createMock(ZipCodeRulesRequest::class);
-        $this->dpdRequestFactory->expects(self::any())->method('createZipCodeRulesRequest')->willReturn($request);
+        $this->dpdRequestFactory->expects(self::any())
+            ->method('createZipCodeRulesRequest')
+            ->willReturn($request);
 
-        /** @var ZipCodeRulesResponse|\PHPUnit\Framework\MockObject\MockObject $response */
-        $response = $this->getMockBuilder(ZipCodeRulesResponse::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getClassicCutOff', 'getExpressCutOff', 'isNoPickupDay'])
-            ->getMockForAbstractClass();
-        $response
-            ->expects(static::any())
+        $response = $this->createMock(ZipCodeRulesResponse::class);
+        $response->expects(self::any())
             ->method('getClassicCutOff')
             ->willReturn($classicCutOff);
-        $response
-            ->expects(static::any())
+        $response->expects(self::any())
             ->method('getExpressCutOff')
             ->willReturn($expressCutOff);
-        $response
-            ->expects(static::any())
+        $response->expects(self::any())
             ->method('isNoPickupDay')
-            ->will($this->returnCallback(function (\DateTime $date) use ($noPickupDays) {
+            ->willReturnCallback(function (\DateTime $date) use ($noPickupDays) {
                 return array_key_exists($date->format('Y-m-d'), array_flip($noPickupDays));
-            }));
+            });
 
         $cacheKey = (new ZipCodeRulesCacheKey())
             ->setTransport($this->transport)
             ->setZipCodeRulesRequest($request);
 
-        $this->cache->expects(static::any())
+        $this->cache->expects(self::any())
             ->method('createKey')
             ->with($this->transport, $request)
             ->willReturn($cacheKey);
 
-        $this->cache->expects(static::any())
+        $this->cache->expects(self::any())
             ->method('containsZipCodeRules')
             ->with($cacheKey)
             ->willReturn(true);
 
-        $this->cache->expects(static::any())
+        $this->cache->expects(self::any())
             ->method('fetchZipCodeRules')
             ->with($cacheKey)
             ->willReturn($response);
@@ -275,7 +239,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $this->dpdHandler->getNextPickupDay($shipDate));
     }
 
-    public function testGetNextPickupDayProvider()
+    public function testGetNextPickupDayProvider(): array
     {
         return [
             'classic_today_before_cutoff' => [
