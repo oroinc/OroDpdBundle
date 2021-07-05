@@ -6,22 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\DPDBundle\Condition\ShippedWithDPD;
 use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
 use Oro\Component\ConfigExpression\ContextAccessor;
+use Oro\Component\ConfigExpression\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyPath;
 
 class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ShippedWithDPD */
-    protected $condition;
+    private $condition;
 
     protected function setUp(): void
     {
-        /**
-         * @var DPDShippingMethodProvider
-         */
-        $dpdShippingMethodProvider = $this->getMockBuilder('Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider')
-            ->disableOriginalConstructor()
-            ->setMethods(['hasShippingMethod'])
-            ->getMock();
+        $dpdShippingMethodProvider = $this->createMock(DPDShippingMethodProvider::class);
 
         $dpdShippingMethodProviderMap = [
             ['dpd', true],
@@ -30,7 +25,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 
         $dpdShippingMethodProvider->expects($this->any())
             ->method('hasShippingMethod')
-            ->will($this->returnValueMap($dpdShippingMethodProviderMap));
+            ->willReturnMap($dpdShippingMethodProviderMap);
 
         $this->condition = new ShippedWithDPD($dpdShippingMethodProvider);
         $this->condition->setContextAccessor(new ContextAccessor());
@@ -44,16 +39,13 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider evaluateDataProvider
      */
-    public function testEvaluate(array $options, $context, $expectedResult)
+    public function testEvaluate(array $options, array $context, bool $expectedResult)
     {
         $this->assertSame($this->condition, $this->condition->initialize($options));
         $this->assertEquals($expectedResult, $this->condition->evaluate($context));
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateDataProvider()
+    public function evaluateDataProvider(): array
     {
         return [
             'dpd_shipping_method' => [
@@ -91,7 +83,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 
     public function testInitializeFailsWhenEmptyOptions()
     {
-        $this->expectException(\Oro\Component\ConfigExpression\Exception\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Options must have 1 element, but 0 given.');
 
         $this->condition->initialize([]);
@@ -100,7 +92,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider toArrayDataProvider
      */
-    public function testToArray($options, $message, $expected)
+    public function testToArray(array $options, ?string $message, array $expected)
     {
         $this->condition->initialize($options);
         if ($message !== null) {
@@ -110,10 +102,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
-    public function toArrayDataProvider()
+    public function toArrayDataProvider(): array
     {
         return [
             [
@@ -145,7 +134,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider compileDataProvider
      */
-    public function testCompile($options, $message, $expected)
+    public function testCompile(array $options, ?string $message, string $expected)
     {
         $this->condition->initialize($options);
         if ($message !== null) {
@@ -155,10 +144,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
-    public function compileDataProvider()
+    public function compileDataProvider(): array
     {
         return [
             [
