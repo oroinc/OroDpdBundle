@@ -1,7 +1,7 @@
 parameters:
     oro_dpd.integration.channel.type: 'dpd'
     oro_dpd.integration.transport.type: 'dpd'
-    oro_dpd.admin_view.method_template: 'OroDPDBundle::DPDMethodWithOptions.html.twig'
+    oro_dpd.admin_view.method_template: '@@OroDPD/DPDMethodWithOptions.html.twig'
 
 services:
     oro_dpd.provider.channel:

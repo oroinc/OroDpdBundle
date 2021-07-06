@@ -31,7 +31,7 @@ operations:
         button_options:
             icon: fa-list-alt
         frontend_options:
-            template: OroDPDBundle:Action:shipOrder.html.twig
+            template: '@OroDPD/Action/shipOrder.html.twig'
             title: oro.dpd.form.ship_order.title
             options:
                 width: 505
@@ -114,7 +114,7 @@ operations:
         button_options:
             icon: fa-list-alt
         frontend_options:
-            template: OroDPDBundle:Action:shipOrder.html.twig
+            template: '@OroDPD/Action/shipOrder.html.twig'
             title: oro.dpd.form.reship_order.title
             options:
                 width: 505
