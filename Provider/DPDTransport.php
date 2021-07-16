@@ -39,10 +39,6 @@ class DPDTransport extends AbstractRestTransport
     /** @var SymmetricCrypterInterface */
     protected $symmetricCrypter;
 
-    /**
-     * @param LoggerInterface           $logger
-     * @param SymmetricCrypterInterface $symmetricCrypter
-     */
     public function __construct(
         LoggerInterface $logger,
         SymmetricCrypterInterface $symmetricCrypter

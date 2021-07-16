@@ -15,17 +15,11 @@ class InvalidateCacheActionHandler implements InvalidateCacheActionHandlerInterf
      */
     private $zipCodeRulesCache;
 
-    /**
-     * @param ZipCodeRulesCache $zipCodeRulesCache
-     */
     public function __construct(ZipCodeRulesCache $zipCodeRulesCache)
     {
         $this->zipCodeRulesCache = $zipCodeRulesCache;
     }
 
-    /**
-     * @param DataStorageInterface $dataStorage
-     */
     public function handle(DataStorageInterface $dataStorage)
     {
         $this->zipCodeRulesCache->deleteAll($dataStorage->get(self::PARAM_TRANSPORT_ID));

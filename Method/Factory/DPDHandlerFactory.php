@@ -45,14 +45,6 @@ class DPDHandlerFactory implements DPDHandlerFactoryInterface
      */
     private $shippingLineItemConverter;
 
-    /**
-     * @param DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator
-     * @param DPDTransport                              $transport
-     * @param PackageProvider                           $packageProvider
-     * @param DPDRequestFactory                         $dpdRequestFactory
-     * @param ZipCodeRulesCache                         $zipCodeRulesCache
-     * @param OrderShippingLineItemConverterInterface   $shippingLineItemConverter
-     */
     public function __construct(
         DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator,
         DPDTransport $transport,
