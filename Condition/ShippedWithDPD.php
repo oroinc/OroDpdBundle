@@ -32,9 +32,6 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
      */
     protected $value;
 
-    /**
-     * @param DPDShippingMethodProvider $shippingProvider
-     */
     public function __construct(DPDShippingMethodProvider $shippingProvider)
     {
         $this->shippingProvider = $shippingProvider;

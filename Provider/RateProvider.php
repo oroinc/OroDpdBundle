@@ -19,9 +19,6 @@ class RateProvider
 
     /**
      * RateTablePriceProvider constructor.
-     *
-     * @param ManagerRegistry       $registry
-     * @param MeasureUnitConversion $measureUnitConversion
      */
     public function __construct(
         ManagerRegistry $registry,

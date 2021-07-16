@@ -30,11 +30,6 @@ class DPDTransportEntityListener
      */
     private $typeRemovalEventDispatcher;
 
-    /**
-     * @param IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator
-     * @param DPDMethodTypeIdentifierGeneratorInterface     $typeIdentifierGenerator
-     * @param MethodTypeRemovalEventDispatcherInterface     $typeRemovalEventDispatcher
-     */
     public function __construct(
         IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator,
         DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator,
@@ -45,10 +40,6 @@ class DPDTransportEntityListener
         $this->typeRemovalEventDispatcher = $typeRemovalEventDispatcher;
     }
 
-    /**
-     * @param DPDTransport      $transport
-     * @param PreFlushEventArgs $args
-     */
     public function preFlush(DPDTransport $transport, PreFlushEventArgs $args)
     {
         if ($transport->getRatesCsv() instanceof UploadedFile) {
@@ -83,10 +74,6 @@ class DPDTransportEntityListener
         }
     }
 
-    /**
-     * @param DPDTransport       $transport
-     * @param LifecycleEventArgs $args
-     */
     public function postUpdate(DPDTransport $transport, LifecycleEventArgs $args)
     {
         /** @var PersistentCollection $services */

@@ -9,9 +9,6 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider evaluateDataProvider
-     *
-     * @param array $values
-     * @param $expectedResult
      */
     public function testEvaluate(array $values, $expectedResult)
     {
@@ -102,8 +99,6 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider evaluateThrowingDataProvider
-     *
-     * @param array $values
      */
     public function testEvaluateThrowing(array $values)
     {

@@ -30,10 +30,6 @@ class RemoveUsedShippingServiceValidator extends ConstraintValidator
      */
     private $shippingMethodValidator;
 
-    /**
-     * @param IntegrationShippingMethodFactoryInterface $integrationShippingMethodFactory
-     * @param ShippingMethodValidatorInterface          $shippingMethodValidator
-     */
     public function __construct(
         IntegrationShippingMethodFactoryInterface $integrationShippingMethodFactory,
         ShippingMethodValidatorInterface $shippingMethodValidator
@@ -62,9 +58,6 @@ class RemoveUsedShippingServiceValidator extends ConstraintValidator
         $this->handleValidationResult($shippingMethodValidatorResult);
     }
 
-    /**
-     * @param ShippingMethodValidatorResultInterface $shippingMethodValidatorResult
-     */
     private function handleValidationResult(ShippingMethodValidatorResultInterface $shippingMethodValidatorResult)
     {
         if ($shippingMethodValidatorResult->getErrors()->isEmpty()) {
