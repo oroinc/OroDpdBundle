@@ -40,19 +40,11 @@ class ZipCodeRulesCacheKeyTest extends \PHPUnit\Framework\TestCase
         $this->assertKeysEquals($key1, $key2);
     }
 
-    /**
-     * @param ZipCodeRulesCacheKey $key1
-     * @param ZipCodeRulesCacheKey $key2
-     */
     protected function assertKeysEquals(ZipCodeRulesCacheKey $key1, ZipCodeRulesCacheKey $key2)
     {
         $this->assertEquals($key1->generateKey(), $key2->generateKey());
     }
 
-    /**
-     * @param ZipCodeRulesCacheKey $key1
-     * @param ZipCodeRulesCacheKey $key2
-     */
     protected function assertKeysNotEquals(ZipCodeRulesCacheKey $key1, ZipCodeRulesCacheKey $key2)
     {
         $this->assertNotEquals($key1->generateKey(), $key2->generateKey());

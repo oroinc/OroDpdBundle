@@ -28,8 +28,6 @@ class DPDResponse
     protected $errors = [];
 
     /**
-     * @param array $data
-     *
      * @throws \InvalidArgumentException
      */
     public function parse(array $data)

@@ -123,9 +123,6 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider testShipOrderProvider
-     *
-     * @param array $packageList
-     * @param $expectedResponse
      */
     public function testShipOrder(array $packageList, $expectedResponse)
     {
@@ -208,12 +205,6 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $shipDate
-     * @param $isExpressService
-     * @param $classicCutOff
-     * @param $expressCutOff
-     * @param $noPickupDays
-     * @param $expectedResult
      * @dataProvider testGetNextPickupDayProvider
      */
     public function testGetNextPickupDay(

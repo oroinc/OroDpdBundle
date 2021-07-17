@@ -18,10 +18,6 @@ class PackageProvider
     /** @var LocalizationHelper */
     protected $localizationHelper;
 
-    /**
-     * @param MeasureUnitConversion $measureUnitConversion
-     * @param LocalizationHelper    $localizationHelper
-     */
     public function __construct(MeasureUnitConversion $measureUnitConversion, LocalizationHelper $localizationHelper)
     {
         $this->measureUnitConversion = $measureUnitConversion;

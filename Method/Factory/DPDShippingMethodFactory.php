@@ -38,13 +38,6 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
      */
     private $integrationIconProvider;
 
-    /**
-     * @param LocalizationHelper                      $localizationHelper
-     * @param IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator
-     * @param DPDShippingMethodTypeFactoryInterface   $methodTypeFactory
-     * @param DPDHandlerFactoryInterface              $handlerFactory
-     * @param IntegrationIconProviderInterface        $integrationIconProvider
-     */
     public function __construct(
         LocalizationHelper $localizationHelper,
         IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator,

@@ -52,8 +52,6 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider evaluateThrowingDataProvider
-     *
-     * @param array $values
      */
     public function testEvaluateThrowing(array $values)
     {
