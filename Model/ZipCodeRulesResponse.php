@@ -51,8 +51,6 @@ class ZipCodeRulesResponse extends DPDResponse
     protected $state;
 
     /**
-     * @param array $data
-     *
      * @throws \InvalidArgumentException
      */
     public function parse(array $data)

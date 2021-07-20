@@ -21,9 +21,6 @@ class ZipCodeRulesCache
      */
     protected $cache;
 
-    /**
-     * @param CacheProvider $cache
-     */
     public function __construct(CacheProvider $cache)
     {
         $this->cache = $cache;

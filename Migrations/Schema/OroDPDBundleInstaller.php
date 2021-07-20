@@ -59,9 +59,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
         $this->addOroIntegrationTransportForeignKeys($schema);
     }
 
-    /**
-     * @param Schema $schema
-     */
     protected function updateOroIntegrationTransportTable(Schema $schema)
     {
         $table = $schema->getTable('oro_integration_transport');
@@ -87,8 +84,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Create oro_dpd_rate table.
-     *
-     * @param Schema $schema
      */
     protected function createOroDpdRateTable(Schema $schema)
     {
@@ -110,8 +105,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Create oro_dpd_shipping_service table.
-     *
-     * @param Schema $schema
      */
     protected function createOroDpdShippingServiceTable(Schema $schema)
     {
@@ -124,8 +117,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Create oro_dpd_shipping_transaction table.
-     *
-     * @param Schema $schema
      */
     protected function createOroDpdShippingTransactionTable(Schema $schema)
     {
@@ -142,8 +133,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Create oro_dpd_transport_label table.
-     *
-     * @param Schema $schema
      */
     protected function createOroDpdTransportLabelTable(Schema $schema)
     {
@@ -157,8 +146,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Create oro_dpd_transport_ship_service table.
-     *
-     * @param Schema $schema
      */
     protected function createOroDpdTransportShipServiceTable(Schema $schema)
     {
@@ -170,8 +157,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Add oro_dpd_rate foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroDpdRateForeignKeys(Schema $schema)
     {
@@ -204,8 +189,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Add oro_dpd_shipping_transaction foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroDpdShippingTransactionForeignKeys(Schema $schema)
     {
@@ -226,8 +209,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Add oro_dpd_transport_label foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroDpdTransportLabelForeignKeys(Schema $schema)
     {
@@ -248,8 +229,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Add oro_dpd_transport_ship_service foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroDpdTransportShipServiceForeignKeys(Schema $schema)
     {
@@ -270,8 +249,6 @@ class OroDPDBundleInstaller implements Installation, ContainerAwareInterface
 
     /**
      * Add oro_integration_transport foreign keys.
-     *
-     * @param Schema $schema
      */
     protected function addOroIntegrationTransportForeignKeys(Schema $schema)
     {

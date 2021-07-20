@@ -49,10 +49,6 @@ class DPDTransportSettingsType extends AbstractType
 
     /**
      * DPDTransportSettingsType constructor.
-     *
-     * @param TransportInterface        $transport
-     * @param DoctrineHelper            $doctrineHelper
-     * @param RoundingServiceInterface  $roundingService
      */
     public function __construct(
         TransportInterface $transport,
