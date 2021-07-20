@@ -39,13 +39,6 @@ class DPDShippingMethodTypeFactory implements DPDShippingMethodTypeFactoryInterf
      */
     private $rateProvider;
 
-    /**
-     * @param DPDMethodTypeIdentifierGeneratorInterface     $typeIdentifierGenerator
-     * @param IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator
-     * @param DPDTransport                                  $transport
-     * @param PackageProvider                               $packageProvider
-     * @param RateProvider                                  $rateProvider
-     */
     public function __construct(
         DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator,
         IntegrationIdentifierGeneratorInterface $methodIdentifierGenerator,

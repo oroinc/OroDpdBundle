@@ -21,8 +21,6 @@ class SetOrderResponse extends DPDResponse
     protected $parcelNumbers = [];
 
     /**
-     * @param array $data
-     *
      * @throws \InvalidArgumentException
      */
     public function parse(array $data)

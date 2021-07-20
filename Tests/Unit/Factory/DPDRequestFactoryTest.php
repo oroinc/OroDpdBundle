@@ -52,13 +52,6 @@ class DPDRequestFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $requestAction
-     * @param $shipDate
-     * @param $orderId
-     * @param $orderAddress
-     * @param $orderEmail
-     * @param $packages
-     *
      * @dataProvider testCreateSetOrderRequestDataProvider
      */
     public function testCreateSetOrderRequest(

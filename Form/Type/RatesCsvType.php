@@ -13,11 +13,6 @@ class RatesCsvType extends AbstractType
 {
     const NAME = 'oro_dpd_rates_csv';
 
-    /**
-     * @param FormView      $view
-     * @param FormInterface $form
-     * @param array         $options
-     */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $transportSettings = $form->getParent()->getData();
@@ -26,9 +21,6 @@ class RatesCsvType extends AbstractType
         $view->vars['download_csv_label'] = $options['download_csv_label'];
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(

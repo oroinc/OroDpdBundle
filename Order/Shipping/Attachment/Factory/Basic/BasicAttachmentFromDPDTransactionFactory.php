@@ -14,9 +14,6 @@ class BasicAttachmentFromDPDTransactionFactory implements AttachmentFromDPDTrans
      */
     private $attachmentCommentProvider;
 
-    /**
-     * @param OrderShippingAttachmentCommentProviderInterface $attachmentCommentProvider
-     */
     public function __construct(OrderShippingAttachmentCommentProviderInterface $attachmentCommentProvider)
     {
         $this->attachmentCommentProvider = $attachmentCommentProvider;
