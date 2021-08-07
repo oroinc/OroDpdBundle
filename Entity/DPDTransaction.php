@@ -3,12 +3,12 @@
 namespace Oro\Bundle\DPDBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
 use Oro\Bundle\OrderBundle\Entity\Order;
 
 /**
+ * Represents DPD transaction.
  * @ORM\Table(name="oro_dpd_shipping_transaction")
  * @ORM\Entity
  */
@@ -45,7 +45,6 @@ class DPDTransaction
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\AttachmentBundle\Entity\File", cascade={"persist"})
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     * @JMS\Exclude
      */
     protected $labelFile;
 
