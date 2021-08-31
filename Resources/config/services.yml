@@ -135,7 +135,11 @@ services:
             - [setNamespace, ['oro_dpd_zip_code_rules']]
 
     oro_dpd.repository.rate_repository:
-        class: 'Oro\Bundle\DPDBundle\Entity\Repository\RateRepository'
+        alias: Oro\Bundle\DPDBundle\Entity\Repository\RateRepository
+
+    Oro\Bundle\DPDBundle\Entity\Repository\RateRepository:
         parent: oro_entity.abstract_repository
         arguments:
             - 'Oro\Bundle\DPDBundle\Entity\Rate'
+        tags:
+            - { name: doctrine.repository_service }
