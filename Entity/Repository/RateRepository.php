@@ -2,13 +2,16 @@
 
 namespace Oro\Bundle\DPDBundle\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Rate;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
 
-class RateRepository extends EntityRepository
+/**
+ * Doctrine repository for Rate entity
+ */
+class RateRepository extends ServiceEntityRepository
 {
     /**
      * @param DPDTransport     $transport
