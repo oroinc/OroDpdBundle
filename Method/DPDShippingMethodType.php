@@ -12,13 +12,16 @@ use Oro\Bundle\DPDBundle\Provider\RateProvider;
 use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 
+/**
+ * DPD shipping method type implementation.
+ */
 class DPDShippingMethodType implements ShippingMethodTypeInterface
 {
     /** @var string */
     protected $identifier;
 
     /** @var string */
-    protected $label;
+    protected string $label;
 
     /**
      * @var string
@@ -71,7 +74,7 @@ class DPDShippingMethodType implements ShippingMethodTypeInterface
         RateProvider $rateProvider
     ) {
         $this->identifier = $identifier;
-        $this->label = $label;
+        $this->label = (string) $label;
         $this->methodId = $methodId;
         $this->shippingService = $shippingService;
         $this->transport = $transport;
@@ -91,7 +94,7 @@ class DPDShippingMethodType implements ShippingMethodTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -122,7 +125,7 @@ class DPDShippingMethodType implements ShippingMethodTypeInterface
         }
 
         $packageList = $this->packageProvider->createPackages($context->getLineItems());
-        if (!$packageList || count($packageList) !== 1) { //TODO: implement multi package support
+        if (!$packageList || count($packageList) !== 1) {
             return null;
         }
 
