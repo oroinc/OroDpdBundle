@@ -10,6 +10,9 @@ use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingTrackingAwareInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
+/**
+ * DPD shipping method implementation.
+ */
 class DPDShippingMethod implements
     ShippingMethodInterface,
     ShippingTrackingAwareInterface,
@@ -72,7 +75,7 @@ class DPDShippingMethod implements
         array $handlers
     ) {
         $this->identifier = $identifier;
-        $this->label = $label;
+        $this->label = (string) $label;
         $this->isEnabled = $isEnabled;
         $this->icon = $icon;
         $this->types = $types;
@@ -106,7 +109,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }

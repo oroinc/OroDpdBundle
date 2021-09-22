@@ -6,6 +6,9 @@ use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\OrderShippingAttachmentCommentProviderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Provides an attachment comment
+ */
 class BasicOrderShippingAttachmentCommentProvider implements OrderShippingAttachmentCommentProviderInterface
 {
     /**
@@ -18,11 +21,7 @@ class BasicOrderShippingAttachmentCommentProvider implements OrderShippingAttach
      */
     private $translator;
 
-    /**
-     * @param string              $messageId
-     * @param TranslatorInterface $translator
-     */
-    public function __construct($messageId, TranslatorInterface $translator)
+    public function __construct(string $messageId, TranslatorInterface $translator)
     {
         $this->messageId = $messageId;
         $this->translator = $translator;

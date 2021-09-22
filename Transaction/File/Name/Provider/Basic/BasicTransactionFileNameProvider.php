@@ -7,6 +7,9 @@ use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\TransactionFileNameProvi
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Provides transaction file name
+ */
 class BasicTransactionFileNameProvider implements TransactionFileNameProviderInterface
 {
     /**
@@ -19,11 +22,7 @@ class BasicTransactionFileNameProvider implements TransactionFileNameProviderInt
      */
     private $translator;
 
-    /**
-     * @param string              $messageId
-     * @param TranslatorInterface $translator
-     */
-    public function __construct($messageId, TranslatorInterface $translator)
+    public function __construct(string $messageId, TranslatorInterface $translator)
     {
         $this->messageId = $messageId;
         $this->translator = $translator;
