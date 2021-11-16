@@ -1,5 +1,5 @@
 {% block oro_dpd_rates_csv_widget %}
-    {% spaceless %}
+    {% apply spaceless %}
         {{ form_widget(form) }}
         {% set transportId = form.parent.vars.value.id %}
         {% if transportId is not null and form.vars.rates_count is defined and form.vars.rates_count > 0 %}
@@ -9,7 +9,7 @@
             </a>
         </div>
         {% endif %}
-    {% endspaceless %}
+    {% endapply %}
 {% endblock %}
 
 {% block oro_dpd_transport_settings_widget %}
