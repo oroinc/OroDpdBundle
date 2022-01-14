@@ -5,6 +5,7 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Form\Type;
 use Oro\Bundle\DPDBundle\Form\Type\RatesCsvType;
 use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RatesCsvTypeTest extends FormIntegrationTestCase
 {
@@ -32,6 +33,13 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
      */
     public function testSubmit($submittedData, $expectedData, $defaultData = null)
     {
+        if ($submittedData === 'file') {
+            $submittedData = $this->createUploadedFileMock('filename', 'original_filename', true);
+        }
+        if ($expectedData === 'file') {
+            $expectedData = $this->createUploadedFileMock('filename', 'original_filename', true);
+        }
+
         $form = $this->factory->createBuilder(RatesCsvType::class, $defaultData)
             ->setRequestHandler(new HttpFoundationRequestHandler())
             ->getForm();
@@ -55,35 +63,37 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
                 'expectedData' => null,
             ],
             'full data' => [
-                'submittedData' => $this->createUploadedFileMock('filename', 'original_filename', true),
-                'expectedData' => $this->createUploadedFileMock('filename', 'original_filename', true),
+                'submittedData' => 'file',
+                'expectedData' => 'file',
                 'defaultData' => null,
             ],
         ];
     }
 
+    /**
+     * @param $name
+     * @param $originalName
+     * @param $valid
+     * @return \PHPUnit\Framework\MockObject\MockObject|UploadedFile
+     */
     private function createUploadedFileMock($name, $originalName, $valid)
     {
         $file = $this
-            ->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
+            ->getMockBuilder(UploadedFile::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
+
         $file
-            ->expects($this->any())
             ->method('getBasename')
-            ->will($this->returnValue($name))
-        ;
+            ->willReturn($name);
+
         $file
-            ->expects($this->any())
             ->method('getClientOriginalName')
-            ->will($this->returnValue($originalName))
-        ;
+            ->willReturn($originalName);
+
         $file
-            ->expects($this->any())
             ->method('isValid')
-            ->will($this->returnValue($valid))
-        ;
+            ->willReturn($valid);
 
         return $file;
     }
