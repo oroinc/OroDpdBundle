@@ -2,60 +2,38 @@
 
 namespace Oro\Bundle\DPDBundle\Method;
 
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
+use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCacheKey;
+use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
+use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
+/**
+ * Handler for DPD service, sends order there, calculates if shipDate is a valid pickup day
+ */
 class DPDHandler implements DPDHandlerInterface
 {
-    /** @var string */
-    protected $identifier;
+    private const CACHE_LIFETIME = 86400;
 
-    /**
-     * @var DPDSettings
-     */
-    protected $transport;
-
-    /**
-     * @var DPDTransportProvider
-     */
-    protected $transportProvider;
-
-    /**
-     * @var ShippingService
-     */
-    protected $shippingService;
-
-    /**
-     * @var PackageProvider
-     */
-    protected $packageProvider;
-
-    /**
-     * @var DPDRequestFactory
-     */
-    protected $dpdRequestFactory;
-
-    /**
-     * @var ZipCodeRulesCache
-     */
-    protected $zipCodeRulesCache;
-
-    /**
-     * @var OrderShippingLineItemConverterInterface
-     */
-    protected $shippingLineItemConverter;
-
-    /** @var \DateTime */
-    protected $today;
+    protected string $identifier;
+    protected DPDSettings $transport;
+    protected DPDTransportProvider $transportProvider;
+    protected ShippingService $shippingService;
+    protected PackageProvider $packageProvider;
+    protected DPDRequestFactory $dpdRequestFactory;
+    protected CacheInterface $zipCodeRulesCache;
+    protected OrderShippingLineItemConverterInterface $shippingLineItemConverter;
+    protected ?\DateTime $today = null;
 
     /**
      * @param $identifier
@@ -64,7 +42,7 @@ class DPDHandler implements DPDHandlerInterface
      * @param DPDTransportProvider                    $transportProvider
      * @param PackageProvider                         $packageProvider
      * @param DPDRequestFactory                       $dpdRequestFactory
-     * @param ZipCodeRulesCache                       $zipCodeRulesCache
+     * @param CacheInterface                          $zipCodeRulesCache
      * @param OrderShippingLineItemConverterInterface $shippingLineItemConverter
      * @param \DateTime                               $today
      */
@@ -75,9 +53,9 @@ class DPDHandler implements DPDHandlerInterface
         DPDTransportProvider $transportProvider,
         PackageProvider $packageProvider,
         DPDRequestFactory $dpdRequestFactory,
-        ZipCodeRulesCache $zipCodeRulesCache,
+        CacheInterface $zipCodeRulesCache,
         OrderShippingLineItemConverterInterface $shippingLineItemConverter,
-        \DateTime $today = null
+        ?\DateTime $today = null
     ) {
         $this->identifier = $identifier;
         $this->shippingService = $shippingService;
@@ -93,25 +71,16 @@ class DPDHandler implements DPDHandlerInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getIdentifier()
+    public function getIdentifier(): string|int
     {
         return $this->identifier;
     }
 
-    /**
-     * @param Order     $order
-     * @param \DateTime $shipDate
-     *
-     * @return null|SetOrderResponse
-     */
-    public function shipOrder(Order $order, \DateTime $shipDate)
+    public function shipOrder(Order $order, \DateTime $shipDate): ?SetOrderResponse
     {
         $convertedLineItems = $this->shippingLineItemConverter->convertLineItems($order->getLineItems());
         $packageList = $this->packageProvider->createPackages($convertedLineItems);
-        if (!$packageList || count($packageList) !== 1) { //TODO: implement multi package support
+        if (!$packageList || count($packageList) !== 1) {
             return null;
         }
 
@@ -131,12 +100,7 @@ class DPDHandler implements DPDHandlerInterface
         return $setOrderResponse;
     }
 
-    /**
-     * @param \DateTime|null $shipDate
-     *
-     * @return \DateTime
-     */
-    public function getNextPickupDay(\DateTime $shipDate)
+    public function getNextPickupDay(\DateTime $shipDate): \DateTime
     {
         while (($addHint = $this->checkShipDate($shipDate)) !== 0) {
             $shipDate->add(new \DateInterval('P'.$addHint.'D'));
@@ -148,11 +112,9 @@ class DPDHandler implements DPDHandlerInterface
     /**
      * Check if shipDate is a valid pickup day.
      *
-     * @param \DateTime $shipDate
-     *
      * @return int 0 if shipDate is valid pickup day or a number of days to increase shipDate for a possible valid date
      */
-    private function checkShipDate(\DateTime $shipDate)
+    private function checkShipDate(\DateTime $shipDate): int
     {
         $zipCodeRulesResponse = $this->fetchZipCodeRules();
 
@@ -193,23 +155,44 @@ class DPDHandler implements DPDHandlerInterface
         return 0;
     }
 
-    /**
-     * @return ZipCodeRulesResponse
-     */
-    public function fetchZipCodeRules()
+    public function fetchZipCodeRules(): ?ZipCodeRulesResponse
     {
         $zipCodeRulesRequest = $this->dpdRequestFactory->createZipCodeRulesRequest();
-        $cacheKey = $this->zipCodeRulesCache->createKey($this->transport, $zipCodeRulesRequest);
+        $zipCodeRulesKey = $this->createKey($this->transport, $zipCodeRulesRequest);
+        $cacheKey = $this->generateStringKey($zipCodeRulesKey);
+        return $this->zipCodeRulesCache->get($cacheKey, function (ItemInterface $item) use ($zipCodeRulesKey) {
+            $interval = 0;
+            $invalidateCacheAt = $zipCodeRulesKey->getTransport()->getInvalidateCacheAt();
+            if ($invalidateCacheAt) {
+                $interval = $invalidateCacheAt->getTimestamp() - time();
+            }
+            if ($interval <= 0) {
+                $interval = static::CACHE_LIFETIME;
+            }
+            $item->expiresAfter($interval);
+            return $this->transportProvider->getZipCodeRulesResponse($this->transport);
+        });
+    }
 
-        if ($this->zipCodeRulesCache->containsZipCodeRules($cacheKey)) {
-            return $this->zipCodeRulesCache->fetchZipCodeRules($cacheKey);
+    private function createKey(
+        DPDTransport $transport,
+        ZipCodeRulesRequest $zipCodeRulesRequest
+    ): ZipCodeRulesCacheKey {
+        return (new ZipCodeRulesCacheKey())
+            ->setTransport($transport)
+            ->setZipCodeRulesRequest($zipCodeRulesRequest);
+    }
+
+    private function generateStringKey(ZipCodeRulesCacheKey $key): string
+    {
+        $invalidateAt = '';
+        if ($key->getTransport() && $key->getTransport()->getInvalidateCacheAt()) {
+            $invalidateAt = $key->getTransport()->getInvalidateCacheAt()->getTimestamp();
         }
 
-        $zipCodeRulesResponse = $this->transportProvider->getZipCodeRulesResponse($this->transport);
-        if ($zipCodeRulesResponse) {
-            $this->zipCodeRulesCache->saveZipCodeRules($cacheKey, $zipCodeRulesResponse);
-        }
-
-        return $zipCodeRulesResponse;
+        return implode('_', [
+            $key->generateKey(),
+            $invalidateAt,
+        ]);
     }
 }

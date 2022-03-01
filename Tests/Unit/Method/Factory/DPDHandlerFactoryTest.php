@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method\Factory;
 
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
@@ -14,6 +13,7 @@ use Oro\Bundle\DPDBundle\Provider\DPDTransport;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
 {
@@ -38,7 +38,7 @@ class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
     private $dpdRequestFactory;
 
     /**
-     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
+     * @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private $zipCodeRulesCache;
 
@@ -58,7 +58,7 @@ class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
         $this->transport = $this->createMock(DPDTransport::class);
         $this->packageProvider = $this->createMock(PackageProvider::class);
         $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
-        $this->zipCodeRulesCache = $this->createMock(ZipCodeRulesCache::class);
+        $this->zipCodeRulesCache = $this->createMock(CacheInterface::class);
         $this->shippingLineItemConverter = $this->createMock(OrderShippingLineItemConverterInterface::class);
 
         $this->factory = new DPDHandlerFactory(

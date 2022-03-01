@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\DPDBundle\Method\Factory;
 
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
@@ -11,46 +10,28 @@ use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGeneratorInter
 use Oro\Bundle\DPDBundle\Provider\DPDTransport;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
+use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * Factory for DPD handler service
+ */
 class DPDHandlerFactory implements DPDHandlerFactoryInterface
 {
-    /**
-     * @var DPDMethodTypeIdentifierGeneratorInterface
-     */
-    private $typeIdentifierGenerator;
-
-    /**
-     * @var DPDTransport
-     */
-    private $transport;
-
-    /**
-     * @var PackageProvider
-     */
-    private $packageProvider;
-
-    /**
-     * @var DPDRequestFactory
-     */
-    private $dpdRequestFactory;
-
-    /**
-     * @var ZipCodeRulesCache
-     */
-    private $zipCodeRulesCache;
-
-    /**
-     * @var OrderShippingLineItemConverterInterface
-     */
-    private $shippingLineItemConverter;
+    private DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator;
+    private DPDTransport $transport;
+    private PackageProvider $packageProvider;
+    private DPDRequestFactory $dpdRequestFactory;
+    private CacheInterface $zipCodeRulesCache;
+    private OrderShippingLineItemConverterInterface $shippingLineItemConverter;
 
     public function __construct(
         DPDMethodTypeIdentifierGeneratorInterface $typeIdentifierGenerator,
         DPDTransport $transport,
         PackageProvider $packageProvider,
         DPDRequestFactory $dpdRequestFactory,
-        ZipCodeRulesCache $zipCodeRulesCache,
+        CacheInterface $zipCodeRulesCache,
         OrderShippingLineItemConverterInterface $shippingLineItemConverter
     ) {
         $this->typeIdentifierGenerator = $typeIdentifierGenerator;
@@ -61,13 +42,7 @@ class DPDHandlerFactory implements DPDHandlerFactoryInterface
         $this->shippingLineItemConverter = $shippingLineItemConverter;
     }
 
-    /**
-     * @param Channel         $channel
-     * @param ShippingService $service
-     *
-     * @return DPDHandler
-     */
-    public function create(Channel $channel, ShippingService $service)
+    public function create(Channel $channel, ShippingService $service): DPDHandler
     {
         return new DPDHandler(
             $this->getIdentifier($channel, $service),
@@ -81,23 +56,12 @@ class DPDHandlerFactory implements DPDHandlerFactoryInterface
         );
     }
 
-    /**
-     * @param Channel         $channel
-     * @param ShippingService $service
-     *
-     * @return string
-     */
-    private function getIdentifier(Channel $channel, ShippingService $service)
+    private function getIdentifier(Channel $channel, ShippingService $service): string
     {
         return $this->typeIdentifierGenerator->generateIdentifier($channel, $service);
     }
 
-    /**
-     * @param Channel $channel
-     *
-     * @return \Oro\Bundle\IntegrationBundle\Entity\Transport|DPDSettings
-     */
-    private function getSettings(Channel $channel)
+    private function getSettings(Channel $channel): Transport|DPDSettings
     {
         return $channel->getTransport();
     }
