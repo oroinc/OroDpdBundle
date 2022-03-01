@@ -3,13 +3,13 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Handler;
 
 use Oro\Bundle\CacheBundle\Action\DataStorage\InvalidateCacheDataStorage;
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Handler\InvalidateCacheActionHandler;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject
+     * @var AbstractAdapter|\PHPUnit\Framework\MockObject\MockObject
      */
     private $upsPriceCache;
 
@@ -20,19 +20,17 @@ class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $this->upsPriceCache = $this->createMock(ZipCodeRulesCache::class);
+        $this->upsPriceCache = $this->createMock(AbstractAdapter::class);
 
         $this->handler = new InvalidateCacheActionHandler($this->upsPriceCache);
     }
 
     public function testHandle()
     {
-        $dataStorage = new InvalidateCacheDataStorage([
-            InvalidateCacheActionHandler::PARAM_TRANSPORT_ID => 1
-        ]);
+        $dataStorage = new InvalidateCacheDataStorage([]);
 
         $this->upsPriceCache->expects(static::once())
-            ->method('deleteAll');
+            ->method('clear');
 
         $this->handler->handle($dataStorage);
     }

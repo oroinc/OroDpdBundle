@@ -3,7 +3,6 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCacheKey;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
@@ -23,6 +22,8 @@ use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class DPDHandlerTest extends \PHPUnit\Framework\TestCase
 {
@@ -49,7 +50,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var DPDHandlerInterface */
     private $dpdHandler;
 
-    /** @var ZipCodeRulesCache|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $cache;
 
     /** @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
@@ -77,7 +78,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->shippingService = $this->createMock(ShippingService::class);
         $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
         $this->packageProvider = $this->createMock(PackageProvider::class);
-        $this->cache = $this->createMock(ZipCodeRulesCache::class);
+        $this->cache = $this->createMock(CacheInterface::class);
         $this->shippingLineItemConverter = $this->createMock(OrderShippingLineItemConverterInterface::class);
 
         $this->dpdHandler = new DPDHandler(
@@ -166,21 +167,21 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         $cacheKey = (new ZipCodeRulesCacheKey())
             ->setTransport($this->transport)
             ->setZipCodeRulesRequest($request);
-
+        $invalidateAt = '';
+        if ($cacheKey->getTransport() && $cacheKey->getTransport()->getInvalidateCacheAt()) {
+            $invalidateAt = $cacheKey->getTransport()->getInvalidateCacheAt()->getTimestamp();
+        }
+        $key = implode('_', [
+            $cacheKey->generateKey(),
+            $invalidateAt,
+        ]);
         $this->cache->expects(self::once())
-            ->method('createKey')
-            ->with($this->transport, $request)
-            ->willReturn($cacheKey);
-
-        $this->cache->expects(self::once())
-            ->method('containsZipCodeRules')
-            ->with($cacheKey)
-            ->willReturn(false);
-
-        $this->cache->expects(self::once())
-            ->method('saveZipCodeRules')
-            ->with($cacheKey, $response);
-
+            ->method('get')
+            ->with($key)
+            ->willReturnCallback(function ($cacheKey, $callback) {
+                $item = $this->createMock(ItemInterface::class);
+                return $callback($item);
+            });
         $this->assertEquals($response, $this->dpdHandler->fetchZipCodeRules());
     }
 
@@ -220,20 +221,18 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         $cacheKey = (new ZipCodeRulesCacheKey())
             ->setTransport($this->transport)
             ->setZipCodeRulesRequest($request);
+        $invalidateAt = '';
+        if ($cacheKey->getTransport() && $cacheKey->getTransport()->getInvalidateCacheAt()) {
+            $invalidateAt = $cacheKey->getTransport()->getInvalidateCacheAt()->getTimestamp();
+        }
+        $key = implode('_', [
+            $cacheKey->generateKey(),
+            $invalidateAt,
+        ]);
 
         $this->cache->expects(self::any())
-            ->method('createKey')
-            ->with($this->transport, $request)
-            ->willReturn($cacheKey);
-
-        $this->cache->expects(self::any())
-            ->method('containsZipCodeRules')
-            ->with($cacheKey)
-            ->willReturn(true);
-
-        $this->cache->expects(self::any())
-            ->method('fetchZipCodeRules')
-            ->with($cacheKey)
+            ->method('get')
+            ->with($key)
             ->willReturn($response);
 
         $this->assertEquals($expectedResult, $this->dpdHandler->getNextPickupDay($shipDate));

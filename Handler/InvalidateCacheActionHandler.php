@@ -4,24 +4,22 @@ namespace Oro\Bundle\DPDBundle\Handler;
 
 use Oro\Bundle\CacheBundle\Action\Handler\InvalidateCacheActionHandlerInterface;
 use Oro\Bundle\CacheBundle\DataStorage\DataStorageInterface;
-use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCache;
+use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * Handler for clearing DPD cache
+ */
 class InvalidateCacheActionHandler implements InvalidateCacheActionHandlerInterface
 {
-    const PARAM_TRANSPORT_ID = 'transportId';
+    private CacheInterface $zipCodeRulesCache;
 
-    /**
-     * @var ZipCodeRulesCache
-     */
-    private $zipCodeRulesCache;
-
-    public function __construct(ZipCodeRulesCache $zipCodeRulesCache)
+    public function __construct(CacheInterface $zipCodeRulesCache)
     {
         $this->zipCodeRulesCache = $zipCodeRulesCache;
     }
 
     public function handle(DataStorageInterface $dataStorage)
     {
-        $this->zipCodeRulesCache->deleteAll($dataStorage->get(self::PARAM_TRANSPORT_ID));
+        $this->zipCodeRulesCache->clear();
     }
 }
