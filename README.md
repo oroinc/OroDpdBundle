@@ -4,12 +4,4 @@ OroDPDBundle adds the [DPD](https://www.dpd.com/) shipping service [integration]
 
 The bundle also adds the [operation](https://github.com/oroinc/platform/tree/master/src/Oro/Bundle/ActionBundle) button for admin users to the order view pages to provide order shipping data and send the package pick-up request to the DPD service.
 
-## Table of Contents
-
- - [General information](./Resources/doc/general-information.md)
-
-Resources
----------
-
-  * [OroCommerce, OroCRM and OroPlatform Documentation](https://doc.oroinc.com)
-  * [Contributing](https://doc.oroinc.com/community/contribute/)
+For more information, please see online DPD [user](https://doc.oroinc.com/user/back-office/system/integrations/shipping-integration/dpd) and [bundle](https://doc.oroinc.com/bundles/extensions/DPDBundle/) documentation.
