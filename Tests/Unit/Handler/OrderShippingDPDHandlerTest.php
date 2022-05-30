@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Handler;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\AttachmentBundle\Entity\Attachment;
@@ -28,8 +28,8 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var ObjectManager|\PHPUnit\Framework\MockObject\MockObject */
     private $manager;
 
-    /** @var Registry|\PHPUnit\Framework\MockObject\MockObject */
-    private $managerRegistry;
+    /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject */
+    private $doctrine;
 
     /** @var FileManager|\PHPUnit\Framework\MockObject\MockObject */
     private $fileManager;
@@ -55,7 +55,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         $this->manager = $this->createMock(ObjectManager::class);
-        $this->managerRegistry = $this->createMock(Registry::class);
+        $this->doctrine = $this->createMock(ManagerRegistry::class);
         $this->fileManager = $this->createMock(FileManager::class);
         $this->dpdHandler = $this->createMock(DPDHandlerInterface::class);
         $this->shippingMethod = $this->createMock(DPDShippingMethod::class);
@@ -63,7 +63,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->transactionFileNameProvider = $this->createMock(TransactionFileNameProviderInterface::class);
 
         $this->handler = new OrderShippingDPDHandler(
-            $this->managerRegistry,
+            $this->doctrine,
             $this->fileManager,
             $this->shippingMethodProvider,
             $this->transactionFileNameProvider
@@ -104,7 +104,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('shipOrder')
             ->willReturn($response);
 
-        $this->managerRegistry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(DPDTransaction::class)
             ->willReturn($this->manager);
@@ -191,7 +191,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('shipOrder')
             ->willReturn($response);
 
-        $this->managerRegistry->expects(self::never())
+        $this->doctrine->expects(self::never())
             ->method('getManagerForClass');
 
         /** @var Order $order */
@@ -273,7 +273,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->managerRegistry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(OrderShippingTracking::class)
             ->willReturn($this->manager);
@@ -310,7 +310,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('findOneBy')
             ->willReturn($attachment);
 
-        $this->managerRegistry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(Attachment::class)
             ->willReturn($this->manager);
@@ -349,7 +349,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('findOneBy')
             ->willReturn(null);
 
-        $this->managerRegistry->expects(self::once())
+        $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
             ->with(Attachment::class)
             ->willReturn($this->manager);
@@ -381,7 +381,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $this->managerRegistry->expects(self::any())
+        $this->doctrine->expects(self::any())
             ->method('getManagerForClass')
             ->willReturn($this->manager);
 
