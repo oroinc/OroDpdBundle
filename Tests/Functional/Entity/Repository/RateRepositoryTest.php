@@ -12,37 +12,24 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class RateRepositoryTest extends WebTestCase
 {
-    /**
-     * @var RateRepository
-     */
-    protected $repository;
+    private RateRepository $repository;
 
     protected function setUp(): void
     {
-        $this->initClient([], static::generateBasicAuthHeader());
+        $this->initClient([], self::generateBasicAuthHeader());
+        $this->loadFixtures([LoadRates::class]);
 
-        $this->loadFixtures([
-            LoadRates::class,
-        ]);
-
-        $this->repository = static::getContainer()->get('doctrine')
-            ->getManagerForClass('OroDPDBundle:Rate')->getRepository('OroDPDBundle:Rate');
+        $this->repository = self::getContainer()->get('doctrine')->getRepository(Rate::class);
     }
 
     /**
      * @dataProvider testFindRatesByServiceAndDestinationDataProvider
-     *
-     * @param string $transportRef
-     * @param string $shippingServiceRef
-     * @param string $countryRef
-     * @param string $regionRef
-     * @param array  $expectedRatesRefs
      */
     public function testFindRatesByServiceAndDestination(
-        $transportRef,
-        $shippingServiceRef,
-        $countryRef,
-        $regionRef,
+        string $transportRef,
+        string $shippingServiceRef,
+        string $countryRef,
+        string $regionRef,
         array $expectedRatesRefs
     ) {
         /** @var Rate[] $expectedRates */
@@ -55,38 +42,27 @@ class RateRepositoryTest extends WebTestCase
         /** @var Region $region */
         $region = $this->getReference($regionRef);
 
-        /** @var AddressInterface $shippingAddress */
-        $shippingAddress = $this->getMockBuilder(AddressInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $shippingAddress
-            ->expects(self::any())
+        $shippingAddress = $this->createMock(AddressInterface::class);
+        $shippingAddress->expects(self::any())
             ->method('getCountryIso2')
             ->willReturn($country->getIso2Code());
-        $shippingAddress
-            ->expects(self::any())
+        $shippingAddress->expects(self::any())
             ->method('getRegionCode')
             ->willReturn($region->getCode());
 
         $rates = $this->repository->findRatesByServiceAndDestination($transport, $shippingService, $shippingAddress);
 
-        static::assertEquals($expectedRates, $rates);
+        self::assertEquals($expectedRates, $rates);
     }
 
     /**
      * @dataProvider testFindRatesByServiceAndDestinationDataProvider
-     *
-     * @param string $transportRef
-     * @param string $shippingServiceRef
-     * @param string $countryRef
-     * @param string $regionRef
-     * @param array  $expectedRatesRefs
      */
     public function testFindFirstRateByServiceAndDestination(
-        $transportRef,
-        $shippingServiceRef,
-        $countryRef,
-        $regionRef,
+        string $transportRef,
+        string $shippingServiceRef,
+        string $countryRef,
+        string $regionRef,
         array $expectedRatesRefs
     ) {
         /** @var Rate $expectedRate */
@@ -99,28 +75,20 @@ class RateRepositoryTest extends WebTestCase
         /** @var Region $region */
         $region = $this->getReference($regionRef);
 
-        /** @var AddressInterface $shippingAddress */
-        $shippingAddress = $this->getMockBuilder(AddressInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $shippingAddress
-            ->expects(self::any())
+        $shippingAddress = $this->createMock(AddressInterface::class);
+        $shippingAddress->expects(self::any())
             ->method('getCountryIso2')
             ->willReturn($country->getIso2Code());
-        $shippingAddress
-            ->expects(self::any())
+        $shippingAddress->expects(self::any())
             ->method('getRegionCode')
             ->willReturn($region->getCode());
 
         $rate = $this->repository->findFirstRateByServiceAndDestination($transport, $shippingService, $shippingAddress);
 
-        static::assertEquals($expectedRate, $rate);
+        self::assertEquals($expectedRate, $rate);
     }
 
-    /**
-     * @return array
-     */
-    public function testFindRatesByServiceAndDestinationDataProvider()
+    public function testFindRatesByServiceAndDestinationDataProvider(): array
     {
         return [
             [
@@ -164,27 +132,10 @@ class RateRepositoryTest extends WebTestCase
         ];
     }
 
-    /**
-     * @param array $rules
-     *
-     * @return array
-     */
-    protected function getEntitiesByReferences(array $rules)
+    private function getEntitiesByReferences(array $rules): array
     {
         return array_map(function ($ruleReference) {
             return $this->getReference($ruleReference);
         }, $rules);
-    }
-
-    /**
-     * @param string $isoCode
-     *
-     * @return Country
-     */
-    protected function findCountry($isoCode)
-    {
-        return static::getContainer()->get('doctrine')
-            ->getManagerForClass('OroAddressBundle:Country')
-            ->find('OroAddressBundle:Country', $isoCode);
     }
 }
