@@ -70,9 +70,6 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * Test ship order when a successful response.
-     */
     public function testShipOrderSuccess()
     {
         $responseData = [
@@ -110,12 +107,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->willReturn($this->manager);
 
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'flat_rate']);
 
         $file = new ComponentFile(__DIR__.'/../Fixtures/attachment/test_label.txt');
         $this->fileManager->expects($this->once())
@@ -158,9 +150,6 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($filename, $dpdTransaction->getLabelFile()->getOriginalFilename());
     }
 
-    /**
-     * Test ship order when a failed response.
-     */
     public function testShipOrderFail()
     {
         $responseData = [
@@ -195,7 +184,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->method('getManagerForClass');
 
         /** @var Order $order */
-        $order = $this->getEntity(Order::class, ['id' => 1]);
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'flat_rate']);
 
         $this->fileManager->expects($this->never())
             ->method('writeToTemporaryFile');
@@ -222,18 +211,10 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayNotHasKey('transaction', $result);
     }
 
-    /**
-     * Test get next pickup day.
-     */
     public function testGetNextPickupDay()
     {
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'flat_rate']);
 
         $pickupDate = new \DateTime();
 
@@ -256,22 +237,10 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     public function testAddTrackingNumbersToOrder()
     {
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-                'shippingMethod' => 'a shipping method',
-
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'a shipping method']);
 
         /** @var DPDTransaction $dpdTransaction */
-        $dpdTransaction = $this->getEntity(
-            DPDTransaction::class,
-            [
-                'parcelNumbers' => ['1', '2', '3'],
-            ]
-        );
+        $dpdTransaction = $this->getEntity(DPDTransaction::class, ['parcelNumbers' => ['1', '2', '3']]);
 
         $this->doctrine->expects(self::once())
             ->method('getManagerForClass')
@@ -286,22 +255,10 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     public function testUnlinkExistingLabelFromOrder()
     {
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-                'shippingMethod' => 'a shipping method',
-
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'a shipping method']);
 
         /** @var DPDTransaction $dpdTransaction */
-        $dpdTransaction = $this->getEntity(
-            DPDTransaction::class,
-            [
-                'parcelNumbers' => ['1', '2', '3'],
-            ]
-        );
+        $dpdTransaction = $this->getEntity(DPDTransaction::class, ['parcelNumbers' => ['1', '2', '3']]);
 
         $attachment = new Attachment();
 
@@ -327,22 +284,10 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     public function testUnlinkNotExistingLabelFromOrder()
     {
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-                'shippingMethod' => 'a shipping method',
-
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'a shipping method']);
 
         /** @var DPDTransaction $dpdTransaction */
-        $dpdTransaction = $this->getEntity(
-            DPDTransaction::class,
-            [
-                'parcelNumbers' => ['1', '2', '3'],
-            ]
-        );
+        $dpdTransaction = $this->getEntity(DPDTransaction::class, ['parcelNumbers' => ['1', '2', '3']]);
 
         $attachmentRepository = $this->createMock(ObjectRepository::class);
         $attachmentRepository->expects(self::once())
@@ -365,21 +310,10 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     public function testRemoveTrackingNumbersFromOrder()
     {
         /** @var Order $order */
-        $order = $this->getEntity(
-            Order::class,
-            [
-                'id' => 1,
-                'shippingMethod' => 'a shipping method',
-            ]
-        );
+        $order = $this->getEntity(Order::class, ['id' => 1, 'shippingMethod' => 'a shipping method']);
 
         /** @var DPDTransaction $dpdTransaction */
-        $dpdTransaction = $this->getEntity(
-            DPDTransaction::class,
-            [
-                'parcelNumbers' => ['1', '2', '3'],
-            ]
-        );
+        $dpdTransaction = $this->getEntity(DPDTransaction::class, ['parcelNumbers' => ['1', '2', '3']]);
 
         $this->doctrine->expects(self::any())
             ->method('getManagerForClass')
