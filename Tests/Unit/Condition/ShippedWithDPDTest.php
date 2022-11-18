@@ -33,7 +33,7 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 
     public function testGetName()
     {
-        $this->assertEquals(ShippedWithDPD::NAME, $this->condition->getName());
+        $this->assertEquals('shipped_with_dpd', $this->condition->getName());
     }
 
     /**

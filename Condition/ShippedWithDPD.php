@@ -20,17 +20,8 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
 {
     use ContextAccessorAwareTrait;
 
-    const NAME = 'shipped_with_dpd';
-
-    /**
-     * @var DPDShippingMethodProvider
-     */
-    protected $shippingProvider;
-
-    /**
-     * @var mixed
-     */
-    protected $value;
+    private DPDShippingMethodProvider $shippingProvider;
+    private mixed $value = null;
 
     public function __construct(DPDShippingMethodProvider $shippingProvider)
     {
@@ -44,7 +35,7 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
     {
         $shippingMethod = $this->resolveValue($context, $this->value);
 
-        return $this->shippingProvider->hasShippingMethod($shippingMethod);
+        return $shippingMethod && $this->shippingProvider->hasShippingMethod($shippingMethod);
     }
 
     /**
@@ -52,7 +43,7 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
      */
     public function getName()
     {
-        return static::NAME;
+        return 'shipped_with_dpd';
     }
 
     /**

@@ -8,39 +8,27 @@ use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Manager\FileManager;
 use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\TransactionFileNameProviderInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Entity\OrderShippingTracking;
+use Oro\Bundle\ShippingBundle\Method\ShippingMethodProviderInterface;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Provides functionality to handle DPD shipping method for orders.
+ */
 class OrderShippingDPDHandler
 {
-    /**
-     * @var ManagerRegistry
-     */
-    protected $doctrine;
-
-    /**
-     * @var FileManager
-     */
-    protected $fileManager;
-
-    /**
-     * @var DPDShippingMethodProvider
-     */
-    protected $shippingMethodProvider;
-
-    /**
-     * @var TransactionFileNameProviderInterface
-     */
-    protected $transactionFileNameProvider;
+    private ManagerRegistry $doctrine;
+    private FileManager $fileManager;
+    private ShippingMethodProviderInterface $shippingMethodProvider;
+    private TransactionFileNameProviderInterface $transactionFileNameProvider;
 
     public function __construct(
         ManagerRegistry $doctrine,
         FileManager $fileManager,
-        DPDShippingMethodProvider $shippingMethodProvider,
+        ShippingMethodProviderInterface $shippingMethodProvider,
         TransactionFileNameProviderInterface $transactionFileNameProvider
     ) {
         $this->doctrine = $doctrine;
@@ -49,13 +37,7 @@ class OrderShippingDPDHandler
         $this->transactionFileNameProvider = $transactionFileNameProvider;
     }
 
-    /**
-     * @param Order         $order
-     * @param FormInterface $form
-     *
-     * @return array
-     */
-    public function shipOrder(Order $order, FormInterface $form)
+    public function shipOrder(Order $order, FormInterface $form): ?array
     {
         $shipDate = $form->get('shipDate')->getData();
         if (!$shipDate) {
@@ -63,7 +45,7 @@ class OrderShippingDPDHandler
         }
 
         $shippingMethod = $this->shippingMethodProvider->getShippingMethod($order->getShippingMethod());
-        if (!$shippingMethod || !($shippingMethod instanceof DPDShippingMethod)) {
+        if (!$shippingMethod instanceof DPDShippingMethod) {
             return null;
         }
 
@@ -104,13 +86,7 @@ class OrderShippingDPDHandler
         return $result;
     }
 
-    /**
-     * @param Order            $order
-     * @param SetOrderResponse $response
-     *
-     * @return File
-     */
-    private function createLabelFile(Order $order, SetOrderResponse $response)
+    private function createLabelFile(Order $order, SetOrderResponse $response): File
     {
         $labelFileName = $this->transactionFileNameProvider->getTransactionFileName($order, $response);
 
@@ -122,15 +98,15 @@ class OrderShippingDPDHandler
         return $labelFile;
     }
 
-    /**
-     * @param Order $order
-     *
-     * @return \DateTime
-     */
-    public function getNextPickupDay(Order $order)
+    public function getNextPickupDay(Order $order): ?\DateTime
     {
-        $shippingMethod = $this->shippingMethodProvider->getShippingMethod($order->getShippingMethod());
-        if (!$shippingMethod || !($shippingMethod instanceof DPDShippingMethod)) {
+        $shippingMethod = $order->getShippingMethod();
+        if (!$shippingMethod) {
+            return null;
+        }
+
+        $shippingMethod = $this->shippingMethodProvider->getShippingMethod($shippingMethod);
+        if (!$shippingMethod instanceof DPDShippingMethod) {
             return null;
         }
 
@@ -142,7 +118,7 @@ class OrderShippingDPDHandler
         return $dpdHandler->getNextPickupDay(new \DateTime('now'));
     }
 
-    public function addTrackingNumbersToOrder(Order $order, DPDTransaction $dpdTransaction)
+    public function addTrackingNumbersToOrder(Order $order, DPDTransaction $dpdTransaction): void
     {
         $em = $this->doctrine->getManagerForClass(OrderShippingTracking::class);
         foreach ($dpdTransaction->getParcelNumbers() as $parcelNumber) {
@@ -155,7 +131,7 @@ class OrderShippingDPDHandler
         $em->flush();
     }
 
-    public function unlinkLabelFromOrder(Order $order, DPDTransaction $dpdTransaction)
+    public function unlinkLabelFromOrder(Order $order, DPDTransaction $dpdTransaction): void
     {
         $em = $this->doctrine->getManagerForClass(Attachment::class);
         $attachmentRepository = $em->getRepository(Attachment::class);
@@ -166,12 +142,12 @@ class OrderShippingDPDHandler
         }
     }
 
-    public function removeTrackingNumbersFromOrder(Order $order, DPDTransaction $dpdTransaction)
+    public function removeTrackingNumbersFromOrder(Order $order, DPDTransaction $dpdTransaction): void
     {
         $shippingTrackings = $order->getShippingTrackings();
         $trackingNumbersToRemove = $dpdTransaction->getParcelNumbers();
         foreach ($shippingTrackings as $shippingTracking) {
-            if (in_array($shippingTracking->getNumber(), $trackingNumbersToRemove)) {
+            if (\in_array($shippingTracking->getNumber(), $trackingNumbersToRemove)) {
                 $order->removeShippingTracking($shippingTracking);
             }
         }
