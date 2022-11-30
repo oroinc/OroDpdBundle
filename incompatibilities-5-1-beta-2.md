@@ -1,0 +1,4 @@
+DPDBundle
+---------
+* The `OrderShippingDPDHandler::__construct(ManagerRegistry $doctrine, FileManager $fileManager, DPDShippingMethodProvider $shippingMethodProvider, TransactionFileNameProviderInterface $transactionFileNameProvider)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/5.1.0-beta.1/Handler/OrderShippingDPDHandler.php#L40 "Oro\Bundle\DPDBundle\Handler\OrderShippingDPDHandler")</sup> method was changed to `OrderShippingDPDHandler::__construct(ManagerRegistry $doctrine, FileManager $fileManager, ShippingMethodProviderInterface $shippingMethodProvider, TransactionFileNameProviderInterface $transactionFileNameProvider)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/5.1.0-beta.2/Handler/OrderShippingDPDHandler.php#L28 "Oro\Bundle\DPDBundle\Handler\OrderShippingDPDHandler")</sup>
+
