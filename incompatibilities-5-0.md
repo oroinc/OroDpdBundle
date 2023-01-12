@@ -1,0 +1,7 @@
+- [DPDBundle](#dpdbundle)
+
+DPDBundle
+---------
+* The `BasicTransactionFileNameProvider::__construct($messageId, TranslatorInterface $translator)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/4.2.0/Transaction/File/Name/Provider/Basic/BasicTransactionFileNameProvider.php#L26 "Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\Basic\BasicTransactionFileNameProvider")</sup> method was changed to `BasicTransactionFileNameProvider::__construct($messageId, TranslatorInterface $translator)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/5.0.0/Transaction/File/Name/Provider/Basic/BasicTransactionFileNameProvider.php#L25 "Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\Basic\BasicTransactionFileNameProvider")</sup>
+* The `BasicOrderShippingAttachmentCommentProvider::__construct($messageId, TranslatorInterface $translator)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/4.2.0/Order/Shipping/Attachment/Comment/Provider/Basic/BasicOrderShippingAttachmentCommentProvider.php#L25 "Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\Basic\BasicOrderShippingAttachmentCommentProvider")</sup> method was changed to `BasicOrderShippingAttachmentCommentProvider::__construct($messageId, TranslatorInterface $translator)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/5.0.0/Order/Shipping/Attachment/Comment/Provider/Basic/BasicOrderShippingAttachmentCommentProvider.php#L24 "Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\Basic\BasicOrderShippingAttachmentCommentProvider")</sup>
+
