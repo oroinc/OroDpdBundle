@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Condition;
 
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
+use Oro\Bundle\ShippingBundle\Method\ShippingMethodProviderInterface;
 use Oro\Component\Action\Condition\AbstractCondition;
 use Oro\Component\ConfigExpression\ContextAccessorAwareInterface;
 use Oro\Component\ConfigExpression\ContextAccessorAwareTrait;
@@ -20,10 +20,10 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
 {
     use ContextAccessorAwareTrait;
 
-    private DPDShippingMethodProvider $shippingProvider;
+    private ShippingMethodProviderInterface $shippingProvider;
     private mixed $value = null;
 
-    public function __construct(DPDShippingMethodProvider $shippingProvider)
+    public function __construct(ShippingMethodProviderInterface $shippingProvider)
     {
         $this->shippingProvider = $shippingProvider;
     }

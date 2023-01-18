@@ -12,11 +12,11 @@ use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Handler\OrderShippingDPDHandler;
 use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
 use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Transaction\File\Name\Provider\TransactionFileNameProviderInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Entity\OrderShippingTracking;
+use Oro\Bundle\ShippingBundle\Method\ShippingMethodProviderInterface;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\File as ComponentFile;
@@ -34,7 +34,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var FileManager|\PHPUnit\Framework\MockObject\MockObject */
     private $fileManager;
 
-    /** @var DPDShippingMethodProvider|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ShippingMethodProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $shippingMethodProvider;
 
     /** @var DPDShippingMethod|\PHPUnit\Framework\MockObject\MockObject */
@@ -59,7 +59,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
         $this->fileManager = $this->createMock(FileManager::class);
         $this->dpdHandler = $this->createMock(DPDHandlerInterface::class);
         $this->shippingMethod = $this->createMock(DPDShippingMethod::class);
-        $this->shippingMethodProvider = $this->createMock(DPDShippingMethodProvider::class);
+        $this->shippingMethodProvider = $this->createMock(ShippingMethodProviderInterface::class);
         $this->transactionFileNameProvider = $this->createMock(TransactionFileNameProviderInterface::class);
 
         $this->handler = new OrderShippingDPDHandler(

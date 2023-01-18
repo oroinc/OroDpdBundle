@@ -4,7 +4,7 @@ namespace Oro\Bundle\ShoppingListBundle\Tests\Unit\Condition;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\DPDBundle\Condition\ShippedWithDPD;
-use Oro\Bundle\DPDBundle\Method\DPDShippingMethodProvider;
+use Oro\Bundle\ShippingBundle\Method\ShippingMethodProviderInterface;
 use Oro\Component\ConfigExpression\ContextAccessor;
 use Oro\Component\ConfigExpression\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -16,16 +16,13 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp(): void
     {
-        $dpdShippingMethodProvider = $this->createMock(DPDShippingMethodProvider::class);
-
-        $dpdShippingMethodProviderMap = [
-            ['dpd', true],
-            ['no_dpd', false],
-        ];
-
+        $dpdShippingMethodProvider = $this->createMock(ShippingMethodProviderInterface::class);
         $dpdShippingMethodProvider->expects($this->any())
             ->method('hasShippingMethod')
-            ->willReturnMap($dpdShippingMethodProviderMap);
+            ->willReturnMap([
+                ['dpd', true],
+                ['no_dpd', false],
+            ]);
 
         $this->condition = new ShippedWithDPD($dpdShippingMethodProvider);
         $this->condition->setContextAccessor(new ContextAccessor());
