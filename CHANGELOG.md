@@ -2,8 +2,17 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## 5.0.0-beta.2 (2021-09-30)
-[Show detailed list of changes](incompatibilities-5-0-beta-2.md)
+
+## Changes in the DPD package versions
+
+- [5.0.0](#500-2022-01-26)
+- [4.2.0](#420-2020-01-29)
+- [4.0.0](#400-2019-07-31)
+- [1.5.0](#150-2017-11-30)
+
+
+## 5.0.0 (2022-01-26)
+[Show detailed list of changes](incompatibilities-5-0.md)
 
 ## 4.2.0 (2020-01-29)
 [Show detailed list of changes](incompatibilities-4-2.md)
