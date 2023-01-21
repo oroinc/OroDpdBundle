@@ -86,7 +86,7 @@ services:
         arguments:
             - '%oro_dpd.integration.channel.type%'
             - '@oro_dpd.method.factory.method'
-            - '@oro_shipping.method.integration_channel_loader'
+            - '@oro_shipping.method.loader'
         tags:
             - { name: oro_shipping_method_provider }
 
