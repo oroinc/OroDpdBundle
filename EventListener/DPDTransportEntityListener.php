@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\EventListener;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Rate;
 use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGeneratorInterface;
@@ -13,6 +13,11 @@ use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterfa
 use Oro\Bundle\ShippingBundle\Method\Event\MethodTypeRemovalEventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * Listens to DPDTransport Entity events to
+ * regenerate rates in the transport on the flush event when csv file with rates exists
+ * deattach services after deleting them
+ */
 class DPDTransportEntityListener
 {
     /**
