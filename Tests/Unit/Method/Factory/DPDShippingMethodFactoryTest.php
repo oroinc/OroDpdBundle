@@ -53,77 +53,73 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
-        $iconUri = 'bundles/icon-uri.png';
         $identifier = 'dpd_1';
-        $labelsCollection = $this->createMock(Collection::class);
+        $enabled = true;
+        $label = 'label';
+        $iconUri = 'bundles/icon-uri.png';
 
-        /** @var DPDSettings|\PHPUnit\Framework\MockObject\MockObject $settings */
-        $settings = $this->createMock(DPDSettings::class);
+        $transport = $this->createMock(DPDSettings::class);
 
-        $settings->expects($this->once())
-            ->method('getLabels')
-            ->willReturn($labelsCollection);
-
-        /** @var Channel|\PHPUnit\Framework\MockObject\MockObject $channel */
-        $channel = $this->createMock(Channel::class);
-        $channel->expects($this->any())
-            ->method('getTransport')
-            ->willReturn($settings);
-
-        $channel->expects(self::once())
-            ->method('isEnabled')
-            ->willReturn(true);
+        $channel = new Channel();
+        $channel->setTransport($transport);
+        $channel->setEnabled($enabled);
 
         $type1 = $this->createMock(ShippingMethodTypeInterface::class);
         $type2 = $this->createMock(ShippingMethodTypeInterface::class);
 
         $service1 = $this->createMock(ShippingService::class);
         $service2 = $this->createMock(ShippingService::class);
-        $this->methodTypeFactory->expects($this->exactly(2))
+        $this->methodTypeFactory->expects(self::exactly(2))
             ->method('create')
             ->withConsecutive([$channel, $service1], [$channel, $service2])
             ->willReturnOnConsecutiveCalls($type1, $type2);
 
         $handler1 = $this->createMock(DPDHandlerInterface::class);
         $handler2 = $this->createMock(DPDHandlerInterface::class);
-        $this->handlerFactory->expects($this->exactly(2))
+        $this->handlerFactory->expects(self::exactly(2))
             ->method('create')
             ->withConsecutive([$channel, $service1], [$channel, $service2])
             ->willReturnOnConsecutiveCalls($handler1, $handler2);
 
         $serviceCollection = $this->createMock(Collection::class);
-        $serviceCollection->expects($this->exactly(2))
+        $serviceCollection->expects(self::once())
             ->method('toArray')
             ->willReturn([$service1, $service2]);
 
-        $settings->expects($this->exactly(2))
+        $transport->expects(self::once())
             ->method('getApplicableShippingServices')
             ->willReturn($serviceCollection);
 
-        $this->methodIdentifierGenerator->expects($this->once())
+        $this->methodIdentifierGenerator->expects(self::once())
             ->method('generateIdentifier')
             ->with($channel)
             ->willReturn($identifier);
 
-        $this->localizationHelper->expects($this->once())
+        $labelsCollection = $this->createMock(Collection::class);
+        $transport->expects(self::once())
+            ->method('getLabels')
+            ->willReturn($labelsCollection);
+
+        $this->localizationHelper->expects(self::once())
             ->method('getLocalizedValue')
             ->with($labelsCollection)
-            ->willReturn('en');
+            ->willReturn($label);
 
         $this->integrationIconProvider->expects(self::once())
             ->method('getIcon')
             ->with($channel)
             ->willReturn($iconUri);
 
-        $this->assertEquals(new DPDShippingMethod(
+        $expected = new DPDShippingMethod(
             $identifier,
-            'en',
-            true,
+            $label,
+            $enabled,
             $iconUri,
             [$type1, $type2],
             [$handler1, $handler2]
-        ), $this->factory->create($channel));
+        );
+        self::assertEquals($expected, $this->factory->create($channel));
     }
 }
