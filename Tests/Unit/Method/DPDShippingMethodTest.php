@@ -3,12 +3,10 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 
 use Oro\Bundle\CurrencyBundle\Entity\Price;
-use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
 use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
 use Oro\Bundle\DPDBundle\Method\DPDShippingMethod;
 use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
-use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
@@ -17,93 +15,64 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
  */
 class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
+    private const IDENTIFIER = 'dpd_1';
+    private const LABEL = 'dpd_label';
+    private const TYPE_IDENTIFIER = '59';
+    private const ICON = 'dpd.png';
 
-    /**
-     * @internal
-     */
-    const IDENTIFIER = 'dpd_1';
-
-    /**
-     * @internal
-     */
-    const LABEL = 'dpd_label';
-
-    /**
-     * @internal
-     */
-    const TYPE_IDENTIFIER = '59';
-
-    /**
-     * @internal
-     */
-    const ICON = 'dpd.png';
-
-    /**
-     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $dpdRequestFactory;
-
-    /**
-     * @var DPDShippingMethod
-     */
-    protected $dpdShippingMethod;
+    private DPDShippingMethod $dpdShippingMethod;
 
     protected function setUp(): void
     {
-        /* @var DPDRequestFactory | \PHPUnit\Framework\MockObject\MockObject $priceRequestFactory */
-        $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
-
         $type = $this->createMock(ShippingMethodTypeInterface::class);
-        $type
+        $type->expects(self::any())
             ->method('getIdentifier')
             ->willReturn(self::TYPE_IDENTIFIER);
-        $type
+        $type->expects(self::any())
             ->method('calculatePrice')
             ->willReturn(Price::create('1.0', 'USD'));
 
         $handler = $this->createMock(DPDHandlerInterface::class);
-        $handler
+        $handler->expects(self::any())
             ->method('getIdentifier')
             ->willReturn(self::TYPE_IDENTIFIER);
 
-        $this->dpdShippingMethod =
-            new DPDShippingMethod(
-                self::IDENTIFIER,
-                self::LABEL,
-                true,
-                self::ICON,
-                [$type],
-                [$handler]
-            );
+        $this->dpdShippingMethod = new DPDShippingMethod(
+            self::IDENTIFIER,
+            self::LABEL,
+            true,
+            self::ICON,
+            [$type],
+            [$handler]
+        );
     }
 
     public function testIsGrouped()
     {
-        static::assertTrue($this->dpdShippingMethod->isGrouped());
+        self::assertTrue($this->dpdShippingMethod->isGrouped());
     }
 
     public function testGetIdentifier()
     {
-        static::assertEquals(self::IDENTIFIER, $this->dpdShippingMethod->getIdentifier());
+        self::assertEquals(self::IDENTIFIER, $this->dpdShippingMethod->getIdentifier());
     }
 
     public function testGetLabel()
     {
-        static::assertEquals(self::LABEL, $this->dpdShippingMethod->getLabel());
+        self::assertEquals(self::LABEL, $this->dpdShippingMethod->getLabel());
     }
 
     public function testGetIcon()
     {
-        static::assertEquals(self::ICON, $this->dpdShippingMethod->getIcon());
+        self::assertEquals(self::ICON, $this->dpdShippingMethod->getIcon());
     }
 
     public function testGetTypes()
     {
         $types = $this->dpdShippingMethod->getTypes();
 
-        static::assertCount(1, $types);
-        static::assertEquals(self::TYPE_IDENTIFIER, $types[0]->getIdentifier());
+        self::assertCount(1, $types);
+        self::assertEquals(self::TYPE_IDENTIFIER, $types[0]->getIdentifier());
     }
 
     public function testGetType()
@@ -111,20 +80,20 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
         $identifier = self::TYPE_IDENTIFIER;
         $type = $this->dpdShippingMethod->getType($identifier);
 
-        static::assertInstanceOf(ShippingMethodTypeInterface::class, $type);
-        static::assertEquals(self::TYPE_IDENTIFIER, $type->getIdentifier());
+        self::assertInstanceOf(ShippingMethodTypeInterface::class, $type);
+        self::assertEquals(self::TYPE_IDENTIFIER, $type->getIdentifier());
     }
 
     public function testGetOptionsConfigurationFormType()
     {
         $type = $this->dpdShippingMethod->getOptionsConfigurationFormType();
 
-        static::assertEquals(HiddenType::class, $type);
+        self::assertEquals(HiddenType::class, $type);
     }
 
     public function testGetSortOrder()
     {
-        static::assertEquals('20', $this->dpdShippingMethod->getSortOrder());
+        self::assertEquals('20', $this->dpdShippingMethod->getSortOrder());
     }
 
     public function testCalculatePrices()
@@ -136,26 +105,20 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 
         $prices = $this->dpdShippingMethod->calculatePrices($context, $methodOptions, $optionsByTypes);
 
-        static::assertCount(1, $prices);
-        static::assertTrue(array_key_exists(self::TYPE_IDENTIFIER, $prices));
-        static::assertEquals(Price::create('1.0', 'USD'), $prices[self::TYPE_IDENTIFIER]);
+        self::assertCount(1, $prices);
+        self::assertArrayHasKey(self::TYPE_IDENTIFIER, $prices);
+        self::assertEquals(Price::create('1.0', 'USD'), $prices[self::TYPE_IDENTIFIER]);
     }
 
     /**
-     * @param string      $number
-     * @param string|null $resultURL
-     *
      * @dataProvider trackingDataProvider
      */
-    public function testGetTrackingLink($number, $resultURL)
+    public function testGetTrackingLink(string $number, ?string $resultURL)
     {
-        static::assertEquals($resultURL, $this->dpdShippingMethod->getTrackingLink($number));
+        self::assertEquals($resultURL, $this->dpdShippingMethod->getTrackingLink($number));
     }
 
-    /**
-     * @return array
-     */
-    public function trackingDataProvider()
+    public function trackingDataProvider(): array
     {
         return [
             'emptyTrackingNumber' => [
@@ -168,7 +131,7 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
             ],
             'rightTrackingNumber' => [
                 'number' => '09980525414724',
-                'resultURL' => DPDShippingMethod::TRACKING_URL.'09980525414724',
+                'resultURL' => 'https://tracking.dpd.de/parcelstatus?query=09980525414724',
             ],
         ];
     }

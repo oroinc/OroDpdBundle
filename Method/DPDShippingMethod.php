@@ -11,71 +11,38 @@ use Oro\Bundle\ShippingBundle\Method\ShippingTrackingAwareInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 /**
- * DPD shipping method implementation.
+ * Represents DPD shipping method.
  */
 class DPDShippingMethod implements
     ShippingMethodInterface,
     ShippingTrackingAwareInterface,
     PricesAwareShippingMethodInterface,
-    DPDHandledShippingMethodAwareInterface,
     ShippingMethodIconAwareInterface
 {
-    const IDENTIFIER = 'dpd';
-    const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?query=';
-    const TRACKING_REGEX = '/\b 0 [0-9]{13}\b/x';
+    public const HANDLING_FEE_OPTION = 'handling_fee';
 
-    const HANDLING_FEE_OPTION = 'handling_fee';
+    private const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?query=';
+    private const TRACKING_REGEX = '/\b 0 [0-9]{13}\b/x';
 
-    /**
-     * @var string
-     */
-    private $identifier;
+    private string $identifier;
+    private string $label;
+    private bool $isEnabled;
+    private ?string $icon;
+    /** @var ShippingMethodTypeInterface[] */
+    private array $types;
+    /** @var DPDHandlerInterface[] */
+    private array $handlers;
 
-    /**
-     * @var string
-     */
-    private $label;
-
-    /**
-     * @var bool
-     */
-    private $isEnabled;
-
-    /**
-     * @var string
-     */
-    private $icon;
-
-    /**
-     * @var ShippingMethodTypeInterface[]
-     */
-    private $types;
-
-    /**
-     * @var DPDHandlerInterface[]
-     */
-    private $handlers;
-
-    /**
-     * Construct.
-     *
-     * @param string               $identifier
-     * @param string               $label
-     * @param bool                 $isEnabled
-     * @param string               $icon
-     * @param array                $types
-     * @param array                $handlers
-     */
     public function __construct(
-        $identifier,
-        $label,
-        $isEnabled,
-        $icon,
+        string $identifier,
+        string $label,
+        bool $isEnabled,
+        ?string $icon,
         array $types,
         array $handlers
     ) {
         $this->identifier = $identifier;
-        $this->label = (string) $label;
+        $this->label = $label;
         $this->isEnabled = $isEnabled;
         $this->icon = $icon;
         $this->types = $types;
@@ -85,7 +52,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -93,7 +60,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
@@ -101,7 +68,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function isGrouped()
+    public function isGrouped(): bool
     {
         return true;
     }
@@ -117,7 +84,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
@@ -125,7 +92,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
     }
@@ -133,12 +100,12 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getType($identifier)
+    public function getType(string $identifier): ?ShippingMethodTypeInterface
     {
         $methodTypes = $this->getTypes();
-        if ($methodTypes !== null) {
+        if (null !== $methodTypes) {
             foreach ($methodTypes as $methodType) {
-                if ($methodType->getIdentifier() === (string) $identifier) {
+                if ($methodType->getIdentifier() === $identifier) {
                     return $methodType;
                 }
             }
@@ -150,7 +117,7 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getOptionsConfigurationFormType()
+    public function getOptionsConfigurationFormType(): ?string
     {
         return HiddenType::class;
     }
@@ -158,61 +125,57 @@ class DPDShippingMethod implements
     /**
      * {@inheritDoc}
      */
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return 20;
     }
 
     /**
-     * @param string $number
-     *
-     * @return null|string
+     * {@inheritDoc}
      */
-    public function getTrackingLink($number)
+    public function getTrackingLink(string $number): ?string
     {
         if (!preg_match(self::TRACKING_REGEX, $number, $match)) {
             return null;
         }
 
-        return self::TRACKING_URL.$match[0];
+        return self::TRACKING_URL . $match[0];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function calculatePrices(ShippingContextInterface $context, array $methodOptions, array $optionsByTypes)
-    {
-        $prices = [];
-
-        if (count($this->getTypes()) < 1) {
-            return $prices;
+    public function calculatePrices(
+        ShippingContextInterface $context,
+        array $methodOptions,
+        array $optionsByTypes
+    ): array {
+        if (\count($this->getTypes()) === 0) {
+            return [];
         }
 
+        $prices = [];
         foreach ($optionsByTypes as $typeId => $typeOptions) {
-            $type = $this->getType($typeId);
-            $prices[$typeId] = $type->calculatePrice($context, $methodOptions, $typeOptions);
+            $prices[$typeId] = $this->getType($typeId)->calculatePrice($context, $methodOptions, $typeOptions);
         }
 
         return $prices;
     }
 
     /**
-     * {@inheritDoc}
+     * @return DPDHandlerInterface[]
      */
-    public function getDPDHandlers()
+    public function getDPDHandlers(): array
     {
         return $this->handlers;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getDPDHandler($identifier)
+    public function getDPDHandler(string $identifier): ?DPDHandlerInterface
     {
         $handlers = $this->getDPDHandlers();
         if ($handlers !== null) {
             foreach ($handlers as $handler) {
-                if ($handler->getIdentifier() === (string) $identifier) {
+                if ($handler->getIdentifier() === $identifier) {
                     return $handler;
                 }
             }
