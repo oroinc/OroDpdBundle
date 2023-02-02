@@ -6,93 +6,49 @@ use Oro\Bundle\CurrencyBundle\Entity\Price;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDSettings;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Form\Type\DPDShippingMethodOptionsType;
-use Oro\Bundle\DPDBundle\Provider\DPDTransport as DPDTransportProvider;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\DPDBundle\Provider\RateProvider;
 use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Method\ShippingMethodTypeInterface;
 
 /**
- * DPD shipping method type implementation.
+ * Represents DPD shipping method type.
  */
 class DPDShippingMethodType implements ShippingMethodTypeInterface
 {
-    /** @var string */
-    protected $identifier;
+    private string $identifier;
+    private string $label;
+    private DPDSettings $transport;
+    private ShippingService $shippingService;
+    private PackageProvider $packageProvider;
+    private RateProvider $rateProvider;
 
-    /** @var string */
-    protected string $label;
-
-    /**
-     * @var string
-     */
-    protected $methodId;
-
-    /**
-     * @var DPDSettings
-     */
-    protected $transport;
-
-    /**
-     * @var DPDTransportProvider
-     */
-    protected $transportProvider;
-
-    /**
-     * @var ShippingService
-     */
-    protected $shippingService;
-
-    /**
-     * @var PackageProvider
-     */
-    protected $packageProvider;
-
-    /**
-     * @var RateProvider
-     */
-    protected $rateProvider;
-
-    /**
-     * @param $identifier
-     * @param $label
-     * @param string               $methodId
-     * @param ShippingService      $shippingService
-     * @param DPDSettings          $transport
-     * @param DPDTransportProvider $transportProvider
-     * @param PackageProvider      $packageProvider
-     * @param RateProvider         $rateProvider
-     */
     public function __construct(
-        $identifier,
-        $label,
-        $methodId,
+        string $identifier,
+        string $label,
         ShippingService $shippingService,
         DPDSettings $transport,
-        DPDTransportProvider $transportProvider,
         PackageProvider $packageProvider,
         RateProvider $rateProvider
     ) {
         $this->identifier = $identifier;
-        $this->label = (string) $label;
-        $this->methodId = $methodId;
+        $this->label = $label;
         $this->shippingService = $shippingService;
         $this->transport = $transport;
-        $this->transportProvider = $transportProvider;
         $this->packageProvider = $packageProvider;
         $this->rateProvider = $rateProvider;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getLabel(): string
     {
@@ -100,32 +56,35 @@ class DPDShippingMethodType implements ShippingMethodTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getSortOrder()
+    public function getSortOrder(): int
     {
         return 0;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getOptionsConfigurationFormType()
+    public function getOptionsConfigurationFormType(): ?string
     {
         return DPDShippingMethodOptionsType::class;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function calculatePrice(ShippingContextInterface $context, array $methodOptions, array $typeOptions)
-    {
+    public function calculatePrice(
+        ShippingContextInterface $context,
+        array $methodOptions,
+        array $typeOptions
+    ): ?Price {
         if (!$context->getShippingAddress()) {
             return null;
         }
 
         $packageList = $this->packageProvider->createPackages($context->getLineItems());
-        if (!$packageList || count($packageList) !== 1) {
+        if (!$packageList || \count($packageList) !== 1) {
             return null;
         }
 
