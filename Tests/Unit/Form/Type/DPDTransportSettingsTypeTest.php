@@ -19,7 +19,7 @@ use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Bundle\ShippingBundle\Form\Type\WeightUnitSelectType;
 use Oro\Component\Testing\Unit\EntityTrait;
-use Oro\Component\Testing\Unit\Form\Type\Stub\EntityType as EntityTypeStub;
+use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -31,43 +31,29 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
 {
     use EntityTrait;
 
-    const DATA_CLASS = 'Oro\Bundle\DPDBundle\Entity\DPDTransport';
-
-    /**
-     * @var TransportInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transport;
+    /** @var TransportInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $transport;
 
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
-    protected $doctrineHelper;
+    private $doctrineHelper;
 
-    /**
-     * @var DPDTransportSettingsType
-     */
-    protected $formType;
+    /** @var DPDTransportSettingsType */
+    private $formType;
 
-    /**
-     * @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symmetricCrypter;
+    /** @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $symmetricCrypter;
 
     protected function setUp(): void
     {
         $this->transport = $this->createMock(TransportInterface::class);
+        $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
+        $this->symmetricCrypter = $this->createMock(SymmetricCrypterInterface::class);
+
         $this->transport->expects(static::any())
             ->method('getSettingsEntityFQCN')
-            ->willReturn(static::DATA_CLASS);
+            ->willReturn(DPDTransport::class);
 
-        $this->doctrineHelper = $this->getMockBuilder('Oro\Bundle\EntityBundle\ORM\DoctrineHelper')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->symmetricCrypter = $this
-            ->getMockBuilder(SymmetricCrypterInterface::class)
-            ->getMock();
-
-        /** @var RoundingServiceInterface|\PHPUnit\Framework\MockObject\MockObject $roundingService */
-        $roundingService = $this->getMockForAbstractClass(RoundingServiceInterface::class);
+        $roundingService = $this->createMock(RoundingServiceInterface::class);
         $roundingService->expects(static::any())
             ->method('getPrecision')
             ->willReturn(4);
@@ -85,60 +71,32 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
-        $entityType = new EntityTypeStub(
-            [
-                1 => $this->getEntity(
-                    'Oro\Bundle\DPDBundle\Entity\ShippingService',
-                    [
-                        'code' => 'Classic',
-                        'description' => 'DPD Classic',
-                    ]
-                ),
-                2 => $this->getEntity(
-                    'Oro\Bundle\DPDBundle\Entity\ShippingService',
-                    [
-                        'code' => 'Express_830',
-                        'description' => 'DPD Express 8:30',
-                    ]
-                ),
-            ],
-            'entity'
-        );
-
-        $unitOfWeightEntity = new EntityTypeStub(
-            [
-                'mg' => $this->getEntity(
-                    'Oro\Bundle\ShippingBundle\Entity\WeightUnit',
-                    ['code' => 'mg']
-                ),
-                'kg' => $this->getEntity(
-                    'Oro\Bundle\ShippingBundle\Entity\WeightUnit',
-                    ['code' => 'kg']
-                ),
-            ],
-            WeightUnitSelectType::NAME
-        );
-        /** @var ManagerRegistry|\PHPUnit\Framework\MockObject\MockObject $registry */
-        $registry = $this->getMockBuilder('Doctrine\Persistence\ManagerRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $localizedFallbackValue = new LocalizedFallbackValueCollectionType($registry);
-
         return [
             new PreloadedExtension(
                 [
-                    DPDTransportSettingsType::class => $this->formType,
-                    EntityType::class => $entityType,
-                    WeightUnitSelectType::class => $unitOfWeightEntity,
-                    LocalizedPropertyType::class => new LocalizedPropertyType(),
+                    $this->formType,
+                    EntityType::class => new EntityTypeStub([
+                        1 => $this->getEntity(ShippingService::class, [
+                            'code' => 'Classic',
+                            'description' => 'DPD Classic',
+                        ]),
+                        2 => $this->getEntity(ShippingService::class, [
+                            'code' => 'Express_830',
+                            'description' => 'DPD Express 8:30',
+                        ]),
+                    ]),
+                    WeightUnitSelectType::class => new EntityTypeStub([
+                        'mg' => $this->getEntity(WeightUnit::class, ['code' => 'mg']),
+                        'kg' => $this->getEntity(WeightUnit::class, ['code' => 'kg']),
+                    ]),
+                    new LocalizedPropertyType(),
                     LocalizationCollectionType::class => new LocalizationCollectionTypeStub(),
-                    LocalizedFallbackValueCollectionType::class => $localizedFallbackValue,
-                    OroEncodedPlaceholderPasswordType::class
-                        => new OroEncodedPlaceholderPasswordType($this->symmetricCrypter),
+                    new LocalizedFallbackValueCollectionType($this->createMock(ManagerRegistry::class)),
+                    new OroEncodedPlaceholderPasswordType($this->symmetricCrypter),
                 ],
                 []
             ),
@@ -147,16 +105,12 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     }
 
     /**
-     * @param DPDTransport       $defaultData
-     * @param array|DPDTransport $submittedData
-     * @param bool               $isValid
-     * @param DPDTransport       $expectedData
      * @dataProvider submitProvider
      */
     public function testSubmit(
         DPDTransport $defaultData,
         array $submittedData,
-        $isValid,
+        bool $isValid,
         DPDTransport $expectedData
     ) {
         if (count($submittedData) > 0) {
@@ -178,14 +132,11 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         static::assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    public function submitProvider(): array
     {
         /** @var ShippingService $expectedShippingService */
         $expectedShippingService = $this->getEntity(
-            'Oro\Bundle\DPDBundle\Entity\ShippingService',
+            ShippingService::class,
             [
                 'code' => 'Classic',
                 'description' => 'DPD Classic',
@@ -234,8 +185,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
 
     public function testConfigureOptions()
     {
-        /** @var OptionsResolver|\PHPUnit\Framework\MockObject\MockObject $resolver */
-        $resolver = $this->createMock('Symfony\Component\OptionsResolver\OptionsResolver');
+        $resolver = $this->createMock(OptionsResolver::class);
         $resolver->expects(static::once())
             ->method('setDefaults')
             ->with([
