@@ -5,11 +5,13 @@ namespace Oro\Bundle\DPDBundle\Validator\Constraints;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
-use Oro\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validate csv file rates.
+ */
 class RatesCsvFileValidator extends ConstraintValidator
 {
     const ALIAS = 'oro_dpd_rates_csv_file_validator';
@@ -18,11 +20,6 @@ class RatesCsvFileValidator extends ConstraintValidator
      * @var DoctrineHelper
      */
     protected $doctrineHelper;
-
-    /**
-     * @var PropertyAccessor
-     */
-    protected $propertyAccessor;
 
     public function __construct(DoctrineHelper $doctrineHelper)
     {
