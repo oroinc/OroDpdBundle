@@ -10,11 +10,11 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OroDPDExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('conditions.yml');
         $loader->load('form_types.yml');
