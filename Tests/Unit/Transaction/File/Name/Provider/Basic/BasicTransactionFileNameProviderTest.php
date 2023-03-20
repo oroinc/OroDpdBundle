@@ -9,9 +9,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $translator;
 
     protected function setUp(): void
@@ -27,18 +25,18 @@ class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 
         $order = $this->createMock(Order::class);
 
-        $order->expects(static::once())
+        $order->expects(self::once())
             ->method('getIdentifier')
             ->willReturn($orderIdentifier);
 
         $translatedMessage = 'File comment';
 
         $transaction = $this->createMock(SetOrderResponse::class);
-        $transaction->expects(static::once())
+        $transaction->expects(self::once())
             ->method('getParcelNumbers')
             ->willReturn([1, 4, '5']);
 
-        $this->translator->expects(static::once())
+        $this->translator->expects(self::once())
             ->method('trans')
             ->with($messageId, [
                 '%orderNumber%' => $orderIdentifier,
@@ -50,6 +48,6 @@ class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 
         $expectedName = $translatedMessage.'.pdf';
 
-        static::assertEquals($expectedName, $provider->getTransactionFileName($order, $transaction));
+        self::assertEquals($expectedName, $provider->getTransactionFileName($order, $transaction));
     }
 }

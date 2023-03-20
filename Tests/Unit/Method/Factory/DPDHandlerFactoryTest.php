@@ -17,39 +17,25 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDMethodTypeIdentifierGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $typeIdentifierGenerator;
 
-    /**
-     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject */
     private $transport;
 
-    /**
-     * @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject */
     private $packageProvider;
 
-    /**
-     * @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject */
     private $dpdRequestFactory;
 
-    /**
-     * @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $zipCodeRulesCache;
 
-    /**
-     * @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $shippingLineItemConverter;
 
-    /**
-     * @var DPDShippingMethodTypeFactory|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var DPDShippingMethodTypeFactory */
     private $factory;
 
     protected function setUp(): void
@@ -74,18 +60,14 @@ class DPDHandlerFactoryTest extends \PHPUnit\Framework\TestCase
     public function testCreate()
     {
         $identifier = 'dpd_1_59';
-        $methodId = 'dpd_1';
 
-        /** @var DPDSettings|\PHPUnit\Framework\MockObject\MockObject $settings */
         $settings = $this->createMock(DPDSettings::class);
 
-        /** @var Channel|\PHPUnit\Framework\MockObject\MockObject $channel */
         $channel = $this->createMock(Channel::class);
         $channel->expects($this->any())
             ->method('getTransport')
             ->willReturn($settings);
 
-        /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject $service */
         $service = $this->createMock(ShippingService::class);
 
         $this->typeIdentifierGenerator->expects($this->once())

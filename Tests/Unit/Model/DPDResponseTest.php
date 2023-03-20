@@ -10,7 +10,7 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider evaluateDataProvider
      */
-    public function testEvaluate(array $values, $expectedResult)
+    public function testEvaluate(array $values, array $expectedResult)
     {
         $response = new DPDResponse();
         $this->assertFalse($response->isSuccessful());
@@ -27,10 +27,7 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateDataProvider()
+    public function evaluateDataProvider(): array
     {
         return [
             'successful_response' => [
@@ -108,10 +105,7 @@ class DPDResponseTest extends \PHPUnit\Framework\TestCase
         $response->parse($values);
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateThrowingDataProvider()
+    public function evaluateThrowingDataProvider(): array
     {
         return [
             'empty_response' => [

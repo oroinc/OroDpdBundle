@@ -11,7 +11,7 @@ class PackageTest extends \PHPUnit\Framework\TestCase
 
     public function testAccessors()
     {
-        static::assertPropertyAccessors(
+        self::assertPropertyAccessors(
             new Package(),
             [
                 ['weight', 1.0],

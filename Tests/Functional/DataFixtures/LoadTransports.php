@@ -13,9 +13,9 @@ use Symfony\Component\Yaml\Yaml;
 class LoadTransports extends AbstractFixture implements DependentFixtureInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getTransportsData() as $reference => $data) {
             $entity = new DPDTransport();
@@ -32,33 +32,23 @@ class LoadTransports extends AbstractFixture implements DependentFixtureInterfac
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
-        return [
-            __NAMESPACE__.'\LoadShippingServices',
-        ];
+        return [LoadShippingServices::class];
     }
 
-    /**
-     * @return array
-     */
-    protected function getTransportsData()
+    private function getTransportsData(): array
     {
         return Yaml::parse(file_get_contents(__DIR__.'/data/transports.yml'));
     }
 
-    /**
-     * @param object $entity
-     * @param array  $data
-     * @param array  $excludeProperties
-     */
-    public function setEntityPropertyValues($entity, array $data, array $excludeProperties = [])
+    private function setEntityPropertyValues(object $entity, array $data, array $excludeProperties = []): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         foreach ($data as $property => $value) {
-            if (in_array($property, $excludeProperties, true)) {
+            if (\in_array($property, $excludeProperties, true)) {
                 continue;
             }
             $propertyAccessor->setValue($entity, $property, $value);

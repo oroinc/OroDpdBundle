@@ -10,7 +10,6 @@ use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
 class DPDTransportTest extends \PHPUnit\Framework\TestCase
 {
@@ -19,7 +18,7 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
 
     public function testAccessors()
     {
-        static::assertPropertyAccessors(new DPDTransport(), [
+        self::assertPropertyAccessors(new DPDTransport(), [
             ['dpdTestMode', false],
             ['cloudUserId', 'some string'],
             ['cloudUserToken', 'some string'],
@@ -31,7 +30,7 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
             ['labelStartPosition', 'some string'],
             ['invalidateCacheAt', new \DateTime('2020-01-01')],
         ]);
-        static::assertPropertyCollections(new DPDTransport(), [
+        self::assertPropertyCollections(new DPDTransport(), [
             ['applicableShippingServices', new ShippingService()],
             ['rates', new Rate()],
             ['labels', new LocalizedFallbackValue()],
@@ -40,9 +39,8 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
 
     public function testGetSettingsBag()
     {
-        /** @var DPDTransport $entity */
         $entity = $this->getEntity(
-            'Oro\Bundle\DPDBundle\Entity\DPDTransport',
+            DPDTransport::class,
             [
                 'dpdTestMode' => false,
                 'cloudUserId' => 'some cloud user id',
@@ -58,28 +56,27 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        /** @var ParameterBag $result */
         $result = $entity->getSettingsBag();
 
-        static::assertFalse($result->get('test_mode'));
-        static::assertEquals('some cloud user id', $result->get('cloud_user_id'));
-        static::assertEquals('some cloud user token', $result->get('cloud_user_token'));
-        static::assertEquals(((new WeightUnit())->setCode('kg')), $result->get('unit_of_weight'));
-        static::assertEquals(DPDTransport::FLAT_RATE_POLICY, $result->get('rate_policy'));
-        static::assertEquals('1.000', $result->get('flat_rate_price_value'));
-        static::assertEquals(DPDTransport::PDF_A4_LABEL_SIZE, $result->get('label_size'));
-        static::assertEquals(DPDTransport::UPPERLEFT_LABEL_START_POSITION, $result->get('label_start_position'));
-        static::assertEquals(new \DateTime('2020-01-01'), $result->get('invalidate_cache_at'));
+        self::assertFalse($result->get('test_mode'));
+        self::assertEquals('some cloud user id', $result->get('cloud_user_id'));
+        self::assertEquals('some cloud user token', $result->get('cloud_user_token'));
+        self::assertEquals(((new WeightUnit())->setCode('kg')), $result->get('unit_of_weight'));
+        self::assertEquals(DPDTransport::FLAT_RATE_POLICY, $result->get('rate_policy'));
+        self::assertEquals('1.000', $result->get('flat_rate_price_value'));
+        self::assertEquals(DPDTransport::PDF_A4_LABEL_SIZE, $result->get('label_size'));
+        self::assertEquals(DPDTransport::UPPERLEFT_LABEL_START_POSITION, $result->get('label_start_position'));
+        self::assertEquals(new \DateTime('2020-01-01'), $result->get('invalidate_cache_at'));
 
-        static::assertEquals(
+        self::assertEquals(
             $result->get('applicable_shipping_services'),
             $entity->getApplicableShippingServices()->toArray()
         );
-        static::assertEquals(
+        self::assertEquals(
             $result->get('rates'),
             $entity->getRates()->toArray()
         );
-        static::assertEquals(
+        self::assertEquals(
             $result->get('labels'),
             $entity->getLabels()->toArray()
         );

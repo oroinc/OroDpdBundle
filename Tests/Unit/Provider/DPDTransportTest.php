@@ -5,52 +5,39 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportEntity;
 use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
+use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
+use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 use Oro\Bundle\DPDBundle\Provider\DPDTransport;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientFactoryInterface;
+use Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientInterface;
+use Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestResponseInterface;
 use Oro\Bundle\IntegrationBundle\Provider\Rest\Exception\RestException;
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Psr\Log\LoggerInterface;
 
 class DPDTransportTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RestClientFactoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $clientFactory;
+    /** @var RestClientFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $clientFactory;
 
-    /**
-     * @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $symmetricCrypter;
+    /** @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $symmetricCrypter;
 
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $client;
+    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    private $client;
 
-    /**
-     * @var DPDTransport
-     */
-    protected $transport;
+    /** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    private $logger;
 
-    /**
-     * @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $logger;
+    /** @var DPDTransport */
+    private $transport;
 
     protected function setUp(): void
     {
-        $this->client = $this->createMock('Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientInterface');
-
-        $this->clientFactory = $this->createMock(
-            'Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestClientFactoryInterface'
-        );
-
-        $this->symmetricCrypter = $this->createMock(
-            'Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface'
-        );
-
+        $this->client = $this->createMock(RestClientInterface::class);
+        $this->clientFactory = $this->createMock(RestClientFactoryInterface::class);
+        $this->symmetricCrypter = $this->createMock(SymmetricCrypterInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->transport = new DPDTransport($this->logger, $this->symmetricCrypter);
@@ -59,17 +46,17 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLabel()
     {
-        static::assertEquals('oro.dpd.transport.label', $this->transport->getLabel());
+        self::assertEquals('oro.dpd.transport.label', $this->transport->getLabel());
     }
 
     public function testGetSettingsFormType()
     {
-        static::assertEquals(DPDTransportSettingsType::class, $this->transport->getSettingsFormType());
+        self::assertEquals(DPDTransportSettingsType::class, $this->transport->getSettingsFormType());
     }
 
     public function testGetSettingsEntityFQCN()
     {
-        static::assertEquals('Oro\Bundle\DPDBundle\Entity\DPDTransport', $this->transport->getSettingsEntityFQCN());
+        self::assertEquals(DPDTransportEntity::class, $this->transport->getSettingsEntityFQCN());
     }
 
     public function testGetSetOrderResponse()
@@ -80,11 +67,11 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
         $transportEntity = new DPDTransportEntity();
         $integration->setTransport($transportEntity);
 
-        $this->clientFactory->expects(static::once())
+        $this->clientFactory->expects(self::once())
             ->method('createRestClient')
             ->willReturn($this->client);
 
-        $restResponse = $this->createMock('Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestResponseInterface');
+        $restResponse = $this->createMock(RestResponseInterface::class);
 
         $json = '{
                    "Version": 100,
@@ -103,16 +90,16 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
                 }';
         $jsonArr = json_decode($json, true);
 
-        $restResponse->expects(static::once())
+        $restResponse->expects(self::once())
             ->method('json')
             ->willReturn($jsonArr);
 
-        $this->client->expects(static::once())
+        $this->client->expects(self::once())
             ->method('post')
             ->willReturn($restResponse);
 
         $setOrderResponse = $this->transport->getSetOrderResponse($setOrderRequest, $transportEntity);
-        static::assertInstanceOf('Oro\Bundle\DPDBundle\Model\SetOrderResponse', $setOrderResponse);
+        self::assertInstanceOf(SetOrderResponse::class, $setOrderResponse);
     }
 
     public function testGetSetOrderResponseRestException()
@@ -123,15 +110,15 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
         $transportEntity = new DPDTransportEntity();
         $integration->setTransport($transportEntity);
 
-        $this->clientFactory->expects(static::once())
+        $this->clientFactory->expects(self::once())
             ->method('createRestClient')
             ->willReturn($this->client);
 
-        $this->client->expects(static::once())
+        $this->client->expects(self::once())
             ->method('post')
-            ->will($this->throwException(new RestException('404')));
+            ->willThrowException(new RestException('404'));
 
-        $this->logger->expects(static::once())
+        $this->logger->expects(self::once())
             ->method('error')
             ->with(
                 sprintf(
@@ -149,11 +136,11 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
         $transportEntity = new DPDTransportEntity();
         $integration->setTransport($transportEntity);
 
-        $this->clientFactory->expects(static::once())
+        $this->clientFactory->expects(self::once())
             ->method('createRestClient')
             ->willReturn($this->client);
 
-        $restResponse = $this->createMock('Oro\Bundle\IntegrationBundle\Provider\Rest\Client\RestResponseInterface');
+        $restResponse = $this->createMock(RestResponseInterface::class);
 
         $json = '{
                    "Version": 100,
@@ -172,16 +159,16 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
                 }';
         $jsonArr = json_decode($json, true);
 
-        $restResponse->expects(static::once())
+        $restResponse->expects(self::once())
             ->method('json')
             ->willReturn($jsonArr);
 
-        $this->client->expects(static::once())
+        $this->client->expects(self::once())
             ->method('get')
             ->willReturn($restResponse);
 
         $zipCodeRulesResponse = $this->transport->getZipCodeRulesResponse($transportEntity);
-        static::assertInstanceOf('Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse', $zipCodeRulesResponse);
+        self::assertInstanceOf(ZipCodeRulesResponse::class, $zipCodeRulesResponse);
     }
 
     public function testGetZipCodeRulesResponseRestException()
@@ -190,15 +177,15 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
         $transportEntity = new DPDTransportEntity();
         $integration->setTransport($transportEntity);
 
-        $this->clientFactory->expects(static::once())
+        $this->clientFactory->expects(self::once())
             ->method('createRestClient')
             ->willReturn($this->client);
 
-        $this->client->expects(static::once())
+        $this->client->expects(self::once())
             ->method('get')
-            ->will($this->throwException(new RestException('404')));
+            ->willThrowException(new RestException('404'));
 
-        $this->logger->expects(static::once())
+        $this->logger->expects(self::once())
             ->method('error')
             ->with(
                 sprintf(

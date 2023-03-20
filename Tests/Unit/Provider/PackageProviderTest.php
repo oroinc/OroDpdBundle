@@ -24,50 +24,34 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
 {
     use EntityTrait;
 
-    /**
-     * @var MeasureUnitConversion|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $measureUnitConversion;
+    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
+    private $localizationHelper;
 
-    /**
-     * @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $localizationHelper;
-
-    /**
-     * @var PackageProvider
-     */
-    protected $packageProvider;
+    /** @var PackageProvider */
+    private $packageProvider;
 
     protected function setUp(): void
     {
-        $this->measureUnitConversion = $this->getMockBuilder(MeasureUnitConversion::class)
-            ->disableOriginalConstructor()->getMock();
-        $this->measureUnitConversion->expects(static::any())->method('convert')->willReturnCallback(
-            function () {
+        $this->localizationHelper = $this->createMock(LocalizationHelper::class);
+
+        $measureUnitConversion = $this->createMock(MeasureUnitConversion::class);
+        $measureUnitConversion->expects(self::any())
+            ->method('convert')
+            ->willReturnCallback(function () {
                 $args = func_get_args();
 
                 return $args[0];
-            }
-        );
+            });
 
-        $this->localizationHelper = $this->getMockBuilder(LocalizationHelper::class)
-            ->disableOriginalConstructor()->getMock();
-
-        $this->packageProvider = new PackageProvider($this->measureUnitConversion, $this->localizationHelper);
+        $this->packageProvider = new PackageProvider($measureUnitConversion, $this->localizationHelper);
     }
 
     /**
-     * @param int            $lineItemCnt
-     * @param int            $productWeight
-     * @param Package[]|null $expectedPackages
-     *
      * @dataProvider packagesDataProvider
      */
-    public function testCreatePackages($lineItemCnt, $productWeight, $expectedPackages)
+    public function testCreatePackages(int $lineItemCnt, int|float $productWeight, ?array $expectedPackages)
     {
-        $this->localizationHelper
-            ->expects(self::any())
+        $this->localizationHelper->expects(self::any())
             ->method('getLocalizedValue')->willReturn('product name');
 
         $lineItems = [];
@@ -86,21 +70,22 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
             ShippingContext::FIELD_LINE_ITEMS => new DoctrineShippingLineItemCollection($lineItems),
         ]);
 
-        $repository = $this->getMockBuilder(ObjectRepository::class)->disableOriginalConstructor()->getMock();
-        $repository->expects(self::any())->method('findBy')->willReturn($allProductsShippingOptions);
+        $repository = $this->createMock(ObjectRepository::class);
+        $repository->expects(self::any())
+            ->method('findBy')
+            ->willReturn($allProductsShippingOptions);
 
-        $manager = $this->getMockBuilder(ObjectManager::class)->disableOriginalConstructor()->getMock();
-        $manager->expects(self::any())->method('getRepository')->willReturn($repository);
+        $manager = $this->createMock(ObjectManager::class);
+        $manager->expects(self::any())
+            ->method('getRepository')
+            ->willReturn($repository);
 
         $packages = $this->packageProvider->createPackages($context->getLineItems());
 
-        static::assertEquals($expectedPackages, $packages);
+        self::assertEquals($expectedPackages, $packages);
     }
 
-    /**
-     * @return array
-     */
-    public function packagesDataProvider()
+    public function packagesDataProvider(): array
     {
         return [
             'OnePackage' => [
@@ -131,13 +116,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    /**
-     * @param Product $product
-     * @param float   $productWeight
-     *
-     * @return ShippingLineItem
-     */
-    private function createShippingLineItem(Product $product, $productWeight)
+    private function createShippingLineItem(Product $product, float $productWeight): ShippingLineItem
     {
         return new ShippingLineItem([
             ShippingLineItem::FIELD_PRODUCT => $product,
@@ -156,13 +135,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    /**
-     * @param Product $product
-     * @param float   $productWeight
-     *
-     * @return object
-     */
-    private function createProductShippingOptions(Product $product, $productWeight)
+    private function createProductShippingOptions(Product $product, float $productWeight): ProductShippingOptions
     {
         return $this->getEntity(
             ProductShippingOptions::class,

@@ -11,8 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyPath;
 
 class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ShippedWithDPD */
-    private $condition;
+    private ShippedWithDPD $condition;
 
     protected function setUp(): void
     {

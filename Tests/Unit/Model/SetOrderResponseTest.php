@@ -10,7 +10,7 @@ class SetOrderResponseTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider evaluateDataProvider
      */
-    public function testEvaluate(array $values, $expectedResult)
+    public function testEvaluate(array $values, array $expectedResult)
     {
         $response = new SetOrderResponse();
         $this->assertFalse($response->isSuccessful());
@@ -26,10 +26,7 @@ class SetOrderResponseTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateDataProvider()
+    public function evaluateDataProvider(): array
     {
         return [
             'one_parcel_response' => [
@@ -97,10 +94,7 @@ class SetOrderResponseTest extends \PHPUnit\Framework\TestCase
         $response->parse($values);
     }
 
-    /**
-     * @return array
-     */
-    public function evaluateThrowingDataProvider()
+    public function evaluateThrowingDataProvider(): array
     {
         return [
             'no_label_response' => [

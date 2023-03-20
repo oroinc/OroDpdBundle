@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class RatesCsvTypeTest extends FormIntegrationTestCase
 {
-    /** @var RatesCsvType */
-    protected $formType;
+    private RatesCsvType $formType;
 
     protected function setUp(): void
     {
@@ -21,77 +20,50 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals(RatesCsvType::NAME, $this->formType->getBlockPrefix());
+        self::assertEquals(RatesCsvType::NAME, $this->formType->getBlockPrefix());
     }
 
-    /**
-     * @param array $submittedData
-     * @param mixed $expectedData
-     * @param mixed $defaultData
-     *
-     * @dataProvider submitProvider
-     */
-    public function testSubmit($submittedData, $expectedData, $defaultData = null)
+    public function testSubmitForNullData()
     {
-        if ($submittedData === 'file') {
-            $submittedData = $this->createUploadedFileMock('filename', 'original_filename', true);
-        }
-        if ($expectedData === 'file') {
-            $expectedData = $this->createUploadedFileMock('filename', 'original_filename', true);
-        }
-
-        $form = $this->factory->createBuilder(RatesCsvType::class, $defaultData)
+        $form = $this->factory->createBuilder(RatesCsvType::class)
             ->setRequestHandler(new HttpFoundationRequestHandler())
             ->getForm();
 
-        static::assertEquals($defaultData, $form->getData());
+        self::assertNull($form->getData());
+
+        $form->submit(null);
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
+        self::assertNull($form->getData());
+    }
+
+    public function testSubmit()
+    {
+        $submittedData = $this->getUploadedFile('filename', 'original_filename', true);
+        $expectedData = $this->getUploadedFile('filename', 'original_filename', true);
+
+        $form = $this->factory->createBuilder(RatesCsvType::class)
+            ->setRequestHandler(new HttpFoundationRequestHandler())
+            ->getForm();
+
+        self::assertNull($form->getData());
 
         $form->submit($submittedData);
-        static::assertTrue($form->isValid());
-        static::assertTrue($form->isSynchronized());
-        static::assertEquals($expectedData, $form->getData());
+        self::assertTrue($form->isValid());
+        self::assertTrue($form->isSynchronized());
+        self::assertEquals($expectedData, $form->getData());
     }
 
-    /**
-     * @return array
-     */
-    public function submitProvider()
+    private function getUploadedFile(string $name, string $originalName, bool $valid): UploadedFile
     {
-        return [
-            'empty default data' => [
-                'submittedData' => null,
-                'expectedData' => null,
-            ],
-            'full data' => [
-                'submittedData' => 'file',
-                'expectedData' => 'file',
-                'defaultData' => null,
-            ],
-        ];
-    }
-
-    /**
-     * @param $name
-     * @param $originalName
-     * @param $valid
-     * @return \PHPUnit\Framework\MockObject\MockObject|UploadedFile
-     */
-    private function createUploadedFileMock($name, $originalName, $valid)
-    {
-        $file = $this
-            ->getMockBuilder(UploadedFile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $file
+        $file = $this->createMock(UploadedFile::class);
+        $file->expects(self::any())
             ->method('getBasename')
             ->willReturn($name);
-
-        $file
+        $file->expects(self::any())
             ->method('getClientOriginalName')
             ->willReturn($originalName);
-
-        $file
+        $file->expects(self::any())
             ->method('isValid')
             ->willReturn($valid);
 

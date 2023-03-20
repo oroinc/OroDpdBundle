@@ -8,14 +8,10 @@ use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var AbstractAdapter|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var AbstractAdapter|\PHPUnit\Framework\MockObject\MockObject */
     private $upsPriceCache;
 
-    /**
-     * @var InvalidateCacheActionHandler
-     */
+    /** @var InvalidateCacheActionHandler */
     private $handler;
 
     protected function setUp(): void
@@ -29,7 +25,7 @@ class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $dataStorage = new InvalidateCacheDataStorage([]);
 
-        $this->upsPriceCache->expects(static::once())
+        $this->upsPriceCache->expects(self::once())
             ->method('clear');
 
         $this->handler->handle($dataStorage);
