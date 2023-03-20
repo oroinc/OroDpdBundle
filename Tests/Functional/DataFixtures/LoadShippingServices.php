@@ -9,18 +9,15 @@ use Symfony\Component\Yaml\Yaml;
 class LoadShippingServices extends AbstractShippingServiceFixture
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->addUpdateShippingServices($manager, $this->getShippingServicesData(), true);
         $manager->flush();
     }
 
-    /**
-     * @return array
-     */
-    protected function getShippingServicesData()
+    private function getShippingServicesData(): array
     {
         return Yaml::parse(file_get_contents(__DIR__.'/data/shipping_services.yml'));
     }

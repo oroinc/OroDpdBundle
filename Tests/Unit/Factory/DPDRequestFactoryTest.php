@@ -5,66 +5,35 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Factory;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Factory\DPDRequestFactory;
-use Oro\Bundle\DPDBundle\Model\OrderData;
 use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
-use Oro\Component\Testing\Unit\EntityTrait;
 
 class DPDRequestFactoryTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTrait;
-
     /**
-     * @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $transport;
-
-    /**
-     * @var ShippingService|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $shippingService;
-
-    /** @var DPDRequestFactory */
-    protected $dpdRequestFactory;
-
-    protected function setUp(): void
-    {
-        $this->transport = $this->getEntity(
-            DPDTransport::class,
-            [
-                'labelSize' => DPDTransport::PDF_A4_LABEL_SIZE,
-                'labelStartPosition' => DPDTransport::UPPERLEFT_LABEL_START_POSITION,
-            ]
-        );
-
-        $this->shippingService = $this->getEntity(
-            ShippingService::class,
-            [
-                'code' => 'Classic',
-                'description' => 'DPD Classic',
-            ]
-        );
-
-        $this->dpdRequestFactory = $this->createMock(DPDRequestFactory::class);
-
-        $this->dpdRequestFactory = new DPDRequestFactory();
-    }
-
-    /**
-     * @dataProvider testCreateSetOrderRequestDataProvider
+     * @dataProvider createSetOrderRequestDataProvider
      */
     public function testCreateSetOrderRequest(
-        $requestAction,
-        $shipDate,
-        $orderId,
-        $orderAddress,
-        $orderEmail,
-        $packages
+        string $requestAction,
+        \DateTime $shipDate,
+        string $orderId,
+        OrderAddress $orderAddress,
+        string $orderEmail,
+        array $packages
     ) {
-        $request = $this->dpdRequestFactory->createSetOrderRequest(
-            $this->transport,
-            $this->shippingService,
+        $transport = new DPDTransport();
+        $transport->setLabelSize(DPDTransport::PDF_A4_LABEL_SIZE);
+        $transport->setLabelStartPosition(DPDTransport::UPPERLEFT_LABEL_START_POSITION);
+
+        $shippingService = new ShippingService();
+        $shippingService->setCode('Classic');
+        $shippingService->setDescription('DPD Classic');
+
+        $dpdRequestFactory = new DPDRequestFactory();
+        $request = $dpdRequestFactory->createSetOrderRequest(
+            $transport,
+            $shippingService,
             $requestAction,
             $shipDate,
             $orderId,
@@ -72,20 +41,19 @@ class DPDRequestFactoryTest extends \PHPUnit\Framework\TestCase
             $orderEmail,
             $packages
         );
-        static::assertInstanceOf(SetOrderRequest::class, $request);
-        static::assertEquals(count($packages), count($request->getOrderDataList()));
-        static::assertEquals($requestAction, $request->getOrderAction());
-        static::assertEquals($shipDate, $request->getShipDate());
+        self::assertInstanceOf(SetOrderRequest::class, $request);
+        self::assertSameSize($packages, $request->getOrderDataList());
+        self::assertEquals($requestAction, $request->getOrderAction());
+        self::assertEquals($shipDate, $request->getShipDate());
         if (count($request->getOrderDataList()) > 0) {
-            /** @var OrderData $orderData */
             foreach ($request->getOrderDataList() as $idx => $orderData) {
-                static::assertEquals($packages[$idx]->getContents(), $orderData->getReference1());
-                static::assertEquals($orderId, $orderData->getReference2());
+                self::assertEquals($packages[$idx]->getContents(), $orderData->getReference1());
+                self::assertEquals($orderId, $orderData->getReference2());
             }
         }
     }
 
-    public function testCreateSetOrderRequestDataProvider()
+    public function createSetOrderRequestDataProvider(): array
     {
         return [
             'no_packages' => [

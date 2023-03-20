@@ -8,16 +8,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $translator;
-
-    protected function setUp(): void
-    {
-        $this->translator = $this->createMock(TranslatorInterface::class);
-    }
-
     public function testGetAttachmentComment()
     {
         $messageId = 'oro_dpd.message';
@@ -25,17 +15,18 @@ class BasicOrderShippingAttachmentCommentProviderTest extends \PHPUnit\Framework
         $translatedMessage = 'File comment';
 
         $transaction = $this->createMock(DPDTransaction::class);
-        $transaction->expects(static::once())
+        $transaction->expects(self::once())
             ->method('getParcelNumbers')
             ->willReturn([1, 4, '5']);
 
-        $this->translator->expects(static::once())
+        $translator = $this->createMock(TranslatorInterface::class);
+        $translator->expects(self::once())
             ->method('trans')
             ->with($messageId, ['%parcelNumbers%' => '1, 4, 5'])
             ->willReturn($translatedMessage);
 
-        $provider = new BasicOrderShippingAttachmentCommentProvider($messageId, $this->translator);
+        $provider = new BasicOrderShippingAttachmentCommentProvider($messageId, $translator);
 
-        static::assertEquals($translatedMessage, $provider->getAttachmentComment($transaction));
+        self::assertEquals($translatedMessage, $provider->getAttachmentComment($transaction));
     }
 }

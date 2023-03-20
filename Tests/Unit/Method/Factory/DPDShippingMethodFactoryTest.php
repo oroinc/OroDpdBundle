@@ -30,11 +30,11 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var DPDHandlerFactoryInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $handlerFactory;
 
-    /** @var DPDShippingMethodFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $factory;
-
     /** @var IntegrationIconProviderInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $integrationIconProvider;
+
+    /** @var DPDShippingMethodFactory */
+    private $factory;
 
     protected function setUp(): void
     {

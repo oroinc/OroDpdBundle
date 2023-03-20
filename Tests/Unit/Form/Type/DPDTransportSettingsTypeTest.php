@@ -37,11 +37,11 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     /** @var DoctrineHelper|\PHPUnit\Framework\MockObject\MockObject */
     private $doctrineHelper;
 
-    /** @var DPDTransportSettingsType */
-    private $formType;
-
     /** @var SymmetricCrypterInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $symmetricCrypter;
+
+    /** @var DPDTransportSettingsType */
+    private $formType;
 
     protected function setUp(): void
     {
@@ -49,15 +49,15 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->symmetricCrypter = $this->createMock(SymmetricCrypterInterface::class);
 
-        $this->transport->expects(static::any())
+        $this->transport->expects(self::any())
             ->method('getSettingsEntityFQCN')
             ->willReturn(DPDTransport::class);
 
         $roundingService = $this->createMock(RoundingServiceInterface::class);
-        $roundingService->expects(static::any())
+        $roundingService->expects(self::any())
             ->method('getPrecision')
             ->willReturn(4);
-        $roundingService->expects(static::any())
+        $roundingService->expects(self::any())
             ->method('getRoundType')
             ->willReturn(RoundingServiceInterface::ROUND_HALF_UP);
 
@@ -114,8 +114,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         DPDTransport $expectedData
     ) {
         if (count($submittedData) > 0) {
-            $this->symmetricCrypter
-                ->expects($this->once())
+            $this->symmetricCrypter->expects($this->once())
                 ->method('encryptData')
                 ->with($submittedData['cloudUserToken'])
                 ->willReturn($submittedData['cloudUserToken']);
@@ -123,13 +122,13 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
 
         $form = $this->factory->create(DPDTransportSettingsType::class, $defaultData, []);
 
-        static::assertEquals($defaultData, $form->getData());
+        self::assertEquals($defaultData, $form->getData());
 
         $form->submit($submittedData);
 
-        static::assertEquals($isValid, $form->isValid());
-        static::assertTrue($form->isSynchronized());
-        static::assertEquals($expectedData, $form->getData());
+        self::assertEquals($isValid, $form->isValid());
+        self::assertTrue($form->isSynchronized());
+        self::assertEquals($expectedData, $form->getData());
     }
 
     public function submitProvider(): array
@@ -186,17 +185,15 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     public function testConfigureOptions()
     {
         $resolver = $this->createMock(OptionsResolver::class);
-        $resolver->expects(static::once())
+        $resolver->expects(self::once())
             ->method('setDefaults')
-            ->with([
-                'data_class' => $this->transport->getSettingsEntityFQCN(),
-            ]);
+            ->with(['data_class' => $this->transport->getSettingsEntityFQCN()]);
 
         $this->formType->configureOptions($resolver);
     }
 
     public function testGetBlockPrefix()
     {
-        static::assertEquals(DPDTransportSettingsType::BLOCK_PREFIX, $this->formType->getBlockPrefix());
+        self::assertEquals(DPDTransportSettingsType::BLOCK_PREFIX, $this->formType->getBlockPrefix());
     }
 }

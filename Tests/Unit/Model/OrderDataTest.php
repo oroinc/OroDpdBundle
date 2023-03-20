@@ -6,12 +6,9 @@ use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\DPDBundle\Model\OrderData;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
-use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class OrderDataTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTestCaseTrait;
-
     public function testConstructionAndGetters()
     {
         $params = [

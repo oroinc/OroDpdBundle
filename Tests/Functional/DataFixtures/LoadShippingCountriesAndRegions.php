@@ -11,9 +11,9 @@ use Symfony\Component\Yaml\Yaml;
 class LoadShippingCountriesAndRegions extends AbstractFixture
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach ($this->getShippingCountriesData() as $reference => $data) {
             $entity = new Country($data['iso2']);
@@ -41,18 +41,12 @@ class LoadShippingCountriesAndRegions extends AbstractFixture
         $manager->flush();
     }
 
-    /**
-     * @return array
-     */
-    protected function getShippingCountriesData()
+    private function getShippingCountriesData(): array
     {
         return Yaml::parse(file_get_contents(__DIR__.'/data/shipping_countries.yml'));
     }
 
-    /**
-     * @return array
-     */
-    protected function getShippingRegionsData()
+    private function getShippingRegionsData(): array
     {
         return Yaml::parse(file_get_contents(__DIR__.'/data/shipping_regions.yml'));
     }

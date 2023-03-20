@@ -4,12 +4,9 @@ namespace Oro\Bundle\DPDBundle\Tests\Unit\Model;
 
 use Oro\Bundle\DPDBundle\Model\OrderData;
 use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
-use Oro\Component\Testing\Unit\EntityTestCaseTrait;
 
 class SetOrderRequestTest extends \PHPUnit\Framework\TestCase
 {
-    use EntityTestCaseTrait;
-
     public function testConstructionAndGetters()
     {
         $params = [
@@ -38,7 +35,7 @@ class SetOrderRequestTest extends \PHPUnit\Framework\TestCase
         $shipDate = new \DateTime();
 
         $orderData = $this->createMock(OrderData::class);
-        $orderData->expects(static::once())
+        $orderData->expects(self::once())
             ->method('toArray')
             ->willReturn(['OrderData']);
 

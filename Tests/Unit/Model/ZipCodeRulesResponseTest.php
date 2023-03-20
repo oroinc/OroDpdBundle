@@ -7,8 +7,7 @@ use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 
 class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ZipCodeRulesResponse */
-    protected $model;
+    private ZipCodeRulesResponse $model;
 
     protected function setUp(): void
     {
@@ -27,11 +26,6 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
         ];
         $this->model = new ZipCodeRulesResponse();
         $this->model->parse($values);
-    }
-
-    protected function tearDown(): void
-    {
-        unset($this->model);
     }
 
     public function testIsNoPickUpDay()
@@ -56,15 +50,13 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
     public function testEvaluateThrowing(array $values)
     {
         $this->expectException(InvalidArgumentException::class);
-        $response = new ZipCodeRulesResponse($values);
         $this->model->parse($values);
     }
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @return array
      */
-    public function evaluateThrowingDataProvider()
+    public function evaluateThrowingDataProvider(): array
     {
         return [
             'no_zip_code_rules_response' => [

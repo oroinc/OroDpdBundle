@@ -3,11 +3,12 @@
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\DPDBundle\Provider\ChannelType;
+use Oro\Bundle\IntegrationBundle\Provider\ChannelInterface;
+use Oro\Bundle\IntegrationBundle\Provider\IconAwareIntegrationInterface;
 
 class ChannelTypeTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ChannelType */
-    protected $channel;
+    private ChannelType $channel;
 
     protected function setUp(): void
     {
@@ -16,13 +17,13 @@ class ChannelTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testGetLabel()
     {
-        static::assertInstanceOf('Oro\Bundle\IntegrationBundle\Provider\ChannelInterface', $this->channel);
-        static::assertEquals('oro.dpd.channel_type.label', $this->channel->getLabel());
+        self::assertInstanceOf(ChannelInterface::class, $this->channel);
+        self::assertEquals('oro.dpd.channel_type.label', $this->channel->getLabel());
     }
 
     public function testGetIcon()
     {
-        static::assertInstanceOf('Oro\Bundle\IntegrationBundle\Provider\IconAwareIntegrationInterface', $this->channel);
-        static::assertEquals('bundles/orodpd/img/DPD_logo_icon.png', $this->channel->getIcon());
+        self::assertInstanceOf(IconAwareIntegrationInterface::class, $this->channel);
+        self::assertEquals('bundles/orodpd/img/DPD_logo_icon.png', $this->channel->getIcon());
     }
 }
