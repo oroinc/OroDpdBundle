@@ -15,7 +15,7 @@ interface DPDHandlerInterface
 
     /**
      * @param Order          $order
-     * @param \DateTime|null $shipDate
+     * @param \DateTime $shipDate
      *
      * @return null|SetOrderResponse
      */
