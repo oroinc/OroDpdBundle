@@ -126,7 +126,7 @@ class DPDTransaction
     }
 
     /**
-     * @param File $labelFile
+     * @param File|null $labelFile
      *
      * @return DPDTransaction
      */

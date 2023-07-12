@@ -44,7 +44,7 @@ class DPDHandler implements DPDHandlerInterface
      * @param DPDRequestFactory                       $dpdRequestFactory
      * @param CacheInterface                          $zipCodeRulesCache
      * @param OrderShippingLineItemConverterInterface $shippingLineItemConverter
-     * @param \DateTime                               $today
+     * @param \DateTime|null $today
      */
     public function __construct(
         $identifier,
