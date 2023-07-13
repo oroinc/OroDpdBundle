@@ -505,7 +505,7 @@ class DPDTransport extends Transport
     /**
      * Set invalidateCacheAt.
      *
-     * @param \DateTime $invalidateCacheAt
+     * @param \DateTime|null $invalidateCacheAt
      *
      * @return $this
      */
