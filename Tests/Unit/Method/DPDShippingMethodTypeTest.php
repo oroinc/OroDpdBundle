@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CurrencyBundle\Entity\Price;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
@@ -11,26 +12,23 @@ use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\DPDBundle\Provider\RateProvider;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
-use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
 use Oro\Bundle\ShippingBundle\Context\ShippingContextInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
+class DPDShippingMethodTypeTest extends TestCase
 {
     private const IDENTIFIER = '02';
     private const LABEL = 'service_code_label';
 
-    /** @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $packageProvider;
+    private PackageProvider|MockObject $packageProvider;
 
-    /** @var RateProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $rateProvider;
+    private RateProvider|MockObject $rateProvider;
 
-    /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject */
-    private $shippingService;
+    private ShippingService|MockObject $shippingService;
 
-    /** @var DPDShippingMethodType */
-    private $dpdShippingMethodType;
+    private DPDShippingMethodType $dpdShippingMethodType;
 
     protected function setUp(): void
     {
@@ -60,7 +58,7 @@ class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetOptionsConfigurationFormType()
+    public function testGetOptionsConfigurationFormType(): void
     {
         self::assertEquals(
             DPDShippingMethodOptionsType::class,
@@ -68,7 +66,7 @@ class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetSortOrder()
+    public function testGetSortOrder(): void
     {
         self::assertEquals(0, $this->dpdShippingMethodType->getSortOrder());
     }
@@ -81,9 +79,9 @@ class DPDShippingMethodTypeTest extends \PHPUnit\Framework\TestCase
         int $methodHandlingFee,
         int $typeHandlingFee,
         int $expectedPrice
-    ) {
+    ): void {
         $context = $this->createMock(ShippingContextInterface::class);
-        $lineItems = $this->createMock(ShippingLineItemCollectionInterface::class);
+        $lineItems = new ArrayCollection([]);
         $context->expects(self::once())
             ->method('getLineItems')
             ->willReturn($lineItems);

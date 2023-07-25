@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Method;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\DPDBundle\Cache\ZipCodeRulesCacheKey;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
@@ -19,42 +20,35 @@ use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\OrderBundle\Converter\OrderShippingLineItemConverterInterface;
 use Oro\Bundle\OrderBundle\Entity\Order;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
-use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class DPDHandlerTest extends \PHPUnit\Framework\TestCase
+class DPDHandlerTest extends TestCase
 {
     use EntityTrait;
 
     private const IDENTIFIER = '02';
     private const LABEL = 'service_code_label';
 
-    /** @var DPDTransport|\PHPUnit\Framework\MockObject\MockObject */
-    private $transport;
+    private DPDTransport|MockObject $transport;
 
-    /** @var DPDTransportProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $transportProvider;
+    private DPDTransportProvider|MockObject $transportProvider;
 
-    /** @var PackageProvider|\PHPUnit\Framework\MockObject\MockObject */
-    private $packageProvider;
+    private PackageProvider|MockObject $packageProvider;
 
-    /** @var ShippingService|\PHPUnit\Framework\MockObject\MockObject */
-    private $shippingService;
+    private ShippingService|MockObject $shippingService;
 
-    /** @var DPDRequestFactory|\PHPUnit\Framework\MockObject\MockObject */
-    private $dpdRequestFactory;
+    private DPDRequestFactory|MockObject $dpdRequestFactory;
 
-    /** @var DPDHandlerInterface */
-    private $dpdHandler;
+    private DPDHandlerInterface $dpdHandler;
 
-    /** @var CacheInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $cache;
+    private CacheInterface|MockObject $cache;
 
-    /** @var OrderShippingLineItemConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $shippingLineItemConverter;
+    private OrderShippingLineItemConverterInterface|MockObject $shippingLineItemConverter;
 
     protected function setUp(): void
     {
@@ -97,7 +91,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider testShipOrderProvider
      */
-    public function testShipOrder(array $packageList, ?SetOrderResponse $expectedResponse)
+    public function testShipOrder(array $packageList, ?SetOrderResponse $expectedResponse): void
     {
         /** @var Order $order */
         $order = $this->getEntity(
@@ -109,7 +103,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
             ]
         );
 
-        $lineItems = $this->createMock(ShippingLineItemCollectionInterface::class);
+        $lineItems = new ArrayCollection([]);
         $this->shippingLineItemConverter->expects(self::once())
             ->method('convertLineItems')
             ->willReturn($lineItems);
@@ -151,7 +145,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testFetchZipCodeRulesCache()
+    public function testFetchZipCodeRulesCache(): void
     {
         $request = $this->createMock(ZipCodeRulesRequest::class);
         $this->dpdRequestFactory->expects(self::any())
@@ -182,7 +176,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
                 $item = $this->createMock(ItemInterface::class);
                 return $callback($item);
             });
-        $this->assertEquals($response, $this->dpdHandler->fetchZipCodeRules());
+        self::assertEquals($response, $this->dpdHandler->fetchZipCodeRules());
     }
 
     /**
@@ -195,7 +189,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
         ?string $expressCutOff,
         array $noPickupDays,
         \DateTime $expectedResult
-    ) {
+    ): void {
         $this->shippingService->expects(self::any())
             ->method('isExpressService')
             ->willReturn($isExpressService);
@@ -235,7 +229,7 @@ class DPDHandlerTest extends \PHPUnit\Framework\TestCase
             ->with($key)
             ->willReturn($response);
 
-        $this->assertEquals($expectedResult, $this->dpdHandler->getNextPickupDay($shipDate));
+        self::assertEquals($expectedResult, $this->dpdHandler->getNextPickupDay($shipDate));
     }
 
     public function testGetNextPickupDayProvider(): array
