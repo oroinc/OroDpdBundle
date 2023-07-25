@@ -91,7 +91,7 @@ class Rate
     }
 
     /**
-     * @param DPDTransport $transport
+     * @param DPDTransport|null $transport
      *
      * @return Rate
      */
@@ -151,7 +151,7 @@ class Rate
     }
 
     /**
-     * @param Region $region
+     * @param Region|null $region
      *
      * @return Rate
      */
