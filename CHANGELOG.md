@@ -10,6 +10,10 @@ The current file describes significant changes in the code that may affect the u
 - [4.0.0](#400-2019-07-31)
 - [1.5.0](#150-2017-11-30)
 
+## UNRELEASED
+
+### Changed
+* Changed `\Oro\Bundle\DPDBundle\Provider\PackageProvider::createPackages` so it expects `\Oro\Bundle\ShippingBundle\Context\ShippingLineItem` argument instead of the removed `\Oro\Bundle\ShippingBundle\Context\ShippingLineItemInterface`.
 
 ## 5.1.0 (2023-03-31)
 
