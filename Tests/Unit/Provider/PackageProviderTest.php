@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Tests\Unit\Provider;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\DPDBundle\Model\Package;
@@ -9,7 +10,6 @@ use Oro\Bundle\DPDBundle\Provider\PackageProvider;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ProductBundle\Entity\Product;
 use Oro\Bundle\ProductBundle\Entity\ProductUnit;
-use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\Doctrine\DoctrineShippingLineItemCollection;
 use Oro\Bundle\ShippingBundle\Context\ShippingContext;
 use Oro\Bundle\ShippingBundle\Context\ShippingLineItem;
 use Oro\Bundle\ShippingBundle\Entity\LengthUnit;
@@ -18,17 +18,19 @@ use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Bundle\ShippingBundle\Model\Dimensions;
 use Oro\Bundle\ShippingBundle\Model\Weight;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
+use Oro\Bundle\ShippingBundle\Tests\Unit\Context\ShippingLineItemTrait;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class PackageProviderTest extends \PHPUnit\Framework\TestCase
+class PackageProviderTest extends TestCase
 {
     use EntityTrait;
+    use ShippingLineItemTrait;
 
-    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationHelper;
+    private LocalizationHelper|MockObject $localizationHelper;
 
-    /** @var PackageProvider */
-    private $packageProvider;
+    private PackageProvider $packageProvider;
 
     protected function setUp(): void
     {
@@ -49,7 +51,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider packagesDataProvider
      */
-    public function testCreatePackages(int $lineItemCnt, int|float $productWeight, ?array $expectedPackages)
+    public function testCreatePackages(int $lineItemCnt, int|float $productWeight, ?array $expectedPackages): void
     {
         $this->localizationHelper->expects(self::any())
             ->method('getLocalizedValue')->willReturn('product name');
@@ -67,7 +69,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
         }
 
         $context = new ShippingContext([
-            ShippingContext::FIELD_LINE_ITEMS => new DoctrineShippingLineItemCollection($lineItems),
+            ShippingContext::FIELD_LINE_ITEMS => new ArrayCollection($lineItems),
         ]);
 
         $repository = $this->createMock(ObjectRepository::class);
@@ -118,21 +120,21 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
 
     private function createShippingLineItem(Product $product, float $productWeight): ShippingLineItem
     {
-        return new ShippingLineItem([
-            ShippingLineItem::FIELD_PRODUCT => $product,
-            ShippingLineItem::FIELD_QUANTITY => 1,
-            ShippingLineItem::FIELD_PRODUCT_UNIT => $this->getEntity(
+        return $this->getShippingLineItem(
+            $this->getEntity(
                 ProductUnit::class,
                 ['code' => 'test1']
             ),
-            ShippingLineItem::FIELD_PRODUCT_UNIT_CODE => 'test1',
-            ShippingLineItem::FIELD_ENTITY_IDENTIFIER => 1,
-            ShippingLineItem::FIELD_DIMENSIONS => Dimensions::create(7, 7, 7, (new LengthUnit())->setCode('inch')),
-            ShippingLineItem::FIELD_WEIGHT => Weight::create($productWeight, $this->getEntity(
-                WeightUnit::class,
-                ['code' => 'lbs']
-            )),
-        ]);
+            1
+        )
+            ->setProduct($product)
+            ->setWeight(
+                Weight::create($productWeight, $this->getEntity(
+                    WeightUnit::class,
+                    ['code' => 'lbs']
+                ))
+            )
+            ->setDimensions(Dimensions::create(7, 7, 7, (new LengthUnit())->setCode('inch')));
     }
 
     private function createProductShippingOptions(Product $product, float $productWeight): ProductShippingOptions

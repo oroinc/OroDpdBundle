@@ -2,11 +2,15 @@
 
 namespace Oro\Bundle\DPDBundle\Provider;
 
+use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\DPDBundle\Model\Package;
 use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
-use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
+use Oro\Bundle\ShippingBundle\Context\ShippingLineItem;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 
+/**
+ * Creates an array of {@see Package} by collection of {@see ShippingLineItem}.
+ */
 class PackageProvider
 {
     const MAX_PACKAGE_WEIGHT_KGS = 31.5; //as defined on dpd api documentation
@@ -25,11 +29,11 @@ class PackageProvider
     }
 
     /**
-     * @param ShippingLineItemCollectionInterface $lineItems
+     * @param Collection<ShippingLineItem> $lineItems
      *
-     * @return null|\Oro\Bundle\DPDBundle\Model\Package[]
+     * @return null|Package[]
      */
-    public function createPackages(ShippingLineItemCollectionInterface $lineItems)
+    public function createPackages(Collection $lineItems): ?array
     {
         if ($lineItems->isEmpty()) {
             return null;
@@ -69,13 +73,13 @@ class PackageProvider
     }
 
     /**
-     * @param ShippingLineItemCollectionInterface $lineItems
+     * @param Collection<ShippingLineItem> $lineItems
      *
      * @return array
      *
      * @throws \UnexpectedValueException
      */
-    protected function getProductInfoByUnit(ShippingLineItemCollectionInterface $lineItems)
+    protected function getProductInfoByUnit(Collection $lineItems): array
     {
         $productsInfoByUnit = [];
 
@@ -86,7 +90,6 @@ class PackageProvider
                 return [];
             }
 
-            //$productDefaultName = $product->getDefaultName()->getString();
             $productName = (string)$this->localizationHelper->getLocalizedValue($product->getNames());
 
             $dpdWeight = null;
@@ -95,7 +98,7 @@ class PackageProvider
             if ($lineItemWeight !== null && $lineItemWeight->getValue()) {
                 $dpdWeight = $this->measureUnitConversion->convert($lineItemWeight, static::UNIT_OF_WEIGHT);
 
-                $dpdWeight = $dpdWeight !== null ? $dpdWeight->getValue() : null;
+                $dpdWeight = $dpdWeight?->getValue();
             }
             if (!$dpdWeight) {
                 return [];
