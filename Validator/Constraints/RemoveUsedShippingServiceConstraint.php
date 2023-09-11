@@ -14,7 +14,7 @@ class RemoveUsedShippingServiceConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return RemoveUsedShippingServiceValidator::ALIAS;
     }
@@ -22,7 +22,7 @@ class RemoveUsedShippingServiceConstraint extends Constraint
     /**
      * {@inheritDoc}
      */
-    public function getTargets()
+    public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;
     }
