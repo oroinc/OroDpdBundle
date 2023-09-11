@@ -14,7 +14,7 @@ class RatesCsvFileConstraint extends Constraint
     /**
      * {@inheritdoc}
      */
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return RatesCsvFileValidator::ALIAS;
     }
