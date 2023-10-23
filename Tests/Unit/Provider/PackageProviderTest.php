@@ -19,16 +19,16 @@ use Oro\Bundle\ShippingBundle\Model\Dimensions;
 use Oro\Bundle\ShippingBundle\Model\Weight;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 use Oro\Component\Testing\Unit\EntityTrait;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class PackageProviderTest extends \PHPUnit\Framework\TestCase
+class PackageProviderTest extends TestCase
 {
     use EntityTrait;
 
-    /** @var LocalizationHelper|\PHPUnit\Framework\MockObject\MockObject */
-    private $localizationHelper;
+    private LocalizationHelper|MockObject $localizationHelper;
 
-    /** @var PackageProvider */
-    private $packageProvider;
+    private PackageProvider $packageProvider;
 
     protected function setUp(): void
     {
@@ -49,7 +49,7 @@ class PackageProviderTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider packagesDataProvider
      */
-    public function testCreatePackages(int $lineItemCnt, int|float $productWeight, ?array $expectedPackages)
+    public function testCreatePackages(int $lineItemCnt, int|float $productWeight, ?array $expectedPackages): void
     {
         $this->localizationHelper->expects(self::any())
             ->method('getLocalizedValue')->willReturn('product name');

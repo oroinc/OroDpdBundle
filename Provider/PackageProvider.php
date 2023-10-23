@@ -7,6 +7,9 @@ use Oro\Bundle\LocaleBundle\Helper\LocalizationHelper;
 use Oro\Bundle\ShippingBundle\Context\LineItem\Collection\ShippingLineItemCollectionInterface;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 
+/**
+ * Creates an array of {@see Package} by collection of {@see ShippingLineItem}.
+ */
 class PackageProvider
 {
     const MAX_PACKAGE_WEIGHT_KGS = 31.5; //as defined on dpd api documentation
@@ -27,7 +30,7 @@ class PackageProvider
     /**
      * @param ShippingLineItemCollectionInterface $lineItems
      *
-     * @return null|\Oro\Bundle\DPDBundle\Model\Package[]
+     * @return null|Package[]
      */
     public function createPackages(ShippingLineItemCollectionInterface $lineItems)
     {
@@ -86,7 +89,6 @@ class PackageProvider
                 return [];
             }
 
-            //$productDefaultName = $product->getDefaultName()->getString();
             $productName = (string)$this->localizationHelper->getLocalizedValue($product->getNames());
 
             $dpdWeight = null;
@@ -95,7 +97,7 @@ class PackageProvider
             if ($lineItemWeight !== null && $lineItemWeight->getValue()) {
                 $dpdWeight = $this->measureUnitConversion->convert($lineItemWeight, static::UNIT_OF_WEIGHT);
 
-                $dpdWeight = $dpdWeight !== null ? $dpdWeight->getValue() : null;
+                $dpdWeight = $dpdWeight?->getValue();
             }
             if (!$dpdWeight) {
                 return [];
