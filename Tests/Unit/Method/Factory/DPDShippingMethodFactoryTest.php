@@ -57,12 +57,14 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $identifier = 'dpd_1';
         $enabled = true;
+        $name = 'DPD';
         $label = 'label';
         $iconUri = 'bundles/icon-uri.png';
 
         $transport = $this->createMock(DPDSettings::class);
 
         $channel = new Channel();
+        $channel->setName($name);
         $channel->setTransport($transport);
         $channel->setEnabled($enabled);
 
@@ -114,6 +116,7 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
 
         $expected = new DPDShippingMethod(
             $identifier,
+            $name,
             $label,
             $enabled,
             $iconUri,

@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 {
     private const IDENTIFIER = 'dpd_1';
+    private const NAME = 'DPD';
     private const LABEL = 'dpd_label';
     private const TYPE_IDENTIFIER = '59';
     private const ICON = 'dpd.png';
@@ -39,6 +40,7 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 
         $this->dpdShippingMethod = new DPDShippingMethod(
             self::IDENTIFIER,
+            self::NAME,
             self::LABEL,
             true,
             self::ICON,
@@ -55,6 +57,11 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
     public function testGetIdentifier()
     {
         self::assertEquals(self::IDENTIFIER, $this->dpdShippingMethod->getIdentifier());
+    }
+
+    public function testGetName()
+    {
+        self::assertEquals(self::NAME, $this->dpdShippingMethod->getName());
     }
 
     public function testGetLabel()

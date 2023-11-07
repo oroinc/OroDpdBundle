@@ -25,6 +25,7 @@ class DPDShippingMethod implements
     private const TRACKING_REGEX = '/\b 0 [0-9]{13}\b/x';
 
     private string $identifier;
+    private string $name;
     private string $label;
     private bool $isEnabled;
     private ?string $icon;
@@ -35,6 +36,7 @@ class DPDShippingMethod implements
 
     public function __construct(
         string $identifier,
+        string $name,
         string $label,
         bool $isEnabled,
         ?string $icon,
@@ -42,6 +44,7 @@ class DPDShippingMethod implements
         array $handlers
     ) {
         $this->identifier = $identifier;
+        $this->name = $name;
         $this->label = $label;
         $this->isEnabled = $isEnabled;
         $this->icon = $icon;
@@ -71,6 +74,11 @@ class DPDShippingMethod implements
     public function isGrouped(): bool
     {
         return true;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**

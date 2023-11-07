@@ -53,6 +53,7 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
 
         return new DPDShippingMethod(
             $this->methodIdentifierGenerator->generateIdentifier($channel),
+            $channel->getName(),
             (string)$this->localizationHelper->getLocalizedValue($transport->getLabels()),
             $channel->isEnabled(),
             $this->integrationIconProvider->getIcon($channel),
