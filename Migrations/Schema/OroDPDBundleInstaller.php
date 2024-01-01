@@ -12,19 +12,17 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 class OroDPDBundleInstaller implements Installation
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getMigrationVersion()
+    public function getMigrationVersion(): string
     {
         return 'v1_0';
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @throws \Doctrine\DBAL\Schema\SchemaException
+     * {@inheritDoc}
      */
-    public function up(Schema $schema, QueryBag $queries)
+    public function up(Schema $schema, QueryBag $queries): void
     {
         /* update tables */
         $this->updateOroIntegrationTransportTable($schema);
@@ -44,7 +42,7 @@ class OroDPDBundleInstaller implements Installation
         $this->addOroIntegrationTransportForeignKeys($schema);
     }
 
-    protected function updateOroIntegrationTransportTable(Schema $schema)
+    private function updateOroIntegrationTransportTable(Schema $schema): void
     {
         $table = $schema->getTable('oro_integration_transport');
         $table->addColumn('dpd_test_mode', 'boolean', ['notnull' => false]);
@@ -64,34 +62,34 @@ class OroDPDBundleInstaller implements Installation
             'datetime',
             ['notnull' => false, 'comment' => '(DC2Type:datetime)']
         );
-        $table->addIndex(['dpd_unit_of_weight_code'], 'IDX_D7A389A894296FE', []);
+        $table->addIndex(['dpd_unit_of_weight_code'], 'IDX_D7A389A894296FE');
     }
 
     /**
      * Create oro_dpd_rate table.
      */
-    protected function createOroDpdRateTable(Schema $schema)
+    private function createOroDpdRateTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_dpd_rate');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('shipping_service_id', 'string', ['notnull' => false, 'length' => 30]);
-        $table->addColumn('transport_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
         $table->addColumn('region_code', 'string', ['notnull' => false, 'length' => 16]);
         $table->addColumn('country_code', 'string', ['length' => 2]);
         $table->addColumn('region_text', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('weight_value', 'float', ['notnull' => false]);
         $table->addColumn('price_value', 'money', ['precision' => 19, 'scale' => 4, 'comment' => '(DC2Type:money)']);
         $table->setPrimaryKey(['id']);
-        $table->addIndex(['transport_id'], 'IDX_651D84679909C13F', []);
-        $table->addIndex(['shipping_service_id'], 'IDX_651D846755A7F9B8', []);
-        $table->addIndex(['country_code'], 'IDX_651D8467F026BB7C', []);
-        $table->addIndex(['region_code'], 'IDX_651D8467AEB327AF', []);
+        $table->addIndex(['transport_id'], 'IDX_651D84679909C13F');
+        $table->addIndex(['shipping_service_id'], 'IDX_651D846755A7F9B8');
+        $table->addIndex(['country_code'], 'IDX_651D8467F026BB7C');
+        $table->addIndex(['region_code'], 'IDX_651D8467AEB327AF');
     }
 
     /**
      * Create oro_dpd_shipping_service table.
      */
-    protected function createOroDpdShippingServiceTable(Schema $schema)
+    private function createOroDpdShippingServiceTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_dpd_shipping_service');
         $table->addColumn('code', 'string', ['length' => 30]);
@@ -103,39 +101,39 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Create oro_dpd_shipping_transaction table.
      */
-    protected function createOroDpdShippingTransactionTable(Schema $schema)
+    private function createOroDpdShippingTransactionTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_dpd_shipping_transaction');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('order_id', 'integer', ['notnull' => false]);
         $table->addColumn('file_id', 'integer', ['notnull' => false]);
         $table->addColumn('parcel_numbers', 'array', ['comment' => '(DC2Type:array)']);
-        $table->addColumn('created_at', 'datetime', []);
+        $table->addColumn('created_at', 'datetime');
         $table->setPrimaryKey(['id']);
-        $table->addIndex(['order_id'], 'IDX_230C58E68D9F6D38', []);
-        $table->addIndex(['file_id'], 'IDX_230C58E693CB796C', []);
+        $table->addIndex(['order_id'], 'IDX_230C58E68D9F6D38');
+        $table->addIndex(['file_id'], 'IDX_230C58E693CB796C');
     }
 
     /**
      * Create oro_dpd_transport_label table.
      */
-    protected function createOroDpdTransportLabelTable(Schema $schema)
+    private function createOroDpdTransportLabelTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_dpd_transport_label');
-        $table->addColumn('transport_id', 'integer', []);
-        $table->addColumn('localized_value_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
+        $table->addColumn('localized_value_id', 'integer');
         $table->setPrimaryKey(['transport_id', 'localized_value_id']);
         $table->addUniqueIndex(['localized_value_id'], 'UNIQ_localized_value_id');
-        $table->addIndex(['transport_id'], 'IDX_transport_id', []);
+        $table->addIndex(['transport_id'], 'IDX_transport_id');
     }
 
     /**
      * Create oro_dpd_transport_ship_service table.
      */
-    protected function createOroDpdTransportShipServiceTable(Schema $schema)
+    private function createOroDpdTransportShipServiceTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_dpd_transport_ship_service');
-        $table->addColumn('transport_id', 'integer', []);
+        $table->addColumn('transport_id', 'integer');
         $table->addColumn('ship_service_id', 'string', ['length' => 30]);
         $table->setPrimaryKey(['transport_id', 'ship_service_id']);
     }
@@ -143,7 +141,7 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Add oro_dpd_rate foreign keys.
      */
-    protected function addOroDpdRateForeignKeys(Schema $schema)
+    private function addOroDpdRateForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_dpd_rate');
         $table->addForeignKeyConstraint(
@@ -175,7 +173,7 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Add oro_dpd_shipping_transaction foreign keys.
      */
-    protected function addOroDpdShippingTransactionForeignKeys(Schema $schema)
+    private function addOroDpdShippingTransactionForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_dpd_shipping_transaction');
         $table->addForeignKeyConstraint(
@@ -195,7 +193,7 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Add oro_dpd_transport_label foreign keys.
      */
-    protected function addOroDpdTransportLabelForeignKeys(Schema $schema)
+    private function addOroDpdTransportLabelForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_dpd_transport_label');
         $table->addForeignKeyConstraint(
@@ -215,7 +213,7 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Add oro_dpd_transport_ship_service foreign keys.
      */
-    protected function addOroDpdTransportShipServiceForeignKeys(Schema $schema)
+    private function addOroDpdTransportShipServiceForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_dpd_transport_ship_service');
         $table->addForeignKeyConstraint(
@@ -235,7 +233,7 @@ class OroDPDBundleInstaller implements Installation
     /**
      * Add oro_integration_transport foreign keys.
      */
-    protected function addOroIntegrationTransportForeignKeys(Schema $schema)
+    private function addOroIntegrationTransportForeignKeys(Schema $schema): void
     {
         $table = $schema->getTable('oro_integration_transport');
         $table->addForeignKeyConstraint(
