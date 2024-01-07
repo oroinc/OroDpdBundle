@@ -4,6 +4,7 @@ namespace Oro\Bundle\DPDBundle\Controller;
 
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +13,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * DPDController handles the web requests related to DPD functionalities in the system.
+ *
+ * It includes actions such as downloading rate information for DPD transports, providing
+ * a user interface for DPD-related settings and operations. This controller is responsible
+ * for handling and responding to various DPD service-related routes.
+ *
  * @Route("/dpd")
  */
 class DPDController extends AbstractController
@@ -31,8 +38,8 @@ class DPDController extends AbstractController
         /** @var ShippingServiceRepository $repository */
         $repository = $this->container
             ->get('doctrine')
-            ->getManagerForClass('OroDPDBundle:ShippingService')
-            ->getRepository('OroDPDBundle:ShippingService');
+            ->getManagerForClass(ShippingService::class)
+            ->getRepository(ShippingService::class);
         $shippingServiceCodes = $repository->getAllShippingServiceCodes();
 
         $response = new StreamedResponse();

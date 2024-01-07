@@ -5,10 +5,14 @@ namespace Oro\Bundle\DPDBundle\EventListener;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Oro\Bundle\AddressBundle\Entity\Country;
+use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Rate;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGeneratorInterface;
 use Oro\Bundle\DPDBundle\Provider\ChannelType;
+use Oro\Bundle\IntegrationBundle\Entity\Channel;
 use Oro\Bundle\IntegrationBundle\Generator\IntegrationIdentifierGeneratorInterface;
 use Oro\Bundle\ShippingBundle\Method\Event\MethodTypeRemovalEventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -48,7 +52,7 @@ class DPDTransportEntityListener
     public function preFlush(DPDTransport $transport, PreFlushEventArgs $args)
     {
         if ($transport->getRatesCsv() instanceof UploadedFile) {
-            $entityManager = $args->getEntityManager();
+            $entityManager = $args->getObjectManager();
 
             $transport->removeAllRates();
 
@@ -63,11 +67,11 @@ class DPDTransportEntityListener
 
                 $rate = new Rate();
                 $rate->setShippingService(
-                    $entityManager->getReference('OroDPDBundle:ShippingService', $shippingServiceCode)
+                    $entityManager->getReference(ShippingService::class, $shippingServiceCode)
                 );
-                $rate->setCountry($entityManager->getReference('OroAddressBundle:Country', $countryCode));
+                $rate->setCountry($entityManager->getReference(Country::class, $countryCode));
                 if (!empty($regionCode)) {
-                    $rate->setRegion($entityManager->getReference('OroAddressBundle:Region', $regionCode));
+                    $rate->setRegion($entityManager->getReference(Region::class, $regionCode));
                 }
                 if (!empty($weightValue)) {
                     $rate->setWeightValue((float) $weightValue);
@@ -85,9 +89,9 @@ class DPDTransportEntityListener
         $services = $transport->getApplicableShippingServices();
         $deletedServices = $services->getDeleteDiff();
         if (0 !== count($deletedServices)) {
-            $entityManager = $args->getEntityManager();
+            $entityManager = $args->getObjectManager();
             $channel = $entityManager
-                ->getRepository('OroIntegrationBundle:Channel')
+                ->getRepository(Channel::class)
                 ->findOneBy(['type' => ChannelType::TYPE, 'transport' => $transport->getId()]);
 
             if (null !== $channel) {
