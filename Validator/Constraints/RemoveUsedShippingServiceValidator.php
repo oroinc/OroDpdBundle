@@ -11,6 +11,9 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+/**
+ * Validates that DPD shipping service is not used in any shipping method.
+ */
 class RemoveUsedShippingServiceValidator extends ConstraintValidator
 {
     const ALIAS = 'oro_dpd_remove_used_shipping_service_validator';
@@ -60,14 +63,16 @@ class RemoveUsedShippingServiceValidator extends ConstraintValidator
 
     private function handleValidationResult(ShippingMethodValidatorResultInterface $shippingMethodValidatorResult)
     {
-        if ($shippingMethodValidatorResult->getErrors()->isEmpty()) {
+        if (!isset($shippingMethodValidatorResult->getErrors()['errors'])
+            || $shippingMethodValidatorResult->getErrors()['errors']->isEmpty()
+        ) {
             return;
         }
 
         /** @var ExecutionContextInterface $context */
         $context = $this->context;
 
-        foreach ($shippingMethodValidatorResult->getErrors() as $error) {
+        foreach ($shippingMethodValidatorResult->getErrors()['errors'] as $error) {
             $context->buildViolation($error->getMessage())
                 ->setTranslationDomain(null)
                 ->atPath(static::VIOLATION_PATH)

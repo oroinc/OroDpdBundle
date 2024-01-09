@@ -4,11 +4,15 @@ namespace Oro\Bundle\DPDBundle\Provider;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport as DPDTransportEntity;
+use Oro\Bundle\DPDBundle\Entity\Rate;
 use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\LocaleBundle\Model\AddressInterface;
 use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
 
+/**
+ * Provides rate value for DPD shipping method.
+ */
 class RateProvider
 {
     /** @var ManagerRegistry */
@@ -46,7 +50,7 @@ class RateProvider
         } elseif ($transport->getRatePolicy() === DPDTransportEntity::TABLE_RATE_POLICY) {
             /** @var RateRepository $rateRepository */
             $rateRepository =
-                $this->registry->getManagerForClass('OroDPDBundle:Rate')->getRepository('OroDPDBundle:Rate');
+                $this->registry->getManagerForClass(Rate::class)->getRepository(Rate::class);
             $rate =
                 $rateRepository->findFirstRateByServiceAndDestination($transport, $shippingService, $shippingAddress);
 

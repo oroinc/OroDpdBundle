@@ -2,47 +2,43 @@
 
 namespace Oro\Bundle\DPDBundle\Migrations\Data\ORM;
 
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Yaml\Yaml;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 
-class LoadShippingServicesData extends AbstractShippingServiceFixture implements ContainerAwareInterface
+/**
+ * Loads shipping services.
+ */
+class LoadShippingServicesData extends AbstractFixture
 {
     /**
-     * @var array
+     * {@inheritDoc}
      */
-    protected $loadedCountries;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setContainer(ContainerInterface $container = null)
+    public function load(ObjectManager $manager): void
     {
-        $this->container = $container;
-    }
+        $repository = $manager->getRepository(ShippingService::class);
+        foreach ($this->getData() as $data) {
+            $service = $repository->find(['code' => $data['code']]);
+            if (!$service) {
+                $service = new ShippingService();
+            }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function load(ObjectManager $manager)
-    {
-        $this->addUpdateShippingServices($manager, $this->getShippingServicesData());
+            $service->setCode($data['code']);
+            $service->setDescription($data['description']);
+            $service->setExpressService($data['express']);
+            $manager->persist($service);
+        }
         $manager->flush();
     }
 
-    /**
-     * @return array
-     */
-    protected function getShippingServicesData()
+    private function getData(): array
     {
-        return Yaml::parse(file_get_contents(__DIR__.'/data/dpd_services.yml'));
+        return [
+            [
+                'code' => 'Classic',
+                'description' => 'DPD Classic',
+                'express' => false
+            ]
+        ];
     }
 }

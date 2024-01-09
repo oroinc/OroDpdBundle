@@ -4,6 +4,7 @@ namespace Oro\Bundle\DPDBundle\Validator\Constraints;
 
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
+use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraint;
@@ -37,12 +38,12 @@ class RatesCsvFileValidator extends ConstraintValidator
         if ($value instanceof File) {
             $shippingServiceCodes = $this
                 ->doctrineHelper
-                ->getEntityRepository('OroDPDBundle:ShippingService')
+                ->getEntityRepository(ShippingService::class)
                 ->getAllShippingServiceCodes();
             /** @var Country[] $countries */
             $countries = $this
                 ->doctrineHelper
-                ->getEntityRepository('OroAddressBundle:Country')
+                ->getEntityRepository(Country::class)
                 ->createQueryBuilder('country', 'country.iso2Code')
                 ->getQuery()
                 ->getResult();
