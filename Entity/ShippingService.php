@@ -2,38 +2,30 @@
 
 namespace Oro\Bundle\DPDBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository;
 
 /**
- * @ORM\Table(name="oro_dpd_shipping_service")
- * @ORM\Entity(repositoryClass="Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository")
- */
+* Entity that represents Shipping Service
+*
+*/
+#[ORM\Entity(repositoryClass: ShippingServiceRepository::class)]
+#[ORM\Table(name: 'oro_dpd_shipping_service')]
 class ShippingService
 {
     const CLASSIC_SERVICE_SUBSTR = 'Classic';
     const EXPRESS_SERVICE_SUBSTR = 'Express';
 
-    /**
-     * @var string
-     *
-     * @ORM\Id
-     * @ORM\Column(name="code", type="string", length=30)
-     */
-    protected $code;
+    #[ORM\Id]
+    #[ORM\Column(name: 'code', type: Types::STRING, length: 30)]
+    protected ?string $code = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
-     */
-    protected $description;
+    #[ORM\Column(name: 'description', type: Types::STRING, length: 255)]
+    protected ?string $description = null;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_express", type="boolean", options={"default"=false})
-     */
-    protected $expressService = false;
+    #[ORM\Column(name: 'is_express', type: Types::BOOLEAN, options: ['default' => false])]
+    protected ?bool $expressService = false;
 
     /**
      * @return string

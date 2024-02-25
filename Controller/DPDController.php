@@ -5,7 +5,7 @@ namespace Oro\Bundle\DPDBundle\Controller;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
-use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -18,21 +18,19 @@ use Symfony\Component\Routing\Annotation\Route;
  * It includes actions such as downloading rate information for DPD transports, providing
  * a user interface for DPD-related settings and operations. This controller is responsible
  * for handling and responding to various DPD service-related routes.
- *
- * @Route("/dpd")
  */
+#[Route(path: '/dpd')]
 class DPDController extends AbstractController
 {
     const CSV_DELIMITER = ',';
 
     /**
-     * @Route("/rates/download/{id}", name="oro_dpd_rates_download", requirements={"id"="\d+"})
-     * @AclAncestor("oro_integration_view")
      *
      * @param DPDTransport $transport
-     *
      * @return Response
      */
+    #[Route(path: '/rates/download/{id}', name: 'oro_dpd_rates_download', requirements: ['id' => '\d+'])]
+    #[AclAncestor('oro_integration_view')]
     public function ratesDownloadAction(DPDTransport $transport)
     {
         /** @var ShippingServiceRepository $repository */

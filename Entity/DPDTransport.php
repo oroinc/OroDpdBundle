@@ -4,6 +4,7 @@ namespace Oro\Bundle\DPDBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\IntegrationBundle\Entity\Transport;
 use Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue;
@@ -12,8 +13,10 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
- * @ORM\Entity
- */
+* Entity that represents DPD Transport
+*
+*/
+#[ORM\Entity]
 class DPDTransport extends Transport
 {
     const FLAT_RATE_POLICY = 0;
@@ -27,120 +30,70 @@ class DPDTransport extends Transport
     const LOWERLEFT_LABEL_START_POSITION = 'LowerLeft';
     const LOWERRIGHT_LABEL_START_POSITION = 'LowerRight';
 
+    #[ORM\Column(name: 'dpd_test_mode', type: Types::BOOLEAN, nullable: false)]
+    protected ?bool $dpdTestMode = null;
+
+    #[ORM\Column(name: 'dpd_cloud_user_id', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $cloudUserId = null;
+
+    #[ORM\Column(name: 'dpd_cloud_user_token', type: Types::STRING, length: 255, nullable: false)]
+    protected ?string $cloudUserToken = null;
+
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="dpd_test_mode", type="boolean", nullable=false)
+     * @var Collection<int, ShippingService>
      */
-    protected $dpdTestMode;
+    #[ORM\ManyToMany(targetEntity: ShippingService::class, fetch: 'EAGER')]
+    #[ORM\JoinTable(name: 'oro_dpd_transport_ship_service')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'ship_service_id', referencedColumnName: 'code', onDelete: 'CASCADE')]
+    protected ?Collection $applicableShippingServices = null;
+
+    #[ORM\ManyToOne(targetEntity: WeightUnit::class)]
+    #[ORM\JoinColumn(name: 'dpd_unit_of_weight_code', referencedColumnName: 'code')]
+    protected ?WeightUnit $unitOfWeight = null;
+
+    #[ORM\Column(name: 'dpd_rate_policy', type: Types::SMALLINT, nullable: false)]
+    protected ?int $ratePolicy = null;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="dpd_cloud_user_id", type="string", length=255, nullable=false)
      */
-    protected $cloudUserId;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dpd_cloud_user_token", type="string", length=255, nullable=false)
-     */
-    protected $cloudUserToken;
-
-    /**
-     * @var Collection|ShippingService[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="ShippingService",
-     *     fetch="EAGER"
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_dpd_transport_ship_service",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="ship_service_id", referencedColumnName="code", onDelete="CASCADE")
-     *      }
-     * )
-     */
-    protected $applicableShippingServices;
-
-    /**
-     * @var WeightUnit
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\ShippingBundle\Entity\WeightUnit")
-     * @ORM\JoinColumn(name="dpd_unit_of_weight_code", referencedColumnName="code")
-     */
-    protected $unitOfWeight;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="dpd_rate_policy", type="smallint", nullable=false)
-     */
-    protected $ratePolicy;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dpd_flat_rate_price_value", type="money", nullable=false)
-     */
+    #[ORM\Column(name: 'dpd_flat_rate_price_value', type: 'money', nullable: false)]
     protected $flatRatePriceValue;
 
     /**
-     * @var Collection|Rate[]
-     *
-     * @ORM\OneToMany(targetEntity="Rate", mappedBy="transport", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection<int, Rate>
      */
-    protected $rates;
+    #[ORM\OneToMany(
+        mappedBy: 'transport',
+        targetEntity: Rate::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    protected ?Collection $rates = null;
 
     /**
      * @var File
      */
     protected $ratesCsv;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="dpd_label_size", type="string", length=10, nullable=false)
-     */
-    protected $labelSize;
+    #[ORM\Column(name: 'dpd_label_size', type: Types::STRING, length: 10, nullable: false)]
+    protected ?string $labelSize = null;
+
+    #[ORM\Column(name: 'dpd_label_start_position', type: Types::STRING, length: 20, nullable: false)]
+    protected ?string $labelStartPosition = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="dpd_label_start_position", type="string", length=20, nullable=false)
+     * @var Collection<int, LocalizedFallbackValue>
      */
-    protected $labelStartPosition;
+    #[ORM\ManyToMany(targetEntity: LocalizedFallbackValue::class, cascade: ['ALL'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'oro_dpd_transport_label')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'localized_value_id', referencedColumnName: 'id', unique: true, onDelete: 'CASCADE')]
+    protected ?Collection $labels = null;
 
-    /**
-     * @var Collection|LocalizedFallbackValue[]
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Oro\Bundle\LocaleBundle\Entity\LocalizedFallbackValue",
-     *      cascade={"ALL"},
-     *      orphanRemoval=true
-     * )
-     * @ORM\JoinTable(
-     *      name="oro_dpd_transport_label",
-     *      joinColumns={
-     *          @ORM\JoinColumn(name="transport_id", referencedColumnName="id", onDelete="CASCADE")
-     *      },
-     *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="localized_value_id", referencedColumnName="id", onDelete="CASCADE", unique=true)
-     *      }
-     * )
-     */
-    protected $labels;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dpd_invalidate_cache_at", type="datetime", nullable=true)
-     */
-    protected $invalidateCacheAt;
+    #[ORM\Column(name: 'dpd_invalidate_cache_at', type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $invalidateCacheAt = null;
 
     /**
      * @var ParameterBag
