@@ -2,76 +2,55 @@
 
 namespace Oro\Bundle\DPDBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
+use Oro\Bundle\DPDBundle\Entity\Repository\RateRepository;
 
 /**
- * @ORM\Table(name="oro_dpd_rate")
- * @ORM\Entity(repositoryClass="Oro\Bundle\DPDBundle\Entity\Repository\RateRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+* Entity that represents Rate
+*
+*/
+#[ORM\Entity(repositoryClass: RateRepository::class)]
+#[ORM\Table(name: 'oro_dpd_rate')]
+#[ORM\HasLifecycleCallbacks]
 class Rate
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
+
+    #[ORM\ManyToOne(targetEntity: DPDTransport::class, inversedBy: 'rates')]
+    #[ORM\JoinColumn(name: 'transport_id', referencedColumnName: 'id', nullable: false)]
+    protected ?DPDTransport $transport = null;
+
+    #[ORM\ManyToOne(targetEntity: ShippingService::class)]
+    #[ORM\JoinColumn(name: 'shipping_service_id', referencedColumnName: 'code', onDelete: 'CASCADE')]
+    protected ?ShippingService $shippingService = null;
+
+    #[ORM\ManyToOne(targetEntity: Country::class)]
+    #[ORM\JoinColumn(name: 'country_code', referencedColumnName: 'iso2_code', nullable: false)]
+    protected ?Country $country = null;
+
+    #[ORM\ManyToOne(targetEntity: Region::class)]
+    #[ORM\JoinColumn(name: 'region_code', referencedColumnName: 'combined_code')]
+    protected ?Region $region = null;
+
+    #[ORM\Column(name: 'region_text', type: Types::STRING, length: 255, nullable: true)]
+    protected ?string $regionText = null;
 
     /**
-     * @var DPDTransport
-     * @ORM\ManyToOne(targetEntity="DPDTransport", inversedBy="rates")
-     * @ORM\JoinColumn(name="transport_id", referencedColumnName="id", nullable=false)
+     * @return float|null
      */
-    protected $transport;
-
-    /**
-     * @var ShippingService
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\DPDBundle\Entity\ShippingService")
-     * @ORM\JoinColumn(name="shipping_service_id", referencedColumnName="code", onDelete="CASCADE")
-     */
-    protected $shippingService;
-
-    /**
-     * @var Country
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\Country")
-     * @ORM\JoinColumn(name="country_code", referencedColumnName="iso2_code", nullable=false)
-     */
-    protected $country;
-
-    /**
-     * @var Region
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AddressBundle\Entity\Region")
-     * @ORM\JoinColumn(name="region_code", referencedColumnName="combined_code")
-     */
-    protected $region;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="region_text", type="string", length=255, nullable=true)
-     */
-    protected $regionText;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="weight_value", type="float", nullable=true)
-     */
+    #[ORM\Column(name: 'weight_value', type: Types::FLOAT, nullable: true)]
     protected $weightValue;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="price_value", type="money", nullable=false)
      */
+    #[ORM\Column(name: 'price_value', type: 'money', nullable: false)]
     protected $priceValue;
 
     /**

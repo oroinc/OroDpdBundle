@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\DPDBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
@@ -9,44 +10,31 @@ use Oro\Bundle\OrderBundle\Entity\Order;
 
 /**
  * Represents DPD transaction.
- * @ORM\Table(name="oro_dpd_shipping_transaction")
- * @ORM\Entity
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'oro_dpd_shipping_transaction')]
 class DPDTransaction
 {
     use CreatedAtAwareTrait;
 
-    /**
-     * @var string
-     *
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="parcel_numbers", type="array")
      */
+    #[ORM\Column(name: 'parcel_numbers', type: Types::ARRAY)]
     protected $parcelNumbers = [];
 
-    /**
-     * @var Order
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrderBundle\Entity\Order")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    protected $order;
+    #[ORM\ManyToOne(targetEntity: Order::class)]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    protected ?Order $order = null;
 
-    /**
-     * @var File
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\AttachmentBundle\Entity\File", cascade={"persist"})
-     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
-     */
-    protected $labelFile;
+    #[ORM\ManyToOne(targetEntity: File::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    protected ?File $labelFile = null;
 
     /**
      * DPDTransaction constructor.
