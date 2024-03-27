@@ -1,0 +1,6 @@
+oro_sanitize:
+    entity:
+        oro_integration_transport:
+            fields:
+                dpd_cloud_user_id: md5
+                dpd_cloud_user_token: md5
