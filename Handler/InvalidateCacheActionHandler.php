@@ -11,6 +11,11 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class InvalidateCacheActionHandler implements InvalidateCacheActionHandlerInterface
 {
+    /**
+     * Used in conditions of operation "oro_dpd_integration_invalidate_cache"
+     */
+    public const PARAM_TRANSPORT_ID = 'transportId';
+
     private CacheInterface $zipCodeRulesCache;
 
     public function __construct(CacheInterface $zipCodeRulesCache)
