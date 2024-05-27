@@ -11,6 +11,8 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 class InvalidateCacheActionHandler implements InvalidateCacheActionHandlerInterface
 {
+    const PARAM_TRANSPORT_ID = 'transportId';
+
     private CacheInterface $zipCodeRulesCache;
 
     public function __construct(CacheInterface $zipCodeRulesCache)
