@@ -45,6 +45,7 @@ class RemoveUsedShippingServiceValidator extends ConstraintValidator
      * @param DPDTransport                                   $value
      * @param Constraint|RemoveUsedShippingServiceConstraint $constraint
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof DPDTransport) {

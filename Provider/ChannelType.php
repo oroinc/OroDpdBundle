@@ -9,17 +9,13 @@ class ChannelType implements ChannelInterface, IconAwareIntegrationInterface
 {
     const TYPE = 'dpd';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return 'oro.dpd.channel_type.label';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getIcon()
     {
         return 'bundles/orodpd/img/DPD_logo_icon.png';

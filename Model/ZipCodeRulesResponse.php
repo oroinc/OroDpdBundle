@@ -53,6 +53,7 @@ class ZipCodeRulesResponse extends DPDResponse
     /**
      * @throws \InvalidArgumentException
      */
+    #[\Override]
     public function parse(array $data)
     {
         parent::parse($data);
@@ -206,6 +207,7 @@ class ZipCodeRulesResponse extends DPDResponse
     /**
      * @return array
      */
+    #[\Override]
     public function toArray()
     {
         $response = parent::toArray();

@@ -30,6 +30,7 @@ class DPDShippingMethodTypeTest extends TestCase
 
     private DPDShippingMethodType $dpdShippingMethodType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $transport = new DPDTransport();

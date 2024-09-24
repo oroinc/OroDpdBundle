@@ -12,10 +12,10 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 class OroDPDBundle implements Migration
 {
     /**
-     * {@inheritdoc}
      *
      * @throws \Doctrine\DBAL\Schema\SchemaException
      */
+    #[\Override]
     public function up(Schema $schema, QueryBag $queries)
     {
         /* update tables */

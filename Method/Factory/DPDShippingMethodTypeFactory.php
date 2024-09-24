@@ -28,9 +28,7 @@ class DPDShippingMethodTypeFactory implements DPDShippingMethodTypeFactoryInterf
         $this->rateProvider = $rateProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function create(Channel $channel, ShippingService $service)
     {
         return new DPDShippingMethodType(

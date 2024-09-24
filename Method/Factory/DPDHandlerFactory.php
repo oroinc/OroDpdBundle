@@ -42,6 +42,7 @@ class DPDHandlerFactory implements DPDHandlerFactoryInterface
         $this->shippingLineItemConverter = $shippingLineItemConverter;
     }
 
+    #[\Override]
     public function create(Channel $channel, ShippingService $service): DPDHandler
     {
         return new DPDHandler(

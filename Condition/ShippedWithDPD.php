@@ -28,9 +28,7 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
         $this->shippingProvider = $shippingProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function isConditionAllowed($context)
     {
         $shippingMethod = $this->resolveValue($context, $this->value);
@@ -38,33 +36,25 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
         return $shippingMethod && $this->shippingProvider->hasShippingMethod($shippingMethod);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getName()
     {
         return 'shipped_with_dpd';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function toArray()
     {
         return $this->convertToArray($this->value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function compile($factoryAccessor)
     {
         return $this->convertToPhpCode($this->value, $factoryAccessor);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getMessageParameters($context)
     {
         return [
@@ -72,9 +62,7 @@ class ShippedWithDPD extends AbstractCondition implements ContextAccessorAwareIn
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function initialize(array $options)
     {
         if (1 === count($options)) {

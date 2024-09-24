@@ -22,9 +22,7 @@ class DPDShippingMethodOptionsType extends AbstractType
         $this->roundingService = $roundingService;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -40,9 +38,7 @@ class DPDShippingMethodOptionsType extends AbstractType
             ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::BLOCK_PREFIX;

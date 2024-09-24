@@ -32,6 +32,7 @@ class PackageProviderTest extends TestCase
 
     private PackageProvider $packageProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);

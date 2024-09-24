@@ -71,11 +71,13 @@ class DPDHandler implements DPDHandlerInterface
         }
     }
 
+    #[\Override]
     public function getIdentifier(): string|int
     {
         return $this->identifier;
     }
 
+    #[\Override]
     public function shipOrder(Order $order, \DateTime $shipDate): ?SetOrderResponse
     {
         $convertedLineItems = $this->shippingLineItemConverter->convertLineItems($order->getLineItems());
@@ -100,6 +102,7 @@ class DPDHandler implements DPDHandlerInterface
         return $setOrderResponse;
     }
 
+    #[\Override]
     public function getNextPickupDay(\DateTime $shipDate): \DateTime
     {
         while (($addHint = $this->checkShipDate($shipDate)) !== 0) {
@@ -155,6 +158,7 @@ class DPDHandler implements DPDHandlerInterface
         return 0;
     }
 
+    #[\Override]
     public function fetchZipCodeRules(): ?ZipCodeRulesResponse
     {
         $zipCodeRulesRequest = $this->dpdRequestFactory->createZipCodeRulesRequest();

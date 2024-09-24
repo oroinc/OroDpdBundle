@@ -14,6 +14,7 @@ class InvalidateCacheActionHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var InvalidateCacheActionHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->upsPriceCache = $this->createMock(AbstractAdapter::class);

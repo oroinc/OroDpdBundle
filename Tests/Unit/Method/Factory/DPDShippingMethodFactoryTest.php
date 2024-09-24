@@ -36,6 +36,7 @@ class DPDShippingMethodFactoryTest extends \PHPUnit\Framework\TestCase
     /** @var DPDShippingMethodFactory */
     private $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->localizationHelper = $this->createMock(LocalizationHelper::class);

@@ -61,7 +61,6 @@ class DPDTransportSettingsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      *
@@ -69,6 +68,7 @@ class DPDTransportSettingsType extends AbstractType
      * @throws InvalidOptionsException
      * @throws MissingOptionsException
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
@@ -189,10 +189,10 @@ class DPDTransportSettingsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
      *
      * @throws AccessException
      */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
@@ -200,9 +200,7 @@ class DPDTransportSettingsType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::BLOCK_PREFIX;

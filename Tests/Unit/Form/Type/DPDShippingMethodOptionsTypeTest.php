@@ -11,6 +11,7 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
 {
     private DPDShippingMethodOptionsType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $roundingService = $this->createMock(RoundingServiceInterface::class);
@@ -25,9 +26,7 @@ class DPDShippingMethodOptionsTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

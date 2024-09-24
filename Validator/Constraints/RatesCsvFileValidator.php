@@ -31,8 +31,8 @@ class RatesCsvFileValidator extends ConstraintValidator
      * FIXME: refactor with error messages, see next FIXME
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     * {@inheritDoc}
      */
+    #[\Override]
     public function validate($value, Constraint $constraint)
     {
         if ($value instanceof File) {

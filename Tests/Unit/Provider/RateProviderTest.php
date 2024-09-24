@@ -23,6 +23,7 @@ class RateProviderTest extends \PHPUnit\Framework\TestCase
     /** @var RateProvider */
     private $rateProvider;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transport = $this->createMock(DPDTransport::class);

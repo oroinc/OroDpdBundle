@@ -9,9 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class LoadShippingServices extends AbstractFixture
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $shippingServices = Yaml::parse(file_get_contents(__DIR__.'/data/shipping_services.yml'));

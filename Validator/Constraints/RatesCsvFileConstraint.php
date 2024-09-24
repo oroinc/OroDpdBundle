@@ -11,9 +11,7 @@ class RatesCsvFileConstraint extends Constraint
      */
     public $message = 'oro.dpd.transport.rates_csv.invalid';
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return RatesCsvFileValidator::ALIAS;

@@ -23,6 +23,7 @@ class DPDShippingMethodTest extends \PHPUnit\Framework\TestCase
 
     private DPDShippingMethod $dpdShippingMethod;
 
+    #[\Override]
     protected function setUp(): void
     {
         $type = $this->createMock(ShippingMethodTypeInterface::class);

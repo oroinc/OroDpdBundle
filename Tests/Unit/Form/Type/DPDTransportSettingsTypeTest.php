@@ -43,6 +43,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
     /** @var DPDTransportSettingsType */
     private $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transport = $this->createMock(TransportInterface::class);
@@ -70,9 +71,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     protected function getExtensions(): array
     {
         return [

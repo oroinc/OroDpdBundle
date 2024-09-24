@@ -54,6 +54,7 @@ class DPDTransport extends AbstractRestTransport
      *
      * @return string
      */
+    #[\Override]
     protected function getClientBaseUrl(ParameterBag $parameterBag)
     {
         if ($parameterBag->get('test_mode', false)) {
@@ -63,33 +64,25 @@ class DPDTransport extends AbstractRestTransport
         return static::BASE_URL_LIVE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function getClientOptions(ParameterBag $parameterBag)
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return 'oro.dpd.transport.label';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSettingsFormType()
     {
         return DPDTransportSettingsType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSettingsEntityFQCN()
     {
         return DPDTransportSettings::class;

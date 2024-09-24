@@ -9,6 +9,7 @@ class ZipCodeRulesResponseTest extends \PHPUnit\Framework\TestCase
 {
     private ZipCodeRulesResponse $model;
 
+    #[\Override]
     protected function setUp(): void
     {
         $values = [

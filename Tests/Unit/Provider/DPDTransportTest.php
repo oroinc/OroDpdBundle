@@ -33,6 +33,7 @@ class DPDTransportTest extends \PHPUnit\Framework\TestCase
     /** @var DPDTransport */
     private $transport;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(RestClientInterface::class);
