@@ -7,9 +7,7 @@ use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
 class DPDMethodTypeIdentifierGenerator implements DPDMethodTypeIdentifierGeneratorInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function generateIdentifier(Channel $channel, ShippingService $service)
     {
         return $service->getCode();

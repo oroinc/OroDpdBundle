@@ -23,6 +23,7 @@ class SetOrderResponse extends DPDResponse
     /**
      * @throws \InvalidArgumentException
      */
+    #[\Override]
     public function parse(array $data)
     {
         parent::parse($data);
@@ -77,6 +78,7 @@ class SetOrderResponse extends DPDResponse
     /**
      * @return array
      */
+    #[\Override]
     public function toArray()
     {
         $response = parent::toArray();

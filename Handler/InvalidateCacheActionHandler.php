@@ -23,6 +23,7 @@ class InvalidateCacheActionHandler implements InvalidateCacheActionHandlerInterf
         $this->zipCodeRulesCache = $zipCodeRulesCache;
     }
 
+    #[\Override]
     public function handle(DataStorageInterface $dataStorage)
     {
         $this->zipCodeRulesCache->clear();

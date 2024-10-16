@@ -19,9 +19,7 @@ class BasicAttachmentFromDPDTransactionFactory implements AttachmentFromDPDTrans
         $this->attachmentCommentProvider = $attachmentCommentProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function createAttachmentFromDPDTransaction(DPDTransaction $transaction)
     {
         $attachment = new Attachment();

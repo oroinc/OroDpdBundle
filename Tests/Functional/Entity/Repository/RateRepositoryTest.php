@@ -14,6 +14,7 @@ class RateRepositoryTest extends WebTestCase
 {
     private RateRepository $repository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());

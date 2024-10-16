@@ -428,9 +428,7 @@ class DPDTransport extends Transport
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getSettingsBag()
     {
         if (null === $this->settings) {

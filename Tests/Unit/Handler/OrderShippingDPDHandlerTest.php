@@ -46,6 +46,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var OrderShippingDPDHandler */
     private $handler;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->manager = $this->createMock(ObjectManager::class);

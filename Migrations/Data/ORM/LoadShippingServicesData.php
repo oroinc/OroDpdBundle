@@ -11,9 +11,7 @@ use Oro\Bundle\DPDBundle\Entity\ShippingService;
  */
 class LoadShippingServicesData extends AbstractFixture
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $repository = $manager->getRepository(ShippingService::class);

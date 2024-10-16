@@ -11,17 +11,13 @@ class RemoveUsedShippingServiceConstraint extends Constraint
      */
     public $message = 'oro.dpd.transport.shipping_service.used';
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function validatedBy(): string
     {
         return RemoveUsedShippingServiceValidator::ALIAS;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getTargets(): string|array
     {
         return self::CLASS_CONSTRAINT;

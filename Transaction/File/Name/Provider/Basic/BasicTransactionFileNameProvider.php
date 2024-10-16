@@ -28,9 +28,7 @@ class BasicTransactionFileNameProvider implements TransactionFileNameProviderInt
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getTransactionFileName(Order $order, SetOrderResponse $response)
     {
         return $this->translator->trans($this->messageId, [

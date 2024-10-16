@@ -13,6 +13,7 @@ class RatesCsvType extends AbstractType
 {
     const NAME = 'oro_dpd_rates_csv';
 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $transportSettings = $form->getParent()->getData();
@@ -21,6 +22,7 @@ class RatesCsvType extends AbstractType
         $view->vars['download_csv_label'] = $options['download_csv_label'];
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -31,17 +33,13 @@ class RatesCsvType extends AbstractType
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getParent(): ?string
     {
         return FileType::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return self::NAME;

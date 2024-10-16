@@ -50,6 +50,7 @@ class DPDHandlerTest extends TestCase
 
     private OrderShippingLineItemConverterInterface|MockObject $shippingLineItemConverter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->transport = $this->getEntity(

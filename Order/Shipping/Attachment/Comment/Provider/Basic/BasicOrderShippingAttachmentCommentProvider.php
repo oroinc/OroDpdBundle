@@ -27,9 +27,7 @@ class BasicOrderShippingAttachmentCommentProvider implements OrderShippingAttach
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getAttachmentComment(DPDTransaction $transaction)
     {
         return $this->translator->trans($this->messageId, [

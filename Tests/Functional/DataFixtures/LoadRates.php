@@ -11,9 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class LoadRates extends AbstractFixture implements DependentFixtureInterface
 {
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         foreach ($this->getRatesData() as $reference => $data) {
@@ -40,9 +38,7 @@ class LoadRates extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function getDependencies(): array
     {
         return [

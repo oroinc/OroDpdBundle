@@ -214,6 +214,7 @@ class Rate
     /**
      * @return string
      */
+    #[\Override]
     public function __toString()
     {
         return sprintf(

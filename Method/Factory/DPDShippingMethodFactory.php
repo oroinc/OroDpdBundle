@@ -36,9 +36,7 @@ class DPDShippingMethodFactory implements IntegrationShippingMethodFactoryInterf
         $this->integrationIconProvider = $integrationIconProvider;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    #[\Override]
     public function create(Channel $channel): ShippingMethodInterface
     {
         /** @var DPDSettings $transport */

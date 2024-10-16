@@ -11,6 +11,7 @@ class RatesCsvTypeTest extends FormIntegrationTestCase
 {
     private RatesCsvType $formType;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
