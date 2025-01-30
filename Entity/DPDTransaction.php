@@ -118,7 +118,7 @@ class DPDTransaction
      *
      * @return DPDTransaction
      */
-    public function setLabelFile(File $labelFile = null)
+    public function setLabelFile(?File $labelFile = null)
     {
         $this->labelFile = $labelFile;
 

@@ -74,7 +74,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setTransport(DPDTransport $transport = null)
+    public function setTransport(?DPDTransport $transport = null)
     {
         $this->transport = $transport;
 
@@ -134,7 +134,7 @@ class Rate
      *
      * @return Rate
      */
-    public function setRegion(Region $region = null)
+    public function setRegion(?Region $region = null)
     {
         $this->region = $region;
 
