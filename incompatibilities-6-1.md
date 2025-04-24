@@ -1,0 +1,6 @@
+DPDBundle
+---------
+* The `DPDTransaction::setLabelFile(File $labelFile = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.0.0/Entity/DPDTransaction.php#L121 "Oro\Bundle\DPDBundle\Entity\DPDTransaction")</sup> method was changed to `DPDTransaction::setLabelFile($labelFile = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.1.0/Entity/DPDTransaction.php#L121 "Oro\Bundle\DPDBundle\Entity\DPDTransaction")</sup>
+* The `DPDTransport::setInvalidateCacheAt(DateTime $invalidateCacheAt = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.0.0/Entity/DPDTransport.php#L465 "Oro\Bundle\DPDBundle\Entity\DPDTransport")</sup> method was changed to `DPDTransport::setInvalidateCacheAt($invalidateCacheAt = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.1.0/Entity/DPDTransport.php#L463 "Oro\Bundle\DPDBundle\Entity\DPDTransport")</sup>
+* The `Rate::setTransport(DPDTransport $transport = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.0.0/Entity/Rate.php#L77 "Oro\Bundle\DPDBundle\Entity\Rate")</sup> method was changed to `Rate::setTransport($transport = null)`<sup>[[?]](https://github.com/oroinc/OroDpdBundle/tree/6.1.0/Entity/Rate.php#L77 "Oro\Bundle\DPDBundle\Entity\Rate")</sup>
+
