@@ -119,7 +119,6 @@ services:
             - "@oro_dpd.cache.zip_code_rules"
 
     oro_dpd.cache.zip_code_rules:
-        public: false
         parent: oro.data.cache
         tags:
             - { name: 'cache.pool', namespace: 'oro_dpd_zip_code_rules' }
