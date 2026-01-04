@@ -16,20 +16,20 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class DPDTransport extends AbstractRestTransport
 {
-    const API_VERSION = 100;
-    const API_DEFAULT_LANGUAGE = 'en_EN';
+    public const API_VERSION = 100;
+    public const API_DEFAULT_LANGUAGE = 'en_EN';
 
-    const BASE_URL_LIVE = 'https://cloud.dpd.com/api/v1/';
-    const BASE_URL_STAGE = 'https://cloud-stage.dpd.com/api/v1/';
+    public const BASE_URL_LIVE = 'https://cloud.dpd.com/api/v1/';
+    public const BASE_URL_STAGE = 'https://cloud-stage.dpd.com/api/v1/';
 
-    const API_SET_ORDER = 'setOrder';
-    const API_GET_ZIPCODE_RULES = 'ZipCodeRules';
+    public const API_SET_ORDER = 'setOrder';
+    public const API_GET_ZIPCODE_RULES = 'ZipCodeRules';
 
-    const PARTNER_NAME_LIVE = 'none'; //FIXME: request partner name
-    const PARTNER_TOKEN_LIVE = 'none'; //FIXME: request
+    public const PARTNER_NAME_LIVE = 'none'; //FIXME: request partner name
+    public const PARTNER_TOKEN_LIVE = 'none'; //FIXME: request
 
-    const PARTNER_NAME_STAGE = 'DPD Sandbox';
-    const PARTNER_TOKEN_STAGE = '06445364853584D75564';
+    public const PARTNER_NAME_STAGE = 'DPD Sandbox';
+    public const PARTNER_TOKEN_STAGE = '06445364853584D75564';
 
     /**
      * @var LoggerInterface

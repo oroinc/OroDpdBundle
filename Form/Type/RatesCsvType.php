@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RatesCsvType extends AbstractType
 {
-    const NAME = 'oro_dpd_rates_csv';
+    public const NAME = 'oro_dpd_rates_csv';
 
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options)

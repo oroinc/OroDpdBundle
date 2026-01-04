@@ -4,16 +4,16 @@ namespace Oro\Bundle\DPDBundle\Model;
 
 class ZipCodeRulesResponse extends DPDResponse
 {
-    const DPD_ZIP_CODE_RULES_KEY = 'ZipCodeRules';
-    const DPD_ZIP_CODE_RULES_COUNTRY_KEY = 'Country';
-    const DPD_ZIP_CODE_RULES_ZIPCODE_KEY = 'ZipCode';
-    const DPD_ZIP_CODE_RULES_NO_PICKUP_DAYS_KEY = 'NoPickupDays';
-    const DPD_ZIP_CODE_RULES_EXPRESS_CUT_OFF_KEY = 'ExpressCutOff';
-    const DPD_ZIP_CODE_RULES_CLASSIC_CUT_OFF_KEY = 'ClassicCutOff';
-    const DPD_ZIP_CODE_RULES_PICKUP_DEPOT_KEY = 'PickupDepot';
-    const DPD_ZIP_CODE_RULES_STATE_KEY = 'State';
+    public const DPD_ZIP_CODE_RULES_KEY = 'ZipCodeRules';
+    public const DPD_ZIP_CODE_RULES_COUNTRY_KEY = 'Country';
+    public const DPD_ZIP_CODE_RULES_ZIPCODE_KEY = 'ZipCode';
+    public const DPD_ZIP_CODE_RULES_NO_PICKUP_DAYS_KEY = 'NoPickupDays';
+    public const DPD_ZIP_CODE_RULES_EXPRESS_CUT_OFF_KEY = 'ExpressCutOff';
+    public const DPD_ZIP_CODE_RULES_CLASSIC_CUT_OFF_KEY = 'ClassicCutOff';
+    public const DPD_ZIP_CODE_RULES_PICKUP_DEPOT_KEY = 'PickupDepot';
+    public const DPD_ZIP_CODE_RULES_STATE_KEY = 'State';
 
-    const DPD_ZIP_CODE_RULES_NO_PICKUP_DAYS_FORMAT = 'd.m.Y';
+    public const DPD_ZIP_CODE_RULES_NO_PICKUP_DAYS_FORMAT = 'd.m.Y';
 
     /**
      * @var string

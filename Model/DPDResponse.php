@@ -4,13 +4,13 @@ namespace Oro\Bundle\DPDBundle\Model;
 
 class DPDResponse
 {
-    const DPD_ACK_KEY = 'Ack';
-    const DPD_TIMESTAMP_KEY = 'TimeStamp';
-    const DPD_ERROR_DATA_LIST_KEY = 'ErrorDataList';
-    const DPD_ERROR_DATA_ID_KEY = 'ErrorID';
-    const DPD_ERROR_DATA_CODE_KEY = 'ErrorCode';
-    const DPD_ERROR_DATA_MSG_SHORT_KEY = 'ErrorMsgShort';
-    const DPD_ERROR_DATA_MSG_LONG_KEY = 'ErrorMsgLong';
+    public const DPD_ACK_KEY = 'Ack';
+    public const DPD_TIMESTAMP_KEY = 'TimeStamp';
+    public const DPD_ERROR_DATA_LIST_KEY = 'ErrorDataList';
+    public const DPD_ERROR_DATA_ID_KEY = 'ErrorID';
+    public const DPD_ERROR_DATA_CODE_KEY = 'ErrorCode';
+    public const DPD_ERROR_DATA_MSG_SHORT_KEY = 'ErrorMsgShort';
+    public const DPD_ERROR_DATA_MSG_LONG_KEY = 'ErrorMsgLong';
 
     /**
      * @var bool

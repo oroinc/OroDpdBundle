@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DPDShippingMethodOptionsType extends AbstractType
 {
-    const BLOCK_PREFIX = 'oro_shipping_dpd_method_options';
+    public const BLOCK_PREFIX = 'oro_shipping_dpd_method_options';
 
     /**
      * @var RoundingServiceInterface

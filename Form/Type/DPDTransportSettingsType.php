@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class DPDTransportSettingsType extends AbstractType
 {
-    const BLOCK_PREFIX = 'oro_dpd_transport_settings';
+    public const BLOCK_PREFIX = 'oro_dpd_transport_settings';
 
     /**
      * @var string
