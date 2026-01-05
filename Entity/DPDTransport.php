@@ -19,16 +19,16 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 #[ORM\Entity]
 class DPDTransport extends Transport
 {
-    const FLAT_RATE_POLICY = 0;
-    const TABLE_RATE_POLICY = 1;
+    public const FLAT_RATE_POLICY = 0;
+    public const TABLE_RATE_POLICY = 1;
 
-    const PDF_A4_LABEL_SIZE = 'PDF_A4';
-    const PDF_A6_LABEL_SIZE = 'PDF_A6';
+    public const PDF_A4_LABEL_SIZE = 'PDF_A4';
+    public const PDF_A6_LABEL_SIZE = 'PDF_A6';
 
-    const UPPERLEFT_LABEL_START_POSITION = 'UpperLeft';
-    const UPPERRIGHT_LABEL_START_POSITION = 'UpperRight';
-    const LOWERLEFT_LABEL_START_POSITION = 'LowerLeft';
-    const LOWERRIGHT_LABEL_START_POSITION = 'LowerRight';
+    public const UPPERLEFT_LABEL_START_POSITION = 'UpperLeft';
+    public const UPPERRIGHT_LABEL_START_POSITION = 'UpperRight';
+    public const LOWERLEFT_LABEL_START_POSITION = 'LowerLeft';
+    public const LOWERRIGHT_LABEL_START_POSITION = 'LowerRight';
 
     #[ORM\Column(name: 'dpd_test_mode', type: Types::BOOLEAN, nullable: false)]
     protected ?bool $dpdTestMode = null;

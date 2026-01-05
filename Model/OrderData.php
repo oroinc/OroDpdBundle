@@ -7,28 +7,28 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class OrderData extends ParameterBag
 {
-    const FIELD_SHIP_TO_ADDRESS = 'ship_to_address';
-    const FIELD_SHIP_TO_EMAIL = 'ship_to_email';
-    const FIELD_PARCEL_SHOP_ID = 'parcel_shop_id';
-    const FIELD_SHIP_SERVICE_CODE = 'ship_service_code';
-    const FIELD_WEIGHT = 'weight';
-    const FIELD_CONTENT = 'content';
-    const FIELD_YOUR_INTERNAL_ID = 'your_internal_id';
-    const FIELD_REFERENCE1 = 'reference1';
-    const FIELD_REFERENCE2 = 'reference2';
+    public const FIELD_SHIP_TO_ADDRESS = 'ship_to_address';
+    public const FIELD_SHIP_TO_EMAIL = 'ship_to_email';
+    public const FIELD_PARCEL_SHOP_ID = 'parcel_shop_id';
+    public const FIELD_SHIP_SERVICE_CODE = 'ship_service_code';
+    public const FIELD_WEIGHT = 'weight';
+    public const FIELD_CONTENT = 'content';
+    public const FIELD_YOUR_INTERNAL_ID = 'your_internal_id';
+    public const FIELD_REFERENCE1 = 'reference1';
+    public const FIELD_REFERENCE2 = 'reference2';
 
-    const DPD_API_SHIP_ADDRESS_COMPANY_MAX_LENGTH = 35;
-    const DPD_API_SHIP_ADDRESS_SALUTATION_MAX_LENGTH = 10;
-    const DPD_API_SHIP_ADDRESS_NAME_MAX_LENGTH = 35;
-    const DPD_API_SHIP_ADDRESS_STREET_MAX_LENGTH = 35;
-    const DPD_API_SHIP_ADDRESS_HOUSE_NO_MAX_LENGTH = 8;
-    const DPD_API_SHIP_ADDRESS_ZIP_CODE_MAX_LENGTH = 8;
-    const DPD_API_SHIP_ADDRESS_CITY_MAX_LENGTH = 35;
-    const DPD_API_SHIP_ADDRESS_PHONE_MAX_LENGTH = 20;
-    const DPD_API_PARCEL_DATA_CONTENT_MAX_LENGTH = 35;
-    const DPD_API_PARCEL_DATA_YOUR_INTERNAL_ID_MAX_LENGTH = 35;
-    const DPD_API_PARCEL_DATA_REFERENCE1_MAX_LENGTH = 35;
-    const DPD_API_PARCEL_DATA_REFERENCE2_MAX_LENGTH = 35;
+    public const DPD_API_SHIP_ADDRESS_COMPANY_MAX_LENGTH = 35;
+    public const DPD_API_SHIP_ADDRESS_SALUTATION_MAX_LENGTH = 10;
+    public const DPD_API_SHIP_ADDRESS_NAME_MAX_LENGTH = 35;
+    public const DPD_API_SHIP_ADDRESS_STREET_MAX_LENGTH = 35;
+    public const DPD_API_SHIP_ADDRESS_HOUSE_NO_MAX_LENGTH = 8;
+    public const DPD_API_SHIP_ADDRESS_ZIP_CODE_MAX_LENGTH = 8;
+    public const DPD_API_SHIP_ADDRESS_CITY_MAX_LENGTH = 35;
+    public const DPD_API_SHIP_ADDRESS_PHONE_MAX_LENGTH = 20;
+    public const DPD_API_PARCEL_DATA_CONTENT_MAX_LENGTH = 35;
+    public const DPD_API_PARCEL_DATA_YOUR_INTERNAL_ID_MAX_LENGTH = 35;
+    public const DPD_API_PARCEL_DATA_REFERENCE1_MAX_LENGTH = 35;
+    public const DPD_API_PARCEL_DATA_REFERENCE2_MAX_LENGTH = 35;
 
     public function __construct(array $params)
     {

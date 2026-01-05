@@ -16,12 +16,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class RemoveUsedShippingServiceValidator extends ConstraintValidator
 {
-    const ALIAS = 'oro_dpd_remove_used_shipping_service_validator';
+    public const ALIAS = 'oro_dpd_remove_used_shipping_service_validator';
 
     /**
      * @internal
      */
-    const VIOLATION_PATH = 'applicableShippingServices';
+    public const VIOLATION_PATH = 'applicableShippingServices';
 
     /**
      * @var IntegrationShippingMethodFactoryInterface

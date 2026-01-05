@@ -4,11 +4,11 @@ namespace Oro\Bundle\DPDBundle\Model;
 
 class SetOrderResponse extends DPDResponse
 {
-    const DPD_LABEL_RESPONSE_KEY = 'LabelResponse';
-    const DPD_LABEL_PDF_KEY = 'LabelPDF';
-    const DPD_LABEL_DATA_LIST_KEY = 'LabelDataList';
-    const DPD_LABEL_DATA_YOUR_INTERNAL_ID_KEY = 'YourInternalID';
-    const DPD_LABEL_DATA_PARCEL_NUMBER_KEY = 'ParcelNo';
+    public const DPD_LABEL_RESPONSE_KEY = 'LabelResponse';
+    public const DPD_LABEL_PDF_KEY = 'LabelPDF';
+    public const DPD_LABEL_DATA_LIST_KEY = 'LabelDataList';
+    public const DPD_LABEL_DATA_YOUR_INTERNAL_ID_KEY = 'YourInternalID';
+    public const DPD_LABEL_DATA_PARCEL_NUMBER_KEY = 'ParcelNo';
 
     /**
      * @var string

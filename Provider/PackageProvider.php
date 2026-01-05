@@ -13,8 +13,8 @@ use Oro\Bundle\ShippingBundle\Provider\MeasureUnitConversion;
  */
 class PackageProvider
 {
-    const MAX_PACKAGE_WEIGHT_KGS = 31.5; //as defined on dpd api documentation
-    const UNIT_OF_WEIGHT = 'kg'; //dpd only supports kg
+    public const MAX_PACKAGE_WEIGHT_KGS = 31.5; //as defined on dpd api documentation
+    public const UNIT_OF_WEIGHT = 'kg'; //dpd only supports kg
 
     /** @var MeasureUnitConversion */
     protected $measureUnitConversion;

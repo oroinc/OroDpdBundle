@@ -14,8 +14,8 @@ use Oro\Bundle\DPDBundle\Entity\Repository\ShippingServiceRepository;
 #[ORM\Table(name: 'oro_dpd_shipping_service')]
 class ShippingService
 {
-    const CLASSIC_SERVICE_SUBSTR = 'Classic';
-    const EXPRESS_SERVICE_SUBSTR = 'Express';
+    public const CLASSIC_SERVICE_SUBSTR = 'Classic';
+    public const EXPRESS_SERVICE_SUBSTR = 'Express';
 
     #[ORM\Id]
     #[ORM\Column(name: 'code', type: Types::STRING, length: 30)]

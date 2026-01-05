@@ -6,14 +6,14 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 
 class SetOrderRequest extends ParameterBag
 {
-    const START_ORDER_ACTION = 'startOrder';
-    const CHECK_ORDER_ACTION = 'checkOrderData';
+    public const START_ORDER_ACTION = 'startOrder';
+    public const CHECK_ORDER_ACTION = 'checkOrderData';
 
-    const FIELD_ORDER_ACTION = 'order_action';
-    const FIELD_SHIP_DATE = 'ship_date';
-    const FIELD_LABEL_SIZE = 'label_size';
-    const FIELD_LABEL_START_POSITION = 'label_start_position';
-    const FIELD_ORDER_DATA_LIST = 'order_data_list';
+    public const FIELD_ORDER_ACTION = 'order_action';
+    public const FIELD_SHIP_DATE = 'ship_date';
+    public const FIELD_LABEL_SIZE = 'label_size';
+    public const FIELD_LABEL_START_POSITION = 'label_start_position';
+    public const FIELD_ORDER_DATA_LIST = 'order_data_list';
 
     /**
      * SetOrderRequest constructor.

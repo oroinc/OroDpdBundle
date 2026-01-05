@@ -15,7 +15,7 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class RatesCsvFileValidator extends ConstraintValidator
 {
-    const ALIAS = 'oro_dpd_rates_csv_file_validator';
+    public const ALIAS = 'oro_dpd_rates_csv_file_validator';
 
     /**
      * @var DoctrineHelper

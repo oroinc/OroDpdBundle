@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(path: '/dpd')]
 class DPDController extends AbstractController
 {
-    const CSV_DELIMITER = ',';
+    public const CSV_DELIMITER = ',';
 
     /**
      *
