@@ -49,7 +49,7 @@ class LoadRates extends AbstractFixture implements DependentFixtureInterface
 
     private function getRatesData(): array
     {
-        return Yaml::parse(file_get_contents(__DIR__.'/data/shipping_rates.yml'));
+        return Yaml::parse(file_get_contents(__DIR__ . '/data/shipping_rates.yml'));
     }
 
     private function setEntityPropertyValues(object $entity, array $data, array $excludeProperties = []): void

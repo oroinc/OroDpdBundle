@@ -121,7 +121,7 @@ class OrderShippingDPDHandlerTest extends \PHPUnit\Framework\TestCase
 
         $order = $this->getOrder(1, 'flat_rate', 'primary');
 
-        $file = new ComponentFile(__DIR__.'/../Fixtures/attachment/test_label.txt');
+        $file = new ComponentFile(__DIR__ . '/../Fixtures/attachment/test_label.txt');
         $this->fileManager->expects($this->once())
             ->method('writeToTemporaryFile')
             ->with($response->getLabelPDF())

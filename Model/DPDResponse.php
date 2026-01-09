@@ -76,7 +76,7 @@ class DPDResponse
         $errMsgs = [];
         foreach ($this->getErrors() as $error) {
             $errMsgs[] =
-                $error[self::DPD_ERROR_DATA_MSG_LONG_KEY].' (ErrorID='.$error[self::DPD_ERROR_DATA_ID_KEY].')';
+                $error[self::DPD_ERROR_DATA_MSG_LONG_KEY] . ' (ErrorID=' . $error[self::DPD_ERROR_DATA_ID_KEY] . ')';
         }
 
         return $errMsgs;
@@ -87,7 +87,7 @@ class DPDResponse
         $errMsgs = [];
         foreach ($this->getErrors() as $error) {
             $errMsgs[] =
-                $error[self::DPD_ERROR_DATA_MSG_SHORT_KEY].' (ErrorID='.$error[self::DPD_ERROR_DATA_ID_KEY].')';
+                $error[self::DPD_ERROR_DATA_MSG_SHORT_KEY] . ' (ErrorID=' . $error[self::DPD_ERROR_DATA_ID_KEY] . ')';
         }
 
         return $errMsgs;

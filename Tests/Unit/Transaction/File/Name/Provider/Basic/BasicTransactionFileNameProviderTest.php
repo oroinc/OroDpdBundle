@@ -47,7 +47,7 @@ class BasicTransactionFileNameProviderTest extends \PHPUnit\Framework\TestCase
 
         $provider = new BasicTransactionFileNameProvider($messageId, $this->translator);
 
-        $expectedName = $translatedMessage.'.pdf';
+        $expectedName = $translatedMessage . '.pdf';
 
         self::assertEquals($expectedName, $provider->getTransactionFileName($order, $transaction));
     }

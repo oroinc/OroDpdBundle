@@ -45,14 +45,14 @@ class DPDController extends AbstractController
             $handle = fopen('php://output', 'rb+');
 
             // Add BOM to fix UTF-8 in Excel
-            fwrite($handle, $bom = (chr(0xEF).chr(0xBB).chr(0xBF)));
+            fwrite($handle, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
 
             // Add the header of the CSV file
             $header = [
-                'Shipping Service Code ('.implode('/', $shippingServiceCodes).')',
+                'Shipping Service Code (' . implode('/', $shippingServiceCodes) . ')',
                 'Country Code (ISO 3166-1 alpha-2)',
                 'Region Code (ISO 3166-2)',
-                'Weight Value ('.$transport->getUnitOfWeight().')',
+                'Weight Value (' . $transport->getUnitOfWeight() . ')',
                 'Price Value',
             ];
             fputcsv($handle, $header, self::CSV_DELIMITER);
@@ -71,7 +71,7 @@ class DPDController extends AbstractController
             fclose($handle);
         });
 
-        $exportFileName = 'dpd_rates_'.date('Ymd_His').'.csv';
+        $exportFileName = 'dpd_rates_' . date('Ymd_His') . '.csv';
 
         $response->setStatusCode(200);
         $disposition = $response->headers->makeDisposition(

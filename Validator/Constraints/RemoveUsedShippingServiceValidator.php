@@ -64,7 +64,8 @@ class RemoveUsedShippingServiceValidator extends ConstraintValidator
 
     private function handleValidationResult(ShippingMethodValidatorResultInterface $shippingMethodValidatorResult)
     {
-        if (!isset($shippingMethodValidatorResult->getErrors()['errors'])
+        if (
+            !isset($shippingMethodValidatorResult->getErrors()['errors'])
             || $shippingMethodValidatorResult->getErrors()['errors']->isEmpty()
         ) {
             return;

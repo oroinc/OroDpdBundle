@@ -75,7 +75,8 @@ class RatesCsvFileValidator extends ConstraintValidator
                     continue;
                 }
                 // region unknown
-                if (!empty($regionCode)
+                if (
+                    !empty($regionCode)
                     && !$countries[$countryCode]->getRegions()->exists(
                         function ($key, $element) use ($regionCode) {
                             /* @var Region $element */

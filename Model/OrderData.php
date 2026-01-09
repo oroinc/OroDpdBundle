@@ -124,10 +124,10 @@ class OrderData extends ParameterBag
             $state = $this->getShipToAddress()->getRegionCode();
         }
 
-        $name = $this->getShipToAddress()->getFirstName().' '
-            .$this->getShipToAddress()->getMiddleName().' '
-            .$this->getShipToAddress()->getLastName().' '
-            .$this->getShipToAddress()->getNameSuffix();
+        $name = $this->getShipToAddress()->getFirstName() . ' '
+            . $this->getShipToAddress()->getMiddleName() . ' '
+            . $this->getShipToAddress()->getLastName() . ' '
+            . $this->getShipToAddress()->getNameSuffix();
         $name = preg_replace('/ +/', ' ', $name);
 
         $orderData = [
