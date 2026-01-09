@@ -23,6 +23,9 @@ use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
 
+/**
+ * Form type for DPD transport settings configuration.
+ */
 class DPDTransportSettingsType extends AbstractType
 {
     public const BLOCK_PREFIX = 'oro_dpd_transport_settings';

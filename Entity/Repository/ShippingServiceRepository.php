@@ -4,6 +4,9 @@ namespace Oro\Bundle\DPDBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Repository for DPD shipping services.
+ */
 class ShippingServiceRepository extends EntityRepository
 {
     /**

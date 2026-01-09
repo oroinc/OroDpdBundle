@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Model;
 
+/**
+ * Represents a response from a DPD zip code rules API request.
+ */
 class ZipCodeRulesResponse extends DPDResponse
 {
     public const DPD_ZIP_CODE_RULES_KEY = 'ZipCodeRules';

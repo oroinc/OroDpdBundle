@@ -6,6 +6,9 @@ use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\DPDShippingMethodType;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
+/**
+ * Defines the contract for creating DPD shipping method type instances.
+ */
 interface DPDShippingMethodTypeFactoryInterface
 {
     /**

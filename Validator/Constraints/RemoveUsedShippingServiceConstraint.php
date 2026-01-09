@@ -4,6 +4,9 @@ namespace Oro\Bundle\DPDBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Constraint for validating removal of used DPD shipping services.
+ */
 class RemoveUsedShippingServiceConstraint extends Constraint
 {
     /**

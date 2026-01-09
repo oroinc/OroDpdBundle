@@ -14,6 +14,9 @@ use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * Handles REST API communication with the DPD shipping service.
+ */
 class DPDTransport extends AbstractRestTransport
 {
     public const API_VERSION = 100;

@@ -7,6 +7,9 @@ use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Comment\Provider\OrderShippingAttachmentCommentProviderInterface;
 use Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Factory\AttachmentFromDPDTransactionFactoryInterface;
 
+/**
+ * Creates attachment entities from DPD transaction data.
+ */
 class BasicAttachmentFromDPDTransactionFactory implements AttachmentFromDPDTransactionFactoryInterface
 {
     /**

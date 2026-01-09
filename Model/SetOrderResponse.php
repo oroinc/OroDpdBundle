@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Model;
 
+/**
+ * Represents a response from a DPD set order API request.
+ */
 class SetOrderResponse extends DPDResponse
 {
     public const DPD_LABEL_RESPONSE_KEY = 'LabelResponse';

@@ -5,6 +5,9 @@ namespace Oro\Bundle\DPDBundle\Order\Shipping\Attachment\Factory;
 use Oro\Bundle\AttachmentBundle\Entity\Attachment;
 use Oro\Bundle\DPDBundle\Entity\DPDTransaction;
 
+/**
+ * Defines the contract for creating attachments from DPD transactions.
+ */
 interface AttachmentFromDPDTransactionFactoryInterface
 {
     /**

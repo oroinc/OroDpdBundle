@@ -5,6 +5,9 @@ namespace Oro\Bundle\DPDBundle\Model;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * Encapsulates order data for DPD shipping requests.
+ */
 class OrderData extends ParameterBag
 {
     public const FIELD_SHIP_TO_ADDRESS = 'ship_to_address';

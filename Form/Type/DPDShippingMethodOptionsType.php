@@ -8,6 +8,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Form type for DPD shipping method options.
+ */
 class DPDShippingMethodOptionsType extends AbstractType
 {
     public const BLOCK_PREFIX = 'oro_shipping_dpd_method_options';
