@@ -157,9 +157,9 @@ class ShippedWithDPDTest extends \PHPUnit\Framework\TestCase
                 'options' => [new PropertyPath('foo[bar].baz')],
                 'message' => null,
                 'expected' => '$factory->create(\'shipped_with_dpd\', ['
-                    .'new \Oro\Component\ConfigExpression\CompiledPropertyPath('
-                    .'\'foo[bar].baz\', [\'foo\', \'bar\', \'baz\'], [false, true, false])'
-                    .'])',
+                    . 'new \Oro\Component\ConfigExpression\CompiledPropertyPath('
+                    . '\'foo[bar].baz\', [\'foo\', \'bar\', \'baz\'], [false, true, false], [false, false, false])'
+                    . '])',
             ],
         ];
     }
