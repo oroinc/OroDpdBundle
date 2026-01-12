@@ -106,7 +106,7 @@ class DPDHandler implements DPDHandlerInterface
     public function getNextPickupDay(\DateTime $shipDate): \DateTime
     {
         while (($addHint = $this->checkShipDate($shipDate)) !== 0) {
-            $shipDate->add(new \DateInterval('P'.$addHint.'D'));
+            $shipDate->add(new \DateInterval('P' . $addHint . 'D'));
         }
 
         return $shipDate;

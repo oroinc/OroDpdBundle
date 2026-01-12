@@ -9,6 +9,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form type for DPD rates CSV file upload.
+ */
 class RatesCsvType extends AbstractType
 {
     public const NAME = 'oro_dpd_rates_csv';

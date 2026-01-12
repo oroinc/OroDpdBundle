@@ -4,6 +4,9 @@ namespace Oro\Bundle\DPDBundle\Model;
 
 use Symfony\Component\HttpFoundation\ParameterBag;
 
+/**
+ * Encapsulates a DPD set order request with order and shipping settings.
+ */
 class SetOrderRequest extends ParameterBag
 {
     public const START_ORDER_ACTION = 'startOrder';

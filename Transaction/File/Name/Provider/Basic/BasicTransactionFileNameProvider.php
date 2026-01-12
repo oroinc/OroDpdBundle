@@ -34,6 +34,6 @@ class BasicTransactionFileNameProvider implements TransactionFileNameProviderInt
         return $this->translator->trans($this->messageId, [
             '%orderNumber%' => $order->getIdentifier(),
             '%parcelNumbers%' => implode(', ', $response->getParcelNumbers()),
-        ]).'.pdf';
+        ]) . '.pdf';
     }
 }

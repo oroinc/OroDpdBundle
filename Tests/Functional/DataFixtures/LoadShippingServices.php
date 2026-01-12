@@ -12,7 +12,7 @@ class LoadShippingServices extends AbstractFixture
     #[\Override]
     public function load(ObjectManager $manager): void
     {
-        $shippingServices = Yaml::parse(file_get_contents(__DIR__.'/data/shipping_services.yml'));
+        $shippingServices = Yaml::parse(file_get_contents(__DIR__ . '/data/shipping_services.yml'));
         $repository = $manager->getRepository(ShippingService::class);
         foreach ($shippingServices as $ref => $shippingService) {
             $entity = $repository->find(['code' => $shippingService['code']]);

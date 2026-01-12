@@ -37,7 +37,7 @@ class LoadTransports extends AbstractFixture implements DependentFixtureInterfac
 
     private function getTransportsData(): array
     {
-        return Yaml::parse(file_get_contents(__DIR__.'/data/transports.yml'));
+        return Yaml::parse(file_get_contents(__DIR__ . '/data/transports.yml'));
     }
 
     private function setEntityPropertyValues(object $entity, array $data, array $excludeProperties = []): void
