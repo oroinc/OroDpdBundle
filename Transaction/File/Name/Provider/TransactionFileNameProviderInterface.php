@@ -5,6 +5,9 @@ namespace Oro\Bundle\DPDBundle\Transaction\File\Name\Provider;
 use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\OrderBundle\Entity\Order;
 
+/**
+ * Defines the contract for providing DPD transaction file names.
+ */
 interface TransactionFileNameProviderInterface
 {
     /**

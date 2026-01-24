@@ -5,6 +5,9 @@ namespace Oro\Bundle\DPDBundle\Method\Identifier;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
+/**
+ * Defines the contract for generating DPD shipping method type identifiers.
+ */
 interface DPDMethodTypeIdentifierGeneratorInterface
 {
     /**

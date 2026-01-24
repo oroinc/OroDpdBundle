@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Model;
 
+/**
+ * Represents a response from the DPD API.
+ */
 class DPDResponse
 {
     const DPD_ACK_KEY = 'Ack';

@@ -6,6 +6,9 @@ use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\DPDHandlerInterface;
 use Oro\Bundle\IntegrationBundle\Entity\Channel;
 
+/**
+ * Defines the contract for creating DPD handler instances.
+ */
 interface DPDHandlerFactoryInterface
 {
     /**

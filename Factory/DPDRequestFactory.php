@@ -10,6 +10,9 @@ use Oro\Bundle\DPDBundle\Model\SetOrderRequest;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 use Oro\Bundle\OrderBundle\Entity\OrderAddress;
 
+/**
+ * Creates DPD API request objects from order and shipping data.
+ */
 class DPDRequestFactory
 {
     /**

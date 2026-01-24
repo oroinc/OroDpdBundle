@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Model;
 
+/**
+ * Encapsulates a DPD zip code rules request.
+ */
 class ZipCodeRulesRequest
 {
     /**

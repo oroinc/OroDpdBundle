@@ -2,6 +2,9 @@
 
 namespace Oro\Bundle\DPDBundle\Model;
 
+/**
+ * Represents a package to be shipped via DPD.
+ */
 class Package
 {
     /**

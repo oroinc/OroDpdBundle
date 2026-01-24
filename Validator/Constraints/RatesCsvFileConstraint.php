@@ -4,6 +4,9 @@ namespace Oro\Bundle\DPDBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
+/**
+ * Constraint for validating DPD rates CSV files.
+ */
 class RatesCsvFileConstraint extends Constraint
 {
     /**

@@ -5,6 +5,9 @@ namespace Oro\Bundle\DPDBundle\Cache;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesRequest;
 
+/**
+ * Generates cache keys for DPD zip code rules requests.
+ */
 class ZipCodeRulesCacheKey
 {
     /**

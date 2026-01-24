@@ -6,6 +6,9 @@ use Oro\Bundle\DPDBundle\Model\SetOrderResponse;
 use Oro\Bundle\DPDBundle\Model\ZipCodeRulesResponse;
 use Oro\Bundle\OrderBundle\Entity\Order;
 
+/**
+ * Defines the contract for handling DPD shipping operations.
+ */
 interface DPDHandlerInterface
 {
     /**
