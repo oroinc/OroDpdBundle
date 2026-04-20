@@ -36,9 +36,6 @@ class DPDTransaction
     #[ORM\JoinColumn(name: 'file_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     protected ?File $labelFile = null;
 
-    /**
-     * DPDTransaction constructor.
-     */
     public function __construct()
     {
         $this->parcelNumbers = array();
