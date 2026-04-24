@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\DPDBundle\Tests\Units\Method\Identifier;
+namespace Oro\Bundle\DPDBundle\Tests\Unit\Method\Identifier;
 
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Method\Identifier\DPDMethodTypeIdentifierGenerator;
