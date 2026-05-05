@@ -14,7 +14,7 @@ class OroDPDBundleInstaller implements Installation
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_0';
+        return 'v1_1';
     }
 
     #[\Override]
@@ -43,7 +43,7 @@ class OroDPDBundleInstaller implements Installation
         $table = $schema->getTable('oro_integration_transport');
         $table->addColumn('dpd_test_mode', 'boolean', ['notnull' => false]);
         $table->addColumn('dpd_cloud_user_id', 'string', ['notnull' => false, 'length' => 255]);
-        $table->addColumn('dpd_cloud_user_token', 'string', ['notnull' => false, 'length' => 255]);
+        $table->addColumn('dpd_cloud_user_token', 'text', ['notnull' => false]);
         $table->addColumn('dpd_label_size', 'string', ['notnull' => false, 'length' => 10]);
         $table->addColumn('dpd_label_start_position', 'string', ['notnull' => false, 'length' => 20]);
         $table->addColumn('dpd_unit_of_weight_code', 'string', ['notnull' => false, 'length' => 255]);

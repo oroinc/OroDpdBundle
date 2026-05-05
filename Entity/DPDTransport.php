@@ -36,7 +36,7 @@ class DPDTransport extends Transport
     #[ORM\Column(name: 'dpd_cloud_user_id', type: Types::STRING, length: 255, nullable: false)]
     protected ?string $cloudUserId = null;
 
-    #[ORM\Column(name: 'dpd_cloud_user_token', type: Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(name: 'dpd_cloud_user_token', type: Types::TEXT, nullable: false)]
     protected ?string $cloudUserToken = null;
 
     /**
