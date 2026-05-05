@@ -7,6 +7,7 @@ use Oro\Bundle\CurrencyBundle\Rounding\RoundingServiceInterface;
 use Oro\Bundle\DPDBundle\Entity\DPDTransport;
 use Oro\Bundle\DPDBundle\Entity\ShippingService;
 use Oro\Bundle\DPDBundle\Form\Type\DPDTransportSettingsType;
+use Oro\Bundle\DPDBundle\Validator\Constraints\RatesCsvFileValidator;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FormBundle\Form\Type\OroEncodedPlaceholderPasswordType;
 use Oro\Bundle\IntegrationBundle\Provider\TransportInterface;
@@ -18,14 +19,15 @@ use Oro\Bundle\LocaleBundle\Tests\Unit\Form\Type\Stub\LocalizationCollectionType
 use Oro\Bundle\SecurityBundle\Encoder\SymmetricCrypterInterface;
 use Oro\Bundle\ShippingBundle\Entity\WeightUnit;
 use Oro\Bundle\ShippingBundle\Form\Type\WeightUnitSelectType;
+use Oro\Bundle\ShippingBundle\Method\Factory\IntegrationShippingMethodFactoryInterface;
+use Oro\Bundle\ShippingBundle\Method\Validator\ShippingMethodValidatorInterface;
+use Oro\Bundle\ShippingBundle\Validator\Constraints\UpdateIntegrationValidator;
 use Oro\Component\Testing\Unit\EntityTrait;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
+use Oro\Component\Testing\Unit\FormIntegrationTestCase;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
-use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Validation;
 
 class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
 {
@@ -71,6 +73,36 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
         parent::setUp();
     }
 
+    /**
+     * The parent implementation resolves the validation.yml path by searching for "Bundle" in the entity file path.
+     * Since DPDBundle classes reside in "package/dpd/" (without "Bundle" in the directory structure),
+     * the automatic resolution fails. This override provides the correct path explicitly.
+     */
+    #[\Override]
+    protected function getConfigFile(string $class): ?string
+    {
+        if ($class === DPDTransport::class) {
+            return dirname(__DIR__, 4) . '/Resources/config/validation.yml';
+        }
+
+        return parent::getConfigFile($class);
+    }
+
+    #[\Override]
+    protected function getValidators(): array
+    {
+        return [
+            'oro_dpd_remove_used_shipping_service_validator' => new UpdateIntegrationValidator(
+                $this->createMock(IntegrationShippingMethodFactoryInterface::class),
+                $this->createMock(ShippingMethodValidatorInterface::class),
+                'applicableShippingServices'
+            ),
+            RatesCsvFileValidator::ALIAS => new RatesCsvFileValidator(
+                $this->createMock(DoctrineHelper::class)
+            ),
+        ];
+    }
+
     #[\Override]
     protected function getExtensions(): array
     {
@@ -99,7 +131,7 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
                 ],
                 []
             ),
-            new ValidatorExtension(Validation::createValidator()),
+            $this->getValidatorExtension(true),
         ];
     }
 
@@ -178,6 +210,43 @@ class DPDTransportSettingsTypeTest extends FormIntegrationTestCase
                     ->addApplicableShippingService($expectedShippingService)
                     ->addLabel((new LocalizedFallbackValue())->setString('first label')),
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider submitWithLongValuesProvider
+     */
+    public function testSubmitWithTooLongValues(array $override): void
+    {
+        $this->symmetricCrypter->expects(self::any())
+            ->method('encryptData')
+            ->willReturnArgument(0);
+
+        $submitData = array_replace_recursive([
+            'labels' => ['values' => ['default' => 'first label']],
+            'dpdTestMode' => true,
+            'cloudUserId' => 'user',
+            'cloudUserToken' => 'password',
+            'unitOfWeight' => 'kg',
+            'ratePolicy' => DPDTransport::FLAT_RATE_POLICY,
+            'labelSize' => DPDTransport::PDF_A4_LABEL_SIZE,
+            'labelStartPosition' => DPDTransport::UPPERLEFT_LABEL_START_POSITION,
+            'applicableShippingServices' => [1],
+        ], $override);
+
+        $form = $this->factory->create(DPDTransportSettingsType::class, new DPDTransport());
+        $form->submit($submitData);
+
+        self::assertTrue($form->isSynchronized());
+        self::assertFalse($form->isValid());
+    }
+
+    public function submitWithLongValuesProvider(): array
+    {
+        return [
+            'label too long' => [['labels' => ['values' => ['default' => str_repeat('a', 256)]]]],
+            'cloudUserId too long' => [['cloudUserId' => str_repeat('a', 256)]],
+            'cloudUserToken too long' => [['cloudUserToken' => str_repeat('a', 256)]],
         ];
     }
 

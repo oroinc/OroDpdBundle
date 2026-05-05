@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
@@ -80,7 +81,7 @@ class DPDTransportSettingsType extends AbstractType
             [
                 'label' => 'oro.dpd.transport.labels.label',
                 'required' => true,
-                'entry_options' => ['constraints' => [new NotBlank()]],
+                'entry_options' => ['constraints' => [new NotBlank(), new Length(max: 255)]],
             ]
         );
         $builder->add(

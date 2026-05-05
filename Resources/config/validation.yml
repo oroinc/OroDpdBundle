@@ -4,8 +4,12 @@ Oro\Bundle\DPDBundle\Entity\DPDTransport:
     properties:
         cloudUserId:
             - NotBlank: ~
+            - Length:
+                max: 255
         cloudUserToken:
             - NotBlank: ~
+            - Length:
+                max: 255
         applicableShippingServices:
             - NotBlank:
                 message: 'oro.dpd.transport.shipping_service.blank'
